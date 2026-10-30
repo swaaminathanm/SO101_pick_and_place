@@ -23,7 +23,7 @@ if PROJECT_ROOT not in sys.path:
 import isaacsim.core.experimental.utils.app as app_utils
 from isaacsim.core.simulation_manager import SimulationManager
 import isaacsim.core.experimental.utils.stage as stage_utils
-from envs import RandomizedSO101Env, SimpleSO101Env
+from envs import LegoBrickPickPlaceEnv, SimpleSO101Env
 from envs.simple_pick_place_env import (
     ROBOT_PRIM_PATH,
     RED_BRICK_PRIM_PATH,
@@ -52,7 +52,7 @@ def main():
     )
 
     # Inject world_interface and simulation_app into chosen Environment
-    EnvClass = SimpleSO101Env if USE_SIMPLE_ENV else RandomizedSO101Env
+    EnvClass = SimpleSO101Env if USE_SIMPLE_ENV else LegoBrickPickPlaceEnv
     env = EnvClass(
         simulation_app=simulation_app,
         world_interface=world_interface

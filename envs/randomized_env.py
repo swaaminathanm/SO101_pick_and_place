@@ -57,7 +57,11 @@ BIN_ANGLE_RANGE = (0.30, 0.50)
 # =========================================================================
 
 
-class RandomizedSO101Env(SO101EnvProtocol):
+class LegoBrickPickPlaceEnv(SO101EnvProtocol):
+    """
+    Randomized pick-and-place environment for the SO-101 manipulator
+    and a single red Lego brick with domain randomization (brick pose, bin pose, lighting).
+    """
     def __init__(self, simulation_app=None, world_interface=None):
         self.simulation_app = simulation_app
         self.world_interface = world_interface
@@ -68,7 +72,6 @@ class RandomizedSO101Env(SO101EnvProtocol):
         self._TABLE_PRIM_PATH = TABLE_PRIM_PATH
         self._BIN_PRIM_PATH = BIN_PRIM_PATH
         self._RED_BRICK_PATH = RED_BRICK_PRIM_PATH
-        self._BLUE_BRICK_PATH = BLUE_BRICK_PRIM_PATH
 
         self._articulation: Articulation | None = None
         self.robot_xform: XformPrim | None = None
@@ -78,7 +81,6 @@ class RandomizedSO101Env(SO101EnvProtocol):
         self.bin_obj = None
         self.bin_xform: XformPrim | None = None
         self.red_contact = None
-        self.blue_contact = None
         self._episode_id: int = 0
 
     @property
@@ -285,33 +287,21 @@ class RandomizedSO101Env(SO101EnvProtocol):
             orientation=[1.0, 0.0, 0.0, 0.0]
         )
         
-        # Spawn Red and Blue Lego Bricks using constants
+        # Spawn Red Lego Brick only (single brick)
         self.spawn_lego_brick(
             prim_path=self._RED_BRICK_PATH,
             usd_path=LEGO_RED_USD_PATH,
             initial_pos=LEGO_RED_INIT_POS
         )
-        self.spawn_lego_brick(
-            prim_path=self._BLUE_BRICK_PATH,
-            usd_path=LEGO_BLUE_USD_PATH,
-            initial_pos=LEGO_BLUE_INIT_POS
-        )
         
-        # Setup Contact sensors to monitor brick-to-brick and brick-to-bin collisions
+        # Setup Contact sensor to monitor red brick-to-bin collisions
         self.red_contact_authoring = Contact.create(
             path=f"{self._RED_BRICK_PATH}/ContactSensor",
             min_threshold=0.0,
             max_threshold=1e5,
             radius=-1.0,
         )
-        self.blue_contact_authoring = Contact.create(
-            path=f"{self._BLUE_BRICK_PATH}/ContactSensor",
-            min_threshold=0.0,
-            max_threshold=1e5,
-            radius=-1.0,
-        )
         self.red_contact = ContactSensor(self.red_contact_authoring)
-        self.blue_contact = ContactSensor(self.blue_contact_authoring)
         
         # Position camera view
         set_camera_view(
@@ -329,7 +319,6 @@ class RandomizedSO101Env(SO101EnvProtocol):
         self._articulation.set_dof_velocities([0.0] * dof_count)
         
         self.red_contact.add_raw_contact_data_to_frame()
-        self.blue_contact.add_raw_contact_data_to_frame()
 
         # Initialize injected WorldInterface with robot base pose
         if self.world_interface is not None:
@@ -350,13 +339,13 @@ class RandomizedSO101Env(SO101EnvProtocol):
         return False
 
     def reset_domain(self, episode_id: int | None = None):
-        """Domain randomization applied at each episode reset."""
+        """Domain randomization applied at each episode reset for single red brick."""
         if episode_id is not None:
             self._episode_id = episode_id
         else:
             self._episode_id += 1
 
-        print(f"\n>>> [Episode {self._episode_id}] [RESET] Randomizing Workspace & Domain...")
+        print(f"\n>>> [Episode {self._episode_id}] [RESET] Randomizing Workspace & Domain (Single Red Lego Brick)...")
         
         cz = TABLE_HEIGHT + 0.001
         
@@ -387,50 +376,36 @@ class RandomizedSO101Env(SO101EnvProtocol):
             )
             print(f"  [Episode {self._episode_id}] [Reset] Bin Pos: [{bin_pos[0]:.4f}, {bin_pos[1]:.4f}, {bin_pos[2]:.4f}]")
         
-        default_positions = [
-            np.array(LEGO_RED_INIT_POS),
-            np.array(LEGO_BLUE_INIT_POS),
-        ]
+        default_pos = np.array(LEGO_RED_INIT_POS)
         
-        brick_positions = default_positions
-        for _ in range(5000):
-            d0 = random.uniform(*LEGO_BRICK_RADIUS_RANGE)
-            a0 = random.uniform(*LEGO_BRICK_ANGLE_RANGE)
-            p0 = np.array([d0 * np.cos(a0), d0 * np.sin(a0), cz])
-
-            d1 = random.uniform(*LEGO_BRICK_RADIUS_RANGE)
-            a1 = random.uniform(*LEGO_BRICK_ANGLE_RANGE)
-            p1 = np.array([d1 * np.cos(a1), d1 * np.sin(a1), cz])
-
-            brick_positions = [p0, p1]
+        # Sample randomized position for the single red brick
+        d0 = random.uniform(*LEGO_BRICK_RADIUS_RANGE)
+        a0 = random.uniform(*LEGO_BRICK_ANGLE_RANGE)
+        brick_pos = np.array([d0 * np.cos(a0), d0 * np.sin(a0), cz])
         
-        for i, c_pos in enumerate(brick_positions):
-            yaw = random.uniform(0, 2 * np.pi)
-            q = [np.cos(yaw / 2), 0, 0, np.sin(yaw / 2)]
-            
-            self.lego_prims[i].set_world_poses(positions=[c_pos], orientations=[q])
-            self.lego_prims[i].set_velocities(
-                linear_velocities=[[0.0, 0.0, 0.0]],
-                angular_velocities=[[0.0, 0.0, 0.0]],
-            )
+        yaw = random.uniform(0, 2 * np.pi)
+        q = [np.cos(yaw / 2), 0, 0, np.sin(yaw / 2)]
+        
+        self.lego_prims[0].set_world_poses(positions=[brick_pos], orientations=[q])
+        self.lego_prims[0].set_velocities(
+            linear_velocities=[[0.0, 0.0, 0.0]],
+            angular_velocities=[[0.0, 0.0, 0.0]],
+        )
 
         self.update()
         
-        red_hit = self._check_collision(self.red_contact, ["LegoBrick_Blue", "Bin"])
-        blue_hit = self._check_collision(self.blue_contact, ["LegoBrick_Red", "Bin"])
+        red_hit = self._check_collision(self.red_contact, ["Bin"])
 
-        if red_hit or blue_hit:
-            print(f"  [Episode {self._episode_id}] [CONTACT SENSOR ALERT] Physical collision detected via Contact Sensor! (Red hit: {red_hit}, Blue hit: {blue_hit})")
-            print(f"  [Episode {self._episode_id}] Defaulting both bricks to safe positions and orientations...")
-            for i, def_pos in enumerate(default_positions):
-                self.lego_prims[i].set_world_poses(
-                    positions=[def_pos],
-                    orientations=[[1.0, 0.0, 0.0, 0.0]]
-                )
-                self.lego_prims[i].set_velocities(
-                    linear_velocities=[[0.0, 0.0, 0.0]],
-                    angular_velocities=[[0.0, 0.0, 0.0]],
-                )
+        if red_hit:
+            print(f"  [Episode {self._episode_id}] [CONTACT SENSOR ALERT] Red brick collision with Bin detected! Defaulting to safe position...")
+            self.lego_prims[0].set_world_poses(
+                positions=[default_pos],
+                orientations=[[1.0, 0.0, 0.0, 0.0]]
+            )
+            self.lego_prims[0].set_velocities(
+                linear_velocities=[[0.0, 0.0, 0.0]],
+                angular_velocities=[[0.0, 0.0, 0.0]],
+            )
             self.update()
         
         # Reset Robot Arm joints to home with slight noise (+- 2 degrees)
@@ -448,8 +423,11 @@ class RandomizedSO101Env(SO101EnvProtocol):
             robot_pos, robot_ori = self._articulation.get_world_poses()
             self.world_interface.update_robot_transform_and_sync(robot_pos, robot_ori)
 
-        # Print final block positions
-        for i, prim in enumerate(self.lego_prims):
-            pos, _ = prim.get_world_poses()
-            p = pos.numpy()[0] if hasattr(pos, "numpy") else np.asarray(pos)[0]
-            print(f"  [Episode {self._episode_id}] [Reset] Lego Brick {i} Pos: [{p[0]:.4f}, {p[1]:.4f}, {p[2]:.4f}]")
+        # Print final block position
+        pos, _ = self.lego_prims[0].get_world_poses()
+        p = pos.numpy()[0] if hasattr(pos, "numpy") else np.asarray(pos)[0]
+        print(f"  [Episode {self._episode_id}] [Reset] Lego Brick Red Pos: [{p[0]:.4f}, {p[1]:.4f}, {p[2]:.4f}]")
+
+
+# Backward compatibility alias
+RandomizedSO101Env = LegoBrickPickPlaceEnv
