@@ -1,0 +1,1588 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (0.4651994615263344, 0.2684302750621612, 0.30279378570907234)
+                double3 target = (0.31306794381369607, 0.004019727950729635, 0.2218230628470949)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 3.0584384918212892
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        string creator = "URDF USD Converter v0.3.2"
+        dictionary omni_layer = {
+            string authoring_layer = "./so101_new_calib.usda"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "so101_new_calib"
+    endTimeCode = 1000000
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    startTimeCode = 0
+    upAxis = "Z"
+)
+
+def Xform "so101_new_calib" (
+    prepend references = @./payloads/base.usda@
+    append variantSets = "Physics"
+)
+{
+    over "Geometry"
+    {
+        over "base_link" (
+            prepend apiSchemas = ["PhysxArticulationAPI"]
+        )
+        {
+            string isaac:nameOverride (
+                displayName = "Name Override"
+            )
+            vector3f physics:angularVelocity = (0, 0, 0)
+            rel physics:simulationOwner
+            vector3f physics:velocity = (0, 0, 0)
+            float physxArticulation:sleepThreshold = 0.00005
+            int physxArticulation:solverPositionIterationCount = 64
+            int physxArticulation:solverVelocityIterationCount = 4
+            float physxArticulation:stabilizationThreshold = 0.00001
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (-8.381903e-9, -4.6929927e-10, -1.1175871e-8)
+            token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            over "shoulder_link"
+            {
+                string isaac:nameOverride (
+                    displayName = "Name Override"
+                )
+                vector3f physics:angularVelocity = (-3.4120068e-11, -5.733486e-10, 0.00020944234)
+                rel physics:simulationOwner
+                vector3f physics:velocity = (6.0681286e-11, 1.12443395e-7, 3.0723536e-13)
+                quatf xformOp:orient = (-3.331661e-8, -0.0000013676472, 1, 0.0000013061799)
+                double3 xformOp:translate = (0.038835298269987106, -1.6450940165668726e-8, 0.06239999458193779)
+
+                over "upper_arm_link"
+                {
+                    string isaac:nameOverride (
+                        displayName = "Name Override"
+                    )
+                    vector3f physics:angularVelocity = (-1.4432437e-8, 0.0023581486, 0.00020944825)
+                    rel physics:simulationOwner
+                    vector3f physics:velocity = (0.000003697402, 1.417849e-7, -3.4496634e-7)
+                    quatf xformOp:orient = (-0.49999735, 0.4999992, 0.5000008, 0.5000027)
+                    double3 xformOp:translate = (-0.030399199575185776, -0.01827779971063137, -0.05419998988509178)
+
+                    over "lower_arm_link"
+                    {
+                        string isaac:nameOverride (
+                            displayName = "Name Override"
+                        )
+                        vector3f physics:angularVelocity = (-1.4690184e-8, 0.002349248, 0.0002094482)
+                        rel physics:simulationOwner
+                        vector3f physics:velocity = (0.000004766074, 5.7200606e-7, -0.0000051734582)
+                        quatf xformOp:orient = (0.70710546, -2.1457014e-8, -2.1222103e-8, 0.7071081)
+                        double3 xformOp:translate = (-0.11256999522447586, -0.027999993413686752, 4.044427015514884e-9)
+
+                        over "wrist_link"
+                        {
+                            string isaac:nameOverride (
+                                displayName = "Name Override"
+                            )
+                            vector3f physics:angularVelocity = (-1.7851184e-8, 0.0028998016, 0.00020944986)
+                            rel physics:simulationOwner
+                            vector3f physics:velocity = (0.0000048155766, 8.477982e-7, -0.000008637879)
+                            quatf xformOp:orient = (-0.7071052, -3.6600696e-8, 7.4908456e-8, 0.7071084)
+                            double3 xformOp:translate = (-0.13489998877048492, 0.0052000004798173904, 5.9847065081442e-9)
+
+                            over "gripper_link"
+                            {
+                                string isaac:nameOverride (
+                                    displayName = "Name Override"
+                                )
+                                vector3f physics:angularVelocity = (-0.0000103603315, 0.0028998016, 0.0002094497)
+                                rel physics:simulationOwner
+                                vector3f physics:velocity = (0.0000048575125, 0.0000010221106, -0.00001105068)
+                                quatf xformOp:orient = (0.017210152, -0.01720808, 0.7068986, 0.70689607)
+                                double3 xformOp:translate = (1.2999037402039448e-9, -0.061099980026483536, 0.01810000091791153)
+
+                                over "gripper_frame_link"
+                                {
+                                    string isaac:nameOverride (
+                                        displayName = "Name Override"
+                                    )
+                                    vector3f physics:angularVelocity = (-0.0000103603315, 0.0028998016, 0.0002094497)
+                                    rel physics:simulationOwner
+                                    vector3f physics:velocity = (0.000004446492, 0.0000012872816, -0.000014742272)
+                                    quatf xformOp:orient = (0.00000133789, -4.137462e-9, 1, 3.2638876e-8)
+                                    double3 xformOp:translate = (-0.007899987511336803, -0.00021811937040183693, -0.09812737256288528)
+                                }
+
+                                over "moving_jaw_so101_v1_link"
+                                {
+                                    string isaac:nameOverride (
+                                        displayName = "Name Override"
+                                    )
+                                    vector3f physics:angularVelocity = (-0.000010360273, 0.0028953434, 0.00020923256)
+                                    rel physics:simulationOwner
+                                    vector3f physics:velocity = (0.0000057924967, 0.0000011285401, -0.000012477172)
+                                    quatf xformOp:orient = (0.7071055, 0.7071081, 3.13456e-8, -2.141195e-8)
+                                    double3 xformOp:translate = (0.020199984312057495, 0.01879999041557312, -0.023399990051984787)
+
+                                    over "moving_jaw_so101_v1_1" (
+                                        instanceable = false
+                                    )
+                                    {
+                                        over "moving_jaw_so101_v1" (
+                                            prepend apiSchemas = ["MaterialBindingAPI", "PhysxConvexDecompositionCollisionAPI"]
+                                        )
+                                        {
+                                            rel material:binding = </so101_new_calib/GripperRubberMaterial> (
+                                                bindMaterialAs = "weakerThanDescendants"
+                                            )
+                                            uniform token physics:approximation = "convexDecomposition"
+                                            rel physics:simulationOwner
+                                            token visibility = "inherited"
+                                        }
+                                    }
+
+                                    over "moving_jaw_so101_v1" (
+                                        instanceable = false
+                                    )
+                                    {
+                                        over "VisualMaterials"
+                                        {
+                                            over "tn__3d_printed_" (
+                                                instanceable = false
+                                            )
+                                            {
+                                            }
+                                        }
+
+                                        over "moving_jaw_so101_v1"
+                                        {
+                                            token visibility = "inherited"
+                                        }
+                                    }
+                                }
+
+                                over "wrist_roll_follower_so101_v1_1" (
+                                    instanceable = false
+                                )
+                                {
+                                    over "wrist_roll_follower_so101_v1" (
+                                        prepend apiSchemas = ["MaterialBindingAPI", "PhysxConvexDecompositionCollisionAPI"]
+                                    )
+                                    {
+                                        rel material:binding = </so101_new_calib/GripperRubberMaterial> (
+                                            bindMaterialAs = "weakerThanDescendants"
+                                        )
+                                        uniform token physics:approximation = "convexDecomposition"
+                                        rel physics:simulationOwner
+                                        token visibility = "inherited"
+                                    }
+                                }
+
+                                over "sts3215_03a_v1" (
+                                    instanceable = false
+                                )
+                                {
+                                    over "VisualMaterials"
+                                    {
+                                        over "sts3215" (
+                                            instanceable = false
+                                        )
+                                        {
+                                        }
+                                    }
+
+                                    over "sts3215_03a_v1"
+                                    {
+                                        token visibility = "inherited"
+                                    }
+                                }
+
+                                over "wrist_roll_follower_so101_v1" (
+                                    instanceable = false
+                                )
+                                {
+                                    over "VisualMaterials"
+                                    {
+                                        over "tn__3d_printed_" (
+                                            instanceable = false
+                                        )
+                                        {
+                                        }
+                                    }
+
+                                    over "wrist_roll_follower_so101_v1"
+                                    {
+                                        token visibility = "inherited"
+                                    }
+                                }
+
+                                over "sts3215_03a_v1_1" (
+                                    instanceable = false
+                                )
+                                {
+                                    over "sts3215_03a_v1"
+                                    {
+                                        token visibility = "inherited"
+                                    }
+                                }
+
+                                def Sphere "collision_sphere_1"
+                                {
+                                    float3[] extent = [(-0.0219, -0.0219, -0.0219), (0.0219, 0.0219, 0.0219)]
+                                    color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                                    double radius = 0.0219
+                                    token visibility = "invisible"
+                                    quatd xformOp:orient = (1, 5.148986792491428e-10, -1.4841234907692069e-8, -1.2317595832200823e-9)
+                                    double3 xformOp:scale = (1, 1, 1)
+                                    double3 xformOp:translate = (0.011, -0.002, -0.024)
+                                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                                }
+
+                                def Sphere "collision_sphere_2"
+                                {
+                                    float3[] extent = [(-0.0219, -0.0219, -0.0219), (0.0219, 0.0219, 0.0219)]
+                                    color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                                    double radius = 0.0219
+                                    token visibility = "invisible"
+                                    quatd xformOp:orient = (1, 5.148986792491428e-10, -1.4841234907692069e-8, -1.2317595832200823e-9)
+                                    double3 xformOp:scale = (1, 1, 1)
+                                    double3 xformOp:translate = (-0.003, -0.004, -0.023)
+                                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                                }
+
+                                def Sphere "collision_sphere_3"
+                                {
+                                    float3[] extent = [(-0.0177, -0.0177, -0.0177), (0.0177, 0.0177, 0.0177)]
+                                    color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                                    double radius = 0.0177
+                                    token visibility = "invisible"
+                                    quatd xformOp:orient = (1, 5.148986792491428e-10, -1.4841234907692069e-8, -1.2317595832200823e-9)
+                                    double3 xformOp:scale = (1, 1, 1)
+                                    double3 xformOp:translate = (-0.023, 0.007, -0.013)
+                                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                                }
+
+                                def Sphere "collision_sphere_4"
+                                {
+                                    float3[] extent = [(-0.0177, -0.0177, -0.0177), (0.0177, 0.0177, 0.0177)]
+                                    color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                                    double radius = 0.0177
+                                    token visibility = "invisible"
+                                    quatd xformOp:orient = (1, 5.148986792491428e-10, -1.4841234907692069e-8, -1.2317595832200823e-9)
+                                    double3 xformOp:scale = (1, 1, 1)
+                                    double3 xformOp:translate = (-0.025, -0.008, -0.035)
+                                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                                }
+                            }
+
+                            over "sts3215_03a_no_horn_v1" (
+                                instanceable = false
+                            )
+                            {
+                                over "VisualMaterials"
+                                {
+                                    over "sts3215" (
+                                        instanceable = false
+                                    )
+                                    {
+                                    }
+                                }
+
+                                over "sts3215_03a_no_horn_v1"
+                                {
+                                    token visibility = "inherited"
+                                }
+                            }
+
+                            over "wrist_roll_pitch_so101_v2" (
+                                instanceable = false
+                            )
+                            {
+                                over "VisualMaterials"
+                                {
+                                    over "tn__3d_printed_" (
+                                        instanceable = false
+                                    )
+                                    {
+                                    }
+                                }
+
+                                over "wrist_roll_pitch_so101_v2"
+                                {
+                                    token visibility = "inherited"
+                                }
+                            }
+
+                            over "sts3215_03a_no_horn_v1_1" (
+                                instanceable = false
+                            )
+                            {
+                                over "sts3215_03a_no_horn_v1"
+                                {
+                                    token visibility = "inherited"
+                                }
+                            }
+
+                            over "wrist_roll_pitch_so101_v2_1" (
+                                instanceable = false
+                            )
+                            {
+                                over "wrist_roll_pitch_so101_v2"
+                                {
+                                    token visibility = "inherited"
+                                }
+                            }
+
+                            def Sphere "collision_sphere_1"
+                            {
+                                float3[] extent = [(-0.0219, -0.0219, -0.0219), (0.0219, 0.0219, 0.0219)]
+                                color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                                double radius = 0.0219
+                                token visibility = "invisible"
+                                quatd xformOp:orient = (1, -4.570305023321453e-9, 4.779967088808235e-9, -2.4947906851480184e-8)
+                                double3 xformOp:scale = (1, 1, 1)
+                                double3 xformOp:translate = (0, -0.045, 0.027)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                            }
+
+                            def Sphere "collision_sphere_2"
+                            {
+                                float3[] extent = [(-0.0219, -0.0219, -0.0219), (0.0219, 0.0219, 0.0219)]
+                                color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                                double radius = 0.0219
+                                token visibility = "invisible"
+                                quatd xformOp:orient = (1, -4.570305023321453e-9, 4.779967088808235e-9, -2.4947906851480184e-8)
+                                double3 xformOp:scale = (1, 1, 1)
+                                double3 xformOp:translate = (-0, -0.047, 0.041)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                            }
+
+                            def Sphere "collision_sphere_3"
+                            {
+                                float3[] extent = [(-0.0159, -0.0159, -0.0159), (0.0159, 0.0159, 0.0159)]
+                                color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                                double radius = 0.0159
+                                token visibility = "invisible"
+                                quatd xformOp:orient = (1, -4.570305023321453e-9, 4.779967088808235e-9, -2.4947906851480184e-8)
+                                double3 xformOp:scale = (1, 1, 1)
+                                double3 xformOp:translate = (-0, -0.017, 0.042)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                            }
+
+                            def Sphere "collision_sphere_4"
+                            {
+                                float3[] extent = [(-0.0151, -0.0151, -0.0151), (0.0151, 0.0151, 0.0151)]
+                                color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                                double radius = 0.0151
+                                token visibility = "invisible"
+                                quatd xformOp:orient = (1, -4.570305023321453e-9, 4.779967088808235e-9, -2.4947906851480184e-8)
+                                double3 xformOp:scale = (1, 1, 1)
+                                double3 xformOp:translate = (0.004, -0.017, -0.004)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                            }
+
+                            def Sphere "collision_sphere_5"
+                            {
+                                float3[] extent = [(-0.0151, -0.0151, -0.0151), (0.0151, 0.0151, 0.0151)]
+                                color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                                double radius = 0.0151
+                                token visibility = "invisible"
+                                quatd xformOp:orient = (1, -4.570305023321453e-9, 4.779967088808235e-9, -2.4947906851480184e-8)
+                                double3 xformOp:scale = (1, 1, 1)
+                                double3 xformOp:translate = (-0.007, -0.019, -0.004)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                            }
+
+                            def Sphere "collision_sphere_6"
+                            {
+                                float3[] extent = [(-0.0151, -0.0151, -0.0151), (0.0151, 0.0151, 0.0151)]
+                                color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                                double radius = 0.0151
+                                token visibility = "invisible"
+                                quatd xformOp:orient = (1, -4.570305023321453e-9, 4.779967088808235e-9, -2.4947906851480184e-8)
+                                double3 xformOp:scale = (1, 1, 1)
+                                double3 xformOp:translate = (-0.007, -0.013, 0.042)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                            }
+
+                            def Sphere "collision_sphere_7"
+                            {
+                                float3[] extent = [(-0.0142, -0.0142, -0.0142), (0.0142, 0.0142, 0.0142)]
+                                color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                                double radius = 0.0142
+                                token visibility = "invisible"
+                                quatd xformOp:orient = (1, -4.570305023321453e-9, 4.779967088808235e-9, -2.4947906851480184e-8)
+                                double3 xformOp:scale = (1, 1, 1)
+                                double3 xformOp:translate = (0.007, -0.03, -0.005)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                            }
+
+                            def Sphere "collision_sphere_8"
+                            {
+                                float3[] extent = [(-0.0142, -0.0142, -0.0142), (0.0142, 0.0142, 0.0142)]
+                                color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                                double radius = 0.0142
+                                token visibility = "invisible"
+                                quatd xformOp:orient = (1, -4.570305023321453e-9, 4.779967088808235e-9, -2.4947906851480184e-8)
+                                double3 xformOp:scale = (1, 1, 1)
+                                double3 xformOp:translate = (-0.008, -0.029, -0.003)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                            }
+                        }
+
+                        over "under_arm_so101_v1" (
+                            instanceable = false
+                        )
+                        {
+                            over "VisualMaterials"
+                            {
+                                over "tn__3d_printed_" (
+                                    instanceable = false
+                                )
+                                {
+                                }
+                            }
+
+                            over "under_arm_so101_v1"
+                            {
+                                token visibility = "inherited"
+                            }
+                        }
+
+                        over "motor_holder_so101_wrist_v1" (
+                            instanceable = false
+                        )
+                        {
+                            over "VisualMaterials"
+                            {
+                                over "tn__3d_printed_" (
+                                    instanceable = false
+                                )
+                                {
+                                }
+                            }
+
+                            over "motor_holder_so101_wrist_v1"
+                            {
+                                token visibility = "inherited"
+                            }
+                        }
+
+                        over "sts3215_03a_v1" (
+                            instanceable = false
+                        )
+                        {
+                            over "VisualMaterials"
+                            {
+                                over "sts3215" (
+                                    instanceable = false
+                                )
+                                {
+                                }
+                            }
+
+                            over "sts3215_03a_v1"
+                            {
+                                token visibility = "inherited"
+                            }
+                        }
+
+                        over "under_arm_so101_v1_1" (
+                            instanceable = false
+                        )
+                        {
+                            over "under_arm_so101_v1"
+                            {
+                                token visibility = "inherited"
+                            }
+                        }
+
+                        over "motor_holder_so101_wrist_v1_1" (
+                            instanceable = false
+                        )
+                        {
+                            over "motor_holder_so101_wrist_v1"
+                            {
+                                token visibility = "inherited"
+                            }
+                        }
+
+                        over "sts3215_03a_v1_1" (
+                            instanceable = false
+                        )
+                        {
+                            over "sts3215_03a_v1"
+                            {
+                                token visibility = "inherited"
+                            }
+                        }
+
+                        def Sphere "collision_sphere_1"
+                        {
+                            float3[] extent = [(-0.0218, -0.0218, -0.0218), (0.0218, 0.0218, 0.0218)]
+                            color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                            double radius = 0.0218
+                            token visibility = "invisible"
+                            quatd xformOp:orient = (1, 0, 0, 0)
+                            double3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (-0.059, -0, 0.006)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                        }
+
+                        def Sphere "collision_sphere_2"
+                        {
+                            float3[] extent = [(-0.0218, -0.0218, -0.0218), (0.0218, 0.0218, 0.0218)]
+                            color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                            double radius = 0.0218
+                            token visibility = "invisible"
+                            quatd xformOp:orient = (1, 0, 0, 0)
+                            double3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (-0.059, -0, 0.031)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                        }
+
+                        def Sphere "collision_sphere_3"
+                        {
+                            float3[] extent = [(-0.0195, -0.0195, -0.0195), (0.0195, 0.0195, 0.0195)]
+                            color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                            double radius = 0.0195
+                            token visibility = "invisible"
+                            quatd xformOp:orient = (1, 0, 0, 0)
+                            double3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (-0.04, 0.002, -0.002)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                        }
+
+                        def Sphere "collision_sphere_4"
+                        {
+                            float3[] extent = [(-0.0195, -0.0195, -0.0195), (0.0195, 0.0195, 0.0195)]
+                            color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                            double radius = 0.0195
+                            token visibility = "invisible"
+                            quatd xformOp:orient = (1, 0, 0, 0)
+                            double3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (-0.041, 0.002, 0.038)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                        }
+
+                        def Sphere "collision_sphere_5"
+                        {
+                            float3[] extent = [(-0.0184, -0.0184, -0.0184), (0.0184, 0.0184, 0.0184)]
+                            color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                            double radius = 0.0184
+                            token visibility = "invisible"
+                            quatd xformOp:orient = (1, 0, 0, 0)
+                            double3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (-0.084, -0.001, 0.035)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                        }
+
+                        def Sphere "collision_sphere_6"
+                        {
+                            float3[] extent = [(-0.0184, -0.0184, -0.0184), (0.0184, 0.0184, 0.0184)]
+                            color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                            double radius = 0.0184
+                            token visibility = "invisible"
+                            quatd xformOp:orient = (1, 0, 0, 0)
+                            double3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (-0.084, -0.004, 0.001)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                        }
+
+                        def Sphere "collision_sphere_7"
+                        {
+                            float3[] extent = [(-0.0167, -0.0167, -0.0167), (0.0167, 0.0167, 0.0167)]
+                            color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                            double radius = 0.0167
+                            token visibility = "invisible"
+                            quatd xformOp:orient = (1, 0, 0, 0)
+                            double3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (-0.021, -0.002, 0.042)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                        }
+
+                        def Sphere "collision_sphere_8"
+                        {
+                            float3[] extent = [(-0.0167, -0.0167, -0.0167), (0.0167, 0.0167, 0.0167)]
+                            color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                            double radius = 0.0167
+                            token visibility = "invisible"
+                            quatd xformOp:orient = (1, 0, 0, 0)
+                            double3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (-0.014, -0.002, -0.005)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                        }
+
+                        def Sphere "collision_sphere_9"
+                        {
+                            float3[] extent = [(-0.0184, -0.0184, -0.0184), (0.0184, 0.0184, 0.0184)]
+                            color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                            double radius = 0.0184
+                            token visibility = "invisible"
+                            quatd xformOp:orient = (1, 0, 0, 0)
+                            double3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (-0.076, 0.002, 0.002)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                        }
+
+                        def Sphere "collision_sphere_10"
+                        {
+                            float3[] extent = [(-0.0167, -0.0167, -0.0167), (0.0167, 0.0167, 0.0167)]
+                            color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                            double radius = 0.0167
+                            token visibility = "invisible"
+                            quatd xformOp:orient = (1, 0, 0, 0)
+                            double3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (-0.026, 0.005, -0.005)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                        }
+
+                        def Sphere "collision_sphere_11"
+                        {
+                            float3[] extent = [(-0.0219, -0.0219, -0.0219), (0.0219, 0.0219, 0.0219)]
+                            color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                            double radius = 0.0219
+                            token visibility = "invisible"
+                            quatd xformOp:orient = (1, 0, 0, 0)
+                            double3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (-0.112, 0.005, 0.023)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                        }
+
+                        def Sphere "collision_sphere_12"
+                        {
+                            float3[] extent = [(-0.0219, -0.0219, -0.0219), (0.0219, 0.0219, 0.0219)]
+                            color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                            double radius = 0.0219
+                            token visibility = "invisible"
+                            quatd xformOp:orient = (1, 0, 0, 0)
+                            double3 xformOp:scale = (1, 1, 1)
+                            double3 xformOp:translate = (-0.131, 0.006, 0.019)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                        }
+                    }
+
+                    over "sts3215_03a_v1" (
+                        instanceable = false
+                    )
+                    {
+                        over "VisualMaterials"
+                        {
+                            over "sts3215" (
+                                instanceable = false
+                            )
+                            {
+                            }
+                        }
+
+                        over "sts3215_03a_v1"
+                        {
+                            token visibility = "inherited"
+                        }
+                    }
+
+                    over "upper_arm_so101_v1" (
+                        instanceable = false
+                    )
+                    {
+                        over "VisualMaterials"
+                        {
+                            over "tn__3d_printed_" (
+                                instanceable = false
+                            )
+                            {
+                            }
+                        }
+
+                        over "upper_arm_so101_v1"
+                        {
+                            token visibility = "inherited"
+                        }
+                    }
+
+                    over "sts3215_03a_v1_1" (
+                        instanceable = false
+                    )
+                    {
+                        over "sts3215_03a_v1"
+                        {
+                            token visibility = "inherited"
+                        }
+                    }
+
+                    over "upper_arm_so101_v1_1" (
+                        instanceable = false
+                    )
+                    {
+                        over "upper_arm_so101_v1"
+                        {
+                            token visibility = "inherited"
+                        }
+                    }
+
+                    def Sphere "collision_sphere_1"
+                    {
+                        float3[] extent = [(-0.0219, -0.0219, -0.0219), (0.0219, 0.0219, 0.0219)]
+                        color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                        double radius = 0.0219
+                        token visibility = "invisible"
+                        quatd xformOp:orient = (1, -1.9318944666224525e-8, -2.2591855497466895e-8, 2.136567589516858e-9)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (-0.113, -0.019, 0.021)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+
+                    def Sphere "collision_sphere_2"
+                    {
+                        float3[] extent = [(-0.0219, -0.0219, -0.0219), (0.0219, 0.0219, 0.0219)]
+                        color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                        double radius = 0.0219
+                        token visibility = "invisible"
+                        quatd xformOp:orient = (1, -1.9318944666224525e-8, -2.2591855497466895e-8, 2.136567589516858e-9)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (-0.113, -0.005, 0.023)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+
+                    def Sphere "collision_sphere_3"
+                    {
+                        float3[] extent = [(-0.0214, -0.0214, -0.0214), (0.0214, 0.0214, 0.0214)]
+                        color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                        double radius = 0.0214
+                        token visibility = "invisible"
+                        quatd xformOp:orient = (1, -1.9318944666224525e-8, -2.2591855497466895e-8, 2.136567589516858e-9)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (-0.049, 0, 0.037)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+
+                    def Sphere "collision_sphere_4"
+                    {
+                        float3[] extent = [(-0.0214, -0.0214, -0.0214), (0.0214, 0.0214, 0.0214)]
+                        color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                        double radius = 0.0214
+                        token visibility = "invisible"
+                        quatd xformOp:orient = (1, -1.9318944666224525e-8, -2.2591855497466895e-8, 2.136567589516858e-9)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (-0.067, -0, 0.004)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+
+                    def Sphere "collision_sphere_5"
+                    {
+                        float3[] extent = [(-0.0214, -0.0214, -0.0214), (0.0214, 0.0214, 0.0214)]
+                        color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                        double radius = 0.0214
+                        token visibility = "invisible"
+                        quatd xformOp:orient = (1, -1.9318944666224525e-8, -2.2591855497466895e-8, 2.136567589516858e-9)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (-0.046, -0, -0.002)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+
+                    def Sphere "collision_sphere_6"
+                    {
+                        float3[] extent = [(-0.0214, -0.0214, -0.0214), (0.0214, 0.0214, 0.0214)]
+                        color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                        double radius = 0.0214
+                        token visibility = "invisible"
+                        quatd xformOp:orient = (1, -1.9318944666224525e-8, -2.2591855497466895e-8, 2.136567589516858e-9)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (-0.066, 0, 0.034)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+
+                    def Sphere "collision_sphere_7"
+                    {
+                        float3[] extent = [(-0.0184, -0.0184, -0.0184), (0.0184, 0.0184, 0.0184)]
+                        color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                        double radius = 0.0184
+                        token visibility = "invisible"
+                        quatd xformOp:orient = (1, -1.9318944666224525e-8, -2.2591855497466895e-8, 2.136567589516858e-9)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (-0.089, 0.001, 0.002)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+
+                    def Sphere "collision_sphere_8"
+                    {
+                        float3[] extent = [(-0.0196, -0.0196, -0.0196), (0.0196, 0.0196, 0.0196)]
+                        color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                        double radius = 0.0196
+                        token visibility = "invisible"
+                        quatd xformOp:orient = (1, -1.9318944666224525e-8, -2.2591855497466895e-8, 2.136567589516858e-9)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (-0.036, -0.002, 0.04)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+
+                    def Sphere "collision_sphere_9"
+                    {
+                        float3[] extent = [(-0.0184, -0.0184, -0.0184), (0.0184, 0.0184, 0.0184)]
+                        color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                        double radius = 0.0184
+                        token visibility = "invisible"
+                        quatd xformOp:orient = (1, -1.9318944666224525e-8, -2.2591855497466895e-8, 2.136567589516858e-9)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (-0.087, 0.001, 0.035)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+
+                    def Sphere "collision_sphere_10"
+                    {
+                        float3[] extent = [(-0.0214, -0.0214, -0.0214), (0.0214, 0.0214, 0.0214)]
+                        color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                        double radius = 0.0214
+                        token visibility = "invisible"
+                        quatd xformOp:orient = (1, -1.9318944666224525e-8, -2.2591855497466895e-8, 2.136567589516858e-9)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (-0.065, -0, 0.024)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+
+                    def Sphere "collision_sphere_11"
+                    {
+                        float3[] extent = [(-0.0178, -0.0178, -0.0178), (0.0178, 0.0178, 0.0178)]
+                        color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                        double radius = 0.0178
+                        token visibility = "invisible"
+                        quatd xformOp:orient = (1, -1.9318944666224525e-8, -2.2591855497466895e-8, 2.136567589516858e-9)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (-0.028, -0.004, -0.005)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+
+                    def Sphere "collision_sphere_12"
+                    {
+                        float3[] extent = [(-0.0171, -0.0171, -0.0171), (0.0171, 0.0171, 0.0171)]
+                        color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                        double radius = 0.0171
+                        token visibility = "invisible"
+                        quatd xformOp:orient = (1, -1.9318944666224525e-8, -2.2591855497466895e-8, 2.136567589516858e-9)
+                        double3 xformOp:scale = (1, 1, 1)
+                        double3 xformOp:translate = (-0.017, 0.005, 0.042)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                    }
+                }
+
+                over "sts3215_03a_v1" (
+                    instanceable = false
+                )
+                {
+                    over "VisualMaterials"
+                    {
+                        over "sts3215" (
+                            instanceable = false
+                        )
+                        {
+                        }
+                    }
+
+                    over "sts3215_03a_v1"
+                    {
+                        token visibility = "inherited"
+                    }
+                }
+
+                over "motor_holder_so101_base_v1" (
+                    instanceable = false
+                )
+                {
+                    over "VisualMaterials"
+                    {
+                        over "tn__3d_printed_" (
+                            instanceable = false
+                        )
+                        {
+                        }
+                    }
+
+                    over "motor_holder_so101_base_v1"
+                    {
+                        token visibility = "inherited"
+                    }
+                }
+
+                over "rotation_pitch_so101_v1" (
+                    instanceable = false
+                )
+                {
+                    over "VisualMaterials"
+                    {
+                        over "tn__3d_printed_" (
+                            instanceable = false
+                        )
+                        {
+                        }
+                    }
+
+                    over "rotation_pitch_so101_v1"
+                    {
+                        token visibility = "inherited"
+                    }
+                }
+
+                over "sts3215_03a_v1_1" (
+                    instanceable = false
+                )
+                {
+                    over "sts3215_03a_v1"
+                    {
+                        token visibility = "inherited"
+                    }
+                }
+
+                over "motor_holder_so101_base_v1_1" (
+                    instanceable = false
+                )
+                {
+                    over "motor_holder_so101_base_v1"
+                    {
+                        token visibility = "inherited"
+                    }
+                }
+
+                over "rotation_pitch_so101_v1_1" (
+                    instanceable = false
+                )
+                {
+                    over "rotation_pitch_so101_v1"
+                    {
+                        token visibility = "inherited"
+                    }
+                }
+
+                def Sphere "collision_sphere_1"
+                {
+                    float3[] extent = [(-0.0219, -0.0219, -0.0219), (0.0219, 0.0219, 0.0219)]
+                    color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                    double radius = 0.0219
+                    token visibility = "invisible"
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (-0.03, 0.004, -0.031)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                def Sphere "collision_sphere_2"
+                {
+                    float3[] extent = [(-0.0219, -0.0219, -0.0219), (0.0219, 0.0219, 0.0219)]
+                    color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                    double radius = 0.0219
+                    token visibility = "invisible"
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (-0.03, 0.001, -0.05)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                def Sphere "collision_sphere_3"
+                {
+                    float3[] extent = [(-0.0219, -0.0219, -0.0219), (0.0219, 0.0219, 0.0219)]
+                    color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                    double radius = 0.0219
+                    token visibility = "invisible"
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (-0.031, -0.003, -0.034)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                def Sphere "collision_sphere_4"
+                {
+                    float3[] extent = [(-0.0138, -0.0138, -0.0138), (0.0138, 0.0138, 0.0138)]
+                    color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                    double radius = 0.0138
+                    token visibility = "invisible"
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (-0.02, -0.02, -0.017)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                def Sphere "collision_sphere_5"
+                {
+                    float3[] extent = [(-0.0138, -0.0138, -0.0138), (0.0138, 0.0138, 0.0138)]
+                    color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                    double radius = 0.0138
+                    token visibility = "invisible"
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (-0.019, -0.02, -0.032)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                def Sphere "collision_sphere_6"
+                {
+                    float3[] extent = [(-0.0127, -0.0127, -0.0127), (0.0127, 0.0127, 0.0127)]
+                    color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                    double radius = 0.0127
+                    token visibility = "invisible"
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (-0.019, 0.019, -0.032)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                def Sphere "collision_sphere_7"
+                {
+                    float3[] extent = [(-0.0121, -0.0121, -0.0121), (0.0121, 0.0121, 0.0121)]
+                    color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                    double radius = 0.0121
+                    token visibility = "invisible"
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (-0.019, 0.019, -0.015)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                def Sphere "collision_sphere_8"
+                {
+                    float3[] extent = [(-0.0214, -0.0214, -0.0214), (0.0214, 0.0214, 0.0214)]
+                    color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                    double radius = 0.0214
+                    token visibility = "invisible"
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (-0.036, -0.001, -0.005)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                def Sphere "collision_sphere_9"
+                {
+                    float3[] extent = [(-0.0197, -0.0197, -0.0197), (0.0197, 0.0197, 0.0197)]
+                    color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                    double radius = 0.0197
+                    token visibility = "invisible"
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (-0.038, 0.002, 0.023)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                def Sphere "collision_sphere_10"
+                {
+                    float3[] extent = [(-0.0179, -0.0179, -0.0179), (0.0179, 0.0179, 0.0179)]
+                    color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                    double radius = 0.0179
+                    token visibility = "invisible"
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (-0.033, -0.002, 0.038)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                def Sphere "collision_sphere_11"
+                {
+                    float3[] extent = [(-0.0197, -0.0197, -0.0197), (0.0197, 0.0197, 0.0197)]
+                    color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                    double radius = 0.0197
+                    token visibility = "invisible"
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (-0.038, 0.002, 0.006)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                def Sphere "collision_sphere_12"
+                {
+                    float3[] extent = [(-0.0197, -0.0197, -0.0197), (0.0197, 0.0197, 0.0197)]
+                    color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                    double radius = 0.0197
+                    token visibility = "invisible"
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (-0.032, 0.006, -0.007)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                def Sphere "collision_sphere_13"
+                {
+                    float3[] extent = [(-0.0171, -0.0171, -0.0171), (0.0171, 0.0171, 0.0171)]
+                    color3f[] primvars:displayColor = [(0.8117647, 0.72156864, 0.14509805)]
+                    double radius = 0.0171
+                    token visibility = "invisible"
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (-0.032, 0.009, 0.039)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+            }
+
+            over "base_motor_holder_so101_v1" (
+                instanceable = false
+            )
+            {
+                over "VisualMaterials"
+                {
+                    over "tn__3d_printed_" (
+                        instanceable = false
+                    )
+                    {
+                    }
+                }
+            }
+
+            over "base_so101_v2" (
+                instanceable = false
+            )
+            {
+                over "VisualMaterials"
+                {
+                    over "tn__3d_printed_" (
+                        instanceable = false
+                    )
+                    {
+                    }
+                }
+            }
+
+            over "sts3215_03a_v1" (
+                instanceable = false
+            )
+            {
+                over "VisualMaterials"
+                {
+                    over "sts3215" (
+                        instanceable = false
+                    )
+                    {
+                    }
+                }
+            }
+
+            over "waveshare_mounting_plate_so101_v2" (
+                instanceable = false
+            )
+            {
+                over "VisualMaterials"
+                {
+                    over "tn__3d_printed_" (
+                        instanceable = false
+                    )
+                    {
+                    }
+                }
+            }
+
+            over "base_motor_holder_so101_v1_1" (
+                instanceable = false
+            )
+            {
+            }
+
+            over "base_so101_v2_1" (
+                instanceable = false
+            )
+            {
+            }
+
+            over "sts3215_03a_v1_1" (
+                instanceable = false
+            )
+            {
+            }
+
+            over "waveshare_mounting_plate_so101_v2_1" (
+                instanceable = false
+            )
+            {
+            }
+        }
+    }
+
+    over "Physics"
+    {
+        over "shoulder_pan"
+        {
+            float drive:angular:physics:damping = 3
+            float drive:angular:physics:maxForce = 10
+            float drive:angular:physics:stiffness = 40
+            float drive:angular:physics:targetPosition = 0
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            float physics:lowerLimit = -109.99988
+            float physics:upperLimit = 109.99988
+            float state:angular:physics:position = 0.00001569359
+            float state:angular:physics:velocity = -0.00020944234
+        }
+
+        over "shoulder_lift"
+        {
+            float drive:angular:physics:damping = 5
+            float drive:angular:physics:maxForce = 10
+            float drive:angular:physics:stiffness = 60
+            float drive:angular:physics:targetPosition = 0
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            float physics:lowerLimit = -100
+            float physics:upperLimit = 100
+            float state:angular:physics:position = -0.00019457888
+            float state:angular:physics:velocity = 0.00235815
+        }
+
+        over "elbow_flex"
+        {
+            float drive:angular:physics:damping = 4
+            float drive:angular:physics:maxForce = 10
+            float drive:angular:physics:stiffness = 45
+            float drive:angular:physics:targetPosition = 0
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            float physics:lowerLimit = -96.829865
+            float physics:upperLimit = 96.829865
+            float state:angular:physics:position = 0.000004488486
+            float state:angular:physics:velocity = -0.000008900638
+        }
+
+        over "wrist_flex"
+        {
+            float drive:angular:physics:damping = 2
+            float drive:angular:physics:maxForce = 10
+            float drive:angular:physics:stiffness = 25
+            float drive:angular:physics:targetPosition = 0
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            float physics:lowerLimit = -94.99984
+            float physics:upperLimit = 94.99984
+            float state:angular:physics:position = -0.00004354153
+            float state:angular:physics:velocity = 0
+        }
+
+        over "wrist_roll"
+        {
+            float drive:angular:physics:damping = 1.5
+            float drive:angular:physics:maxForce = 10
+            float drive:angular:physics:stiffness = 20
+            float drive:angular:physics:targetPosition = 0
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            float physics:lowerLimit = -157.21103
+            float physics:upperLimit = 162.78934
+            float state:angular:physics:position = -7.867255e-7
+            float state:angular:physics:velocity = 0.000010342484
+        }
+
+        over "gripper"
+        {
+            float drive:angular:physics:damping = 1
+            float drive:angular:physics:maxForce = 10
+            float drive:angular:physics:stiffness = 15
+            float drive:angular:physics:targetPosition = 0
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            float physics:lowerLimit = -10.000004
+            float physics:upperLimit = 100.000046
+            float state:angular:physics:position = -3.0145935e-7
+            float state:angular:physics:velocity = 0.0000044613716
+        }
+
+        over "root_joint"
+        {
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+            rel physics:body0 = None
+            point3f physics:localPos0 = (-8.381903e-9, -4.6929927e-10, -1.1175871e-8)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+        }
+
+        over "gripper_frame_joint"
+        {
+            bool[] isaac:actuator (
+                displayName = "Actuator"
+            )
+            string isaac:NameOverride (
+                displayName = "Joint Name Override"
+            )
+            token[] isaac:physics:DofOffsetOpOrder (
+                displayName = "Dof Offset Op Order"
+            )
+        }
+    }
+
+    def Material "GripperRubberMaterial" (
+        prepend apiSchemas = ["PhysicsMaterialAPI"]
+    )
+    {
+        float physics:dynamicFriction = 1
+        float physics:staticFriction = 1.2
+    }
+    variantSet "Physics" = {
+        "mujoco" (
+            prepend payload = @./payloads/Physics/mujoco.usda@
+        ) {
+
+        }
+        "none" {
+
+        }
+        "physics" (
+            prepend payload = @./payloads/Physics/physics.usda@
+        ) {
+
+        }
+        "physx" (
+            prepend payload = @./payloads/Physics/physx.usda@
+        ) {
+
+        }
+    }
+}
+
+def "Render" (
+    hide_in_stage_window = true
+    no_delete = true
+)
+{
+    def "OmniverseKit"
+    {
+        def "HydraTextures" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            def RenderProduct "omni_kit_widget_viewport_ViewportTexture_0" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxSettingsParticleFieldAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </OmniverseKit_Persp>
+                token omni:rtx:ambientOcclusion:denoiserMode = "none"
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:debug:view:pixelDebug:enableFixedTextPos = 1
+                token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
+                bool omni:rtx:dlss:frameGeneration = 0
+                bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
+                bool omni:rtx:material:db:syncLoads = 1
+                token omni:rtx:post:dlss:execMode = "performance"
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                bool omni:rtx:pt:adaptiveSampling:filterError = 0
+                uint omni:rtx:pt:adaptiveSampling:fixedSppIterations = 2
+                uint omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                uint omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                bool omni:rtx:reflections:denoiser:enabled = 0
+                token omni:rtx:rendermode = "RealTimePathTracing"
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:ecoMode:enabled
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                int omni:rtx:rt:sss:samples = 1
+                uint omni:rtx:rtpt:maxVolumeBounces = 15
+                float omni:rtx:rtpt:modulatingRoughnessThreshold = 0.08
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+        }
+    }
+
+    def RenderSettings "OmniverseGlobalRenderSettings" (
+        prepend apiSchemas = ["OmniRtxSettingsGlobalRtAdvancedAPI_1", "OmniRtxSettingsGlobalPtAdvancedAPI_1"]
+        no_delete = true
+    )
+    {
+        rel products = </Render/OmniverseKit/HydraTextures/omni_kit_widget_viewport_ViewportTexture_0>
+    }
+
+    def "Vars" (
+        hide_in_stage_window = true
+        no_delete = true
+    )
+    {
+        def RenderVar "LdrColor" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            uniform string sourceName = "LdrColor"
+            uniform token sourceType = "raw"
+        }
+    }
+}
+
+over "OmniverseKit_Persp" (
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (0.01, 10000000)
+    float exposure:fStop = 5
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+    float focalLength = 18.147562
+    float focusDistance = 400
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.31561557956810127)
+    float3 xformOp:rotateXYZ = (75.134636, -1.1768052e-13, 150.08556)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0.4651994615263344, 0.2684302750621612, 0.30279378570907234)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+def PhysicsScene "PhysicsScene" (
+    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI"]
+)
+{
+}
+
+over "OmniverseKit_Front" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.2722219e-14, 90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (5, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Right" (
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float exposure:fStop = 5
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+    float horizontalAperture = 30.584385
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 30.584385
+    float3 xformOp:rotateXYZ = (90, 7.06225e-31, -1.2722219e-14)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, -5, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Top" (
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float exposure:fStop = 5
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (1.2722219e-14, -7.016709e-15, -90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 5)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+

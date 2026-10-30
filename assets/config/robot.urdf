@@ -1,0 +1,2799 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="so101_new_calib">
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0.0137179 -5.19710993e-05 0.0334842987" rpy="0 0 0"/>
+      <mass value="0.147"/>
+      <inertia ixx="0.000114686" ixy="-4.59787e-07" ixz="4.97151e-06" iyy="0.000136117" iyz="9.75275e-08" izz="0.000130364"/>
+    </inertial>
+    <visual name="moving_jaw_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/moving_jaw_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="0.340633573 -0.00725449564 0.252248261" rpy="-3.14137404 -1.52211413 -1.57100122"/>
+      <geometry>
+        <sphere radius="0.0161"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="0.335633359 0.00877514413 0.252028" rpy="-3.14137404 -1.52211413 -1.57100122"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="0.349633559 -0.00625555925 0.252297019" rpy="-3.14137404 -1.52211413 -1.57100122"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="0.343633415 0.00477999078 0.251833433" rpy="-3.14137404 -1.52211413 -1.57100122"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="0.335633463 0.00287957852 0.249738391" rpy="-3.14137404 -1.52211413 -1.57100122"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="0.335633625 -0.0102023457 0.251103403" rpy="-3.14137404 -1.52211413 -1.57100122"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="0.349633369 0.00348927849 0.257777725" rpy="-3.14137404 -1.52211413 -1.57100122"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="0.362633565 -0.0051592431 0.25034819" rpy="-3.14137404 -1.52211413 -1.57100122"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="0.359633429 0.00378139087 0.25178494" rpy="-3.14137404 -1.52211413 -1.57100122"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="0.381633457 0.00178405646 0.251687848" rpy="-3.14137404 -1.52211413 -1.57100122"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="0.369633525 -0.00535380074 0.254343526" rpy="-3.14137404 -1.52211413 -1.57100122"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="wrist_roll_follower_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_follower_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="0.317233522 -0.00270940636 0.245260942" rpy="1.57101289 -1.52211412 -1.57100275"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="0.316233684 -0.00402576506 0.231180192" rpy="1.57101289 -1.52211412 -1.57100275"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="0.31523338 0.00289416158 0.253543421" rpy="1.57101289 -1.52211412 -1.57100275"/>
+      <geometry>
+        <sphere radius="0.0249"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="0.316233571 0.00381876805 0.234565942" rpy="1.57101289 -1.52211412 -1.57100275"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="0.318233452 -0.00409751555 0.253202812" rpy="1.57101289 -1.52211412 -1.57100275"/>
+      <geometry>
+        <sphere radius="0.0249"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="0.3152336 0.0071071818 0.228719029" rpy="1.57101289 -1.52211412 -1.57100275"/>
+      <geometry>
+        <sphere radius="0.0229"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="0.320233339 0.00479451556 0.25563843" rpy="1.57101289 -1.52211412 -1.57100275"/>
+      <geometry>
+        <sphere radius="0.0229"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="0.311233443 -0.00728868243 0.25705201" rpy="1.57101289 -1.52211412 -1.57100275"/>
+      <geometry>
+        <sphere radius="0.0209"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="0.30623377 0.00793436345 0.211739074" rpy="1.57101289 -1.52211412 -1.57100275"/>
+      <geometry>
+        <sphere radius="0.0217"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="0.328233946 -0.00695032195 0.209011731" rpy="1.57101289 -1.52211412 -1.57100275"/>
+      <geometry>
+        <sphere radius="0.0217"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="0.307233966 -0.00685320358 0.207013879" rpy="1.57101289 -1.52211412 -1.57100275"/>
+      <geometry>
+        <sphere radius="0.0212"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_12">
+      <origin xyz="0.33323379 0.00803195631 0.209741728" rpy="1.57101289 -1.52211412 -1.57100275"/>
+      <geometry>
+        <sphere radius="0.0202"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_13">
+      <origin xyz="0.320233719 0.0118810999 0.212932689" rpy="1.57101289 -1.52211412 -1.57100275"/>
+      <geometry>
+        <sphere radius="0.0202"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_14">
+      <origin xyz="0.335233966 -0.00475797033 0.20511387" rpy="1.57101289 -1.52211412 -1.57100275"/>
+      <geometry>
+        <sphere radius="0.0202"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_15">
+      <origin xyz="0.326233851 0.00622890852 0.205649068" rpy="1.57101289 -1.52211412 -1.57100275"/>
+      <geometry>
+        <sphere radius="0.0197"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_16">
+      <origin xyz="0.346233781 0.00588846538 0.212640985" rpy="1.57101289 -1.52211412 -1.57100275"/>
+      <geometry>
+        <sphere radius="0.0186"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_no_horn_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_no_horn_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="wrist_roll_pitch_so101_v2">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_pitch_so101_v2.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="0.277133576 0.00872317678 0.234370951" rpy="-1.23002717 1.57078835 0.340775485"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="0.279133487 0.0227231894 0.234371004" rpy="-1.23002717 1.57078835 0.340775485"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="0.27313362 0.00172315145 0.234370903" rpy="-1.23002717 1.57078835 0.340775485"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="0.272133493 0.0217231451 0.234370948" rpy="-1.23002717 1.57078835 0.340775485"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="0.281133609 -0.00127680855 0.238370955" rpy="-1.23002717 1.57078835 0.340775485"/>
+      <geometry>
+        <sphere radius="0.0249"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="0.272133557 0.0117231451 0.234370922" rpy="-1.23002717 1.57078835 0.340775485"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="0.249133481 0.0237229995 0.234370781" rpy="-1.23002717 1.57078835 0.340775485"/>
+      <geometry>
+        <sphere radius="0.0229"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="0.249133802 -0.0222769899 0.230370658" rpy="-1.23002717 1.57078835 0.340775485"/>
+      <geometry>
+        <sphere radius="0.0221"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="0.251133719 -0.0222770065 0.241370673" rpy="-1.23002717 1.57078835 0.340775485"/>
+      <geometry>
+        <sphere radius="0.0221"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="0.245133428 0.0237229555 0.241370751" rpy="-1.23002717 1.57078835 0.340775485"/>
+      <geometry>
+        <sphere radius="0.0221"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="0.262133831 -0.0232768995 0.227370753" rpy="-1.23002717 1.57078835 0.340775485"/>
+      <geometry>
+        <sphere radius="0.0212"/>
+      </geometry>
+    </visual>
+    <visual name="under_arm_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/under_arm_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="motor_holder_so101_wrist_v1">
+      <geometry>
+        <mesh filename="./meshes/motor_holder_so101_wrist_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="0.156233735 -0.0122775932 0.22917032" rpy="1.57079371 3.10436598e-06 -3.14158616"/>
+      <geometry>
+        <sphere radius="0.0318"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="0.156233573 0.0127224068 0.229170386" rpy="1.57079371 3.10436598e-06 -3.14158616"/>
+      <geometry>
+        <sphere radius="0.0318"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="0.137233781 -0.0202777218 0.231170241" rpy="1.57079371 3.10436598e-06 -3.14158616"/>
+      <geometry>
+        <sphere radius="0.0295"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="0.138233521 0.0197222847 0.231170348" rpy="1.57079371 3.10436598e-06 -3.14158616"/>
+      <geometry>
+        <sphere radius="0.0295"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="0.18123355 0.0167225716 0.228170474" rpy="1.57079371 3.10436598e-06 -3.14158616"/>
+      <geometry>
+        <sphere radius="0.0284"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="0.18123378 -0.0172774205 0.225170385" rpy="1.57079371 3.10436598e-06 -3.14158616"/>
+      <geometry>
+        <sphere radius="0.0284"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="0.210233728 -0.0192772872 0.24617047" rpy="1.57079371 3.10436598e-06 -3.14158616"/>
+      <geometry>
+        <sphere radius="0.0238"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="0.191233737 -0.0202774079 0.245170408" rpy="1.57079371 3.10436598e-06 -3.14158616"/>
+      <geometry>
+        <sphere radius="0.0238"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="0.197233737 -0.0202773689 0.245170427" rpy="1.57079371 3.10436598e-06 -3.14158616"/>
+      <geometry>
+        <sphere radius="0.0238"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="0.207233465 0.021722696 0.245170568" rpy="1.57079371 3.10436598e-06 -3.14158616"/>
+      <geometry>
+        <sphere radius="0.0232"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="0.203233475 0.0187226622 0.248170547" rpy="1.57079371 3.10436598e-06 -3.14158616"/>
+      <geometry>
+        <sphere radius="0.0227"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_12">
+      <origin xyz="0.209233609 0.0047227377 0.234170529" rpy="1.57079371 3.10436598e-06 -3.14158616"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_13">
+      <origin xyz="0.228233632 0.000722858411 0.235170578" rpy="1.57079371 3.10436598e-06 -3.14158616"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_14">
+      <origin xyz="0.212233661 -0.00327724283 0.234170518" rpy="1.57079371 3.10436598e-06 -3.14158616"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_15">
+      <origin xyz="0.230233664 -0.00327712338 0.233170574" rpy="1.57079371 3.10436598e-06 -3.14158616"/>
+      <geometry>
+        <sphere radius="0.0309"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_16">
+      <origin xyz="0.223233622 0.00272282857 0.234170568" rpy="1.57079371 3.10436598e-06 -3.14158616"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_2.obj"/>
+      </geometry>
+    </visual>
+    <visual name="upper_arm_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/upper_arm_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="0.0882336414 0.00272196025 0.229600118" rpy="-1.21395783 1.57078902 0.356844984"/>
+      <geometry>
+        <sphere radius="0.0269"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="0.0742336284 0.00472186939 0.229600028" rpy="-1.21395783 1.57078902 0.356844984"/>
+      <geometry>
+        <sphere radius="0.0269"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="0.095233694 -0.00327798921 0.227600151" rpy="-1.21395783 1.57078902 0.356844984"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="0.0772336872 -0.00327810859 0.228600028" rpy="-1.21395783 1.57078902 0.356844984"/>
+      <geometry>
+        <sphere radius="0.0269"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="0.096233628 0.00372200962 0.230600176" rpy="-1.21395783 1.57078902 0.356844984"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="0.0692339758 0.0187220003 0.165600029" rpy="-1.21395783 1.57078902 0.356844984"/>
+      <geometry>
+        <sphere radius="0.0264"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="0.0692340667 -0.0142780456 0.183599945" rpy="-1.21395783 1.57078902 0.356844984"/>
+      <geometry>
+        <sphere radius="0.0264"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="0.0692342494 -0.020277992 0.16259993" rpy="-1.21395783 1.57078902 0.356844984"/>
+      <geometry>
+        <sphere radius="0.0264"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="0.0692338788 0.0157219569 0.182600021" rpy="-1.21395783 1.57078902 0.356844984"/>
+      <geometry>
+        <sphere radius="0.0264"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="0.068233929 -0.0162781083 0.205599933" rpy="-1.21395783 1.57078902 0.356844984"/>
+      <geometry>
+        <sphere radius="0.0234"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_3.obj"/>
+      </geometry>
+    </visual>
+    <visual name="motor_holder_so101_base_v1">
+      <geometry>
+        <mesh filename="./meshes/motor_holder_so101_base_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="rotation_pitch_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/rotation_pitch_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="0.0688352894 0.00399998462 0.093400003" rpy="3.14159004 -6.66296478e-08 -3.14158992"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="0.0688352989 0.00099993499 0.112399995" rpy="3.14159004 -6.66296478e-08 -3.14158992"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="0.0698353087 -0.00300002048 0.0963999847" rpy="3.14159004 -6.66296478e-08 -3.14158992"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="0.07083531 -0.00300006738 0.115399985" rpy="3.14159004 -6.66296478e-08 -3.14158992"/>
+      <geometry>
+        <sphere radius="0.0309"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="0.0688352931 0.00299994805 0.1074" rpy="3.14159004 -6.66296478e-08 -3.14158992"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="0.0588353541 -0.0200000062 0.079399941" rpy="3.14159004 -6.66296478e-08 -3.14158992"/>
+      <geometry>
+        <sphere radius="0.0238"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="0.0578353551 -0.0200000481 0.0943999411" rpy="3.14159004 -6.66296478e-08 -3.14158992"/>
+      <geometry>
+        <sphere radius="0.0238"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="0.0578352484 0.0189999519 0.094400043" rpy="3.14159004 -6.66296478e-08 -3.14158992"/>
+      <geometry>
+        <sphere radius="0.0227"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="0.0578352473 0.0189999963 0.077400043" rpy="3.14159004 -6.66296478e-08 -3.14158992"/>
+      <geometry>
+        <sphere radius="0.0221"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="0.058835362 -0.0229999957 0.0753999332" rpy="3.14159004 -6.66296478e-08 -3.14158992"/>
+      <geometry>
+        <sphere radius="0.0227"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="0.0748353013 -0.000999931042 0.0673999896" rpy="3.14159004 -6.66296478e-08 -3.14158992"/>
+      <geometry>
+        <sphere radius="0.0314"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_12">
+      <origin xyz="0.0768352913 0.00200014757 0.0393999973" rpy="3.14159004 -6.66296478e-08 -3.14158992"/>
+      <geometry>
+        <sphere radius="0.0297"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_13">
+      <origin xyz="0.0718353012 -0.00199982692 0.0243999872" rpy="3.14159004 -6.66296478e-08 -3.14158992"/>
+      <geometry>
+        <sphere radius="0.0279"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_14">
+      <origin xyz="0.0768352924 0.00200010316 0.0563999973" rpy="3.14159004 -6.66296478e-08 -3.14158992"/>
+      <geometry>
+        <sphere radius="0.0297"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_15">
+      <origin xyz="0.0708352823 0.00600005279 0.0694000081" rpy="3.14159004 -6.66296478e-08 -3.14158992"/>
+      <geometry>
+        <sphere radius="0.0297"/>
+      </geometry>
+    </visual>
+    <visual name="base_motor_holder_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/base_motor_holder_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="base_so101_v2">
+      <geometry>
+        <mesh filename="./meshes/base_so101_v2.obj"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_4.obj"/>
+      </geometry>
+    </visual>
+    <visual name="waveshare_mounting_plate_so101_v2">
+      <geometry>
+        <mesh filename="./meshes/waveshare_mounting_plate_so101_v2.obj"/>
+      </geometry>
+    </visual>
+    <collision name="moving_jaw_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/moving_jaw_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_5.obj"/>
+      </geometry>
+    </collision>
+    <collision name="wrist_roll_follower_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_follower_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_no_horn_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_no_horn_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="wrist_roll_pitch_so101_v2">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_pitch_so101_v2_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="under_arm_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/under_arm_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="motor_holder_so101_wrist_v1">
+      <geometry>
+        <mesh filename="./meshes/motor_holder_so101_wrist_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_6.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_7.obj"/>
+      </geometry>
+    </collision>
+    <collision name="upper_arm_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/upper_arm_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_8.obj"/>
+      </geometry>
+    </collision>
+    <collision name="motor_holder_so101_base_v1">
+      <geometry>
+        <mesh filename="./meshes/motor_holder_so101_base_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="rotation_pitch_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/rotation_pitch_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="base_motor_holder_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/base_motor_holder_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="base_so101_v2">
+      <geometry>
+        <mesh filename="./meshes/base_so101_v2_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_9.obj"/>
+      </geometry>
+    </collision>
+    <collision name="waveshare_mounting_plate_so101_v2">
+      <geometry>
+        <mesh filename="./meshes/waveshare_mounting_plate_so101_v2_1.obj"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="shoulder_link">
+    <inertial>
+      <origin xyz="-0.0307604 -1.66727004e-05 -0.0252713002" rpy="0 0 0"/>
+      <mass value="0.100005999"/>
+      <inertia ixx="8.3759e-05" ixy="7.55525e-08" ixz="-1.16342e-06" iyy="8.10403e-05" iyz="1.54663e-07" izz="2.39783e-05"/>
+    </inertial>
+    <visual name="moving_jaw_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/moving_jaw_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="-0.301798255 -0.00725478373 -0.189848282" rpy="0.000218621171 1.52211679 -1.57058877"/>
+      <geometry>
+        <sphere radius="0.0161"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="-0.296798085 0.00877486872 -0.189627978" rpy="0.000218621171 1.52211679 -1.57058877"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="-0.310798244 -0.0062558711 -0.189897038" rpy="0.000218621171 1.52211679 -1.57058877"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="-0.30479813 0.00477969362 -0.189433422" rpy="0.000218621171 1.52211679 -1.57058877"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="-0.296798173 0.00287929703 -0.187338386" rpy="0.000218621171 1.52211679 -1.57058877"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="-0.296798299 -0.0102026236 -0.188703432" rpy="0.000218621171 1.52211679 -1.57058877"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="-0.31079808 0.00348898119 -0.195377718" rpy="0.000218621171 1.52211679 -1.57058877"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="-0.323798253 -0.00515959461 -0.187948206" rpy="0.000218621171 1.52211679 -1.57058877"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="-0.320798141 0.00378105113 -0.189384932" rpy="0.000218621171 1.52211679 -1.57058877"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="-0.342798164 0.00178365808 -0.189287845" rpy="0.000218621171 1.52211679 -1.57058877"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="-0.330798213 -0.00535416022 -0.191943542" rpy="0.000218621171 1.52211679 -1.57058877"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="wrist_roll_follower_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_follower_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="-0.278398217 -0.0027096509 -0.182860951" rpy="-1.57057975 1.52211677 -1.57058724"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="-0.277398375 -0.00402604431 -0.168780205" rpy="-1.57057975 1.52211677 -1.57058724"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="-0.276398089 0.00289394432 -0.191143415" rpy="-1.57057975 1.52211677 -1.57058724"/>
+      <geometry>
+        <sphere radius="0.0249"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="-0.277398282 0.00381849778 -0.172165933" rpy="-1.57057975 1.52211677 -1.57058724"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="-0.279398143 -0.00409774167 -0.190802824" rpy="-1.57057975 1.52211677 -1.57058724"/>
+      <geometry>
+        <sphere radius="0.0249"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="-0.27639832 0.00710689867 -0.166319011" rpy="-1.57057975 1.52211677 -1.57058724"/>
+      <geometry>
+        <sphere radius="0.0229"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="-0.281398053 0.0047942906 -0.193238419" rpy="-1.57057975 1.52211677 -1.57058724"/>
+      <geometry>
+        <sphere radius="0.0229"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="-0.272398126 -0.00728887976 -0.194652031" rpy="-1.57057975 1.52211677 -1.57058724"/>
+      <geometry>
+        <sphere radius="0.0209"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="-0.267398493 0.00793405915 -0.149339055" rpy="-1.57057975 1.52211677 -1.57058724"/>
+      <geometry>
+        <sphere radius="0.0217"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="-0.28939863 -0.00695069187 -0.146611751" rpy="-1.57057975 1.52211677 -1.57058724"/>
+      <geometry>
+        <sphere radius="0.0217"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="-0.26839865 -0.00685352308 -0.144613899" rpy="-1.57057975 1.52211677 -1.57058724"/>
+      <geometry>
+        <sphere radius="0.0212"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_12">
+      <origin xyz="-0.294398514 0.00803157506 -0.147341709" rpy="-1.57057975 1.52211677 -1.57058724"/>
+      <geometry>
+        <sphere radius="0.0202"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_13">
+      <origin xyz="-0.281398452 0.0118807616 -0.150532659" rpy="-1.57057975 1.52211677 -1.57058724"/>
+      <geometry>
+        <sphere radius="0.0202"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_14">
+      <origin xyz="-0.296398655 -0.00475836917 -0.142713884" rpy="-1.57057975 1.52211677 -1.57058724"/>
+      <geometry>
+        <sphere radius="0.0202"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_15">
+      <origin xyz="-0.28739857 0.00622853498 -0.143249053" rpy="-1.57057975 1.52211677 -1.57058724"/>
+      <geometry>
+        <sphere radius="0.0197"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_16">
+      <origin xyz="-0.307398498 0.00588805732 -0.150240971" rpy="-1.57057975 1.52211677 -1.57058724"/>
+      <geometry>
+        <sphere radius="0.0186"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_no_horn_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_no_horn_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="wrist_roll_pitch_so101_v2">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_pitch_so101_v2.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="-0.238298301 0.00872300976 -0.17197093" rpy="1.57261519 -1.5707888 3.13977011"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="-0.240298249 0.0227230171 -0.171970945" rpy="1.57261519 -1.5707888 3.13977011"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="-0.234298326 0.00172299504 -0.1719709" rpy="1.57261519 -1.5707888 3.13977011"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="-0.233298253 0.0217229914 -0.171970893" rpy="1.57261519 -1.5707888 3.13977011"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="-0.242298307 -0.00127697558 -0.17597096" rpy="1.57261519 -1.5707888 3.13977011"/>
+      <geometry>
+        <sphere radius="0.0249"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="-0.23329829 0.0117229914 -0.171970892" rpy="1.57261519 -1.5707888 3.13977011"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="-0.210298245 0.0237229067 -0.17197072" rpy="1.57261519 -1.5707888 3.13977011"/>
+      <geometry>
+        <sphere radius="0.0229"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="-0.210298445 -0.0222770932 -0.167970719" rpy="1.57261519 -1.5707888 3.13977011"/>
+      <geometry>
+        <sphere radius="0.0221"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="-0.212298362 -0.022277086 -0.178970734" rpy="1.57261519 -1.5707888 3.13977011"/>
+      <geometry>
+        <sphere radius="0.0221"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="-0.206298193 0.0237228919 -0.178970689" rpy="1.57261519 -1.5707888 3.13977011"/>
+      <geometry>
+        <sphere radius="0.0221"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="-0.223298471 -0.0232770453 -0.164970817" rpy="1.57261519 -1.5707888 3.13977011"/>
+      <geometry>
+        <sphere radius="0.0212"/>
+      </geometry>
+    </visual>
+    <visual name="under_arm_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/under_arm_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="motor_holder_so101_wrist_v1">
+      <geometry>
+        <mesh filename="./meshes/motor_holder_so101_wrist_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="-0.117398404 -0.0122774533 -0.166770355" rpy="-1.57079629 -3.1043558e-06 -3.8371245e-06"/>
+      <geometry>
+        <sphere radius="0.0318"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="-0.117398308 0.0127225467 -0.166770354" rpy="-1.57079629 -3.1043558e-06 -3.8371245e-06"/>
+      <geometry>
+        <sphere radius="0.0318"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="-0.0983984287 -0.0202775261 -0.168770296" rpy="-1.57079629 -3.1043558e-06 -3.8371245e-06"/>
+      <geometry>
+        <sphere radius="0.0295"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="-0.0993982752 0.0197224778 -0.168770298" rpy="-1.57079629 -3.1043558e-06 -3.8371245e-06"/>
+      <geometry>
+        <sphere radius="0.0295"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="-0.142398296 0.0167226426 -0.165770431" rpy="-1.57079629 -3.1043558e-06 -3.8371245e-06"/>
+      <geometry>
+        <sphere radius="0.0284"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="-0.142398436 -0.0172773575 -0.162770433" rpy="-1.57079629 -3.1043558e-06 -3.8371245e-06"/>
+      <geometry>
+        <sphere radius="0.0284"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="-0.171398378 -0.0192772454 -0.183770523" rpy="-1.57079629 -3.1043558e-06 -3.8371245e-06"/>
+      <geometry>
+        <sphere radius="0.0238"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="-0.152398385 -0.0202773183 -0.182770464" rpy="-1.57079629 -3.1043558e-06 -3.8371245e-06"/>
+      <geometry>
+        <sphere radius="0.0238"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="-0.158398385 -0.0202772953 -0.182770482" rpy="-1.57079629 -3.1043558e-06 -3.8371245e-06"/>
+      <geometry>
+        <sphere radius="0.0238"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="-0.168398224 0.0217227431 -0.182770512" rpy="-1.57079629 -3.1043558e-06 -3.8371245e-06"/>
+      <geometry>
+        <sphere radius="0.0232"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="-0.164398226 0.0187227279 -0.185770499" rpy="-1.57079629 -3.1043558e-06 -3.8371245e-06"/>
+      <geometry>
+        <sphere radius="0.0227"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_12">
+      <origin xyz="-0.170398323 0.00472275032 -0.171770519" rpy="-1.57079629 -3.1043558e-06 -3.8371245e-06"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_13">
+      <origin xyz="-0.189398336 0.000722823264 -0.172770578" rpy="-1.57079629 -3.1043558e-06 -3.8371245e-06"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_14">
+      <origin xyz="-0.173398354 -0.00327723817 -0.171770528" rpy="-1.57079629 -3.1043558e-06 -3.8371245e-06"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_15">
+      <origin xyz="-0.191398357 -0.00327716914 -0.170770584" rpy="-1.57079629 -3.1043558e-06 -3.8371245e-06"/>
+      <geometry>
+        <sphere radius="0.0309"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_16">
+      <origin xyz="-0.184398331 0.00272280404 -0.171770562" rpy="-1.57079629 -3.1043558e-06 -3.8371245e-06"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_2.obj"/>
+      </geometry>
+    </visual>
+    <visual name="upper_arm_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/upper_arm_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="-0.0493983503 0.00272228183 -0.167200113" rpy="1.55606905 -1.57078948 -3.12686922"/>
+      <geometry>
+        <sphere radius="0.0269"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="-0.0353983427 0.00472222811 -0.167200017" rpy="1.55606905 -1.57078948 -3.12686922"/>
+      <geometry>
+        <sphere radius="0.0269"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="-0.0563983871 -0.00327769152 -0.165200161" rpy="1.55606905 -1.57078948 -3.12686922"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="-0.0383983802 -0.00327776048 -0.166200038" rpy="1.55606905 -1.57078948 -3.12686922"/>
+      <geometry>
+        <sphere radius="0.0269"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="-0.0573983397 0.00372231262 -0.168200168" rpy="1.55606905 -1.57078948 -3.12686922"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="-0.0303987272 0.0187222025 -0.103199981" rpy="1.55606905 -1.57078948 -3.12686922"/>
+      <geometry>
+        <sphere radius="0.0264"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="-0.0303987305 -0.0142777957 -0.121199984" rpy="1.55606905 -1.57078948 -3.12686922"/>
+      <geometry>
+        <sphere radius="0.0264"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="-0.0303988974 -0.0202777978 -0.100199985" rpy="1.55606905 -1.57078948 -3.12686922"/>
+      <geometry>
+        <sphere radius="0.0264"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="-0.0303986223 0.0157222042 -0.120199981" rpy="1.55606905 -1.57078948 -3.12686922"/>
+      <geometry>
+        <sphere radius="0.0264"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="-0.0293985876 -0.0162777973 -0.143199978" rpy="1.55606905 -1.57078948 -3.12686922"/>
+      <geometry>
+        <sphere radius="0.0234"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_3.obj"/>
+      </geometry>
+    </visual>
+    <visual name="motor_holder_so101_base_v1">
+      <geometry>
+        <mesh filename="./meshes/motor_holder_so101_base_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="rotation_pitch_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/rotation_pitch_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="-0.0300000017 0.00399999625 -0.0309999941" rpy="4.0612975e-08 6.56330295e-08 -8.04822301e-08"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="-0.0300000032 0.000999997038 -0.0499999942" rpy="4.0612975e-08 6.56330295e-08 -8.04822301e-08"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="-0.0310000025 -0.00300000354 -0.0339999943" rpy="4.0612975e-08 6.56330295e-08 -8.04822301e-08"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="-0.0320000038 -0.00300000267 -0.0529999943" rpy="4.0612975e-08 6.56330295e-08 -8.04822301e-08"/>
+      <geometry>
+        <sphere radius="0.0309"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="-0.0300000028 0.00299999683 -0.0449999942" rpy="4.0612975e-08 6.56330295e-08 -8.04822301e-08"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="-0.0200000028 -0.0200000051 -0.0169999958" rpy="4.0612975e-08 6.56330295e-08 -8.04822301e-08"/>
+      <geometry>
+        <sphere radius="0.0238"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="-0.0190000038 -0.0200000046 -0.0319999958" rpy="4.0612975e-08 6.56330295e-08 -8.04822301e-08"/>
+      <geometry>
+        <sphere radius="0.0238"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="-0.0190000006 0.0189999954 -0.0319999942" rpy="4.0612975e-08 6.56330295e-08 -8.04822301e-08"/>
+      <geometry>
+        <sphere radius="0.0227"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="-0.0189999994 0.0189999947 -0.0149999942" rpy="4.0612975e-08 6.56330295e-08 -8.04822301e-08"/>
+      <geometry>
+        <sphere radius="0.0221"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="-0.0200000027 -0.0230000053 -0.0129999959" rpy="4.0612975e-08 6.56330295e-08 -8.04822301e-08"/>
+      <geometry>
+        <sphere radius="0.0227"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="-0.0360000004 -0.00100000433 -0.00499999392" rpy="4.0612975e-08 6.56330295e-08 -8.04822301e-08"/>
+      <geometry>
+        <sphere radius="0.0314"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_12">
+      <origin xyz="-0.0379999983 0.00199999468 0.0230000063" rpy="4.0612975e-08 6.56330295e-08 -8.04822301e-08"/>
+      <geometry>
+        <sphere radius="0.0297"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_13">
+      <origin xyz="-0.0329999976 -0.00200000634 0.0380000058" rpy="4.0612975e-08 6.56330295e-08 -8.04822301e-08"/>
+      <geometry>
+        <sphere radius="0.0279"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_14">
+      <origin xyz="-0.0379999994 0.00199999538 0.00600000634" rpy="4.0612975e-08 6.56330295e-08 -8.04822301e-08"/>
+      <geometry>
+        <sphere radius="0.0297"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_15">
+      <origin xyz="-0.032 0.00599999543 -0.0069999939" rpy="4.0612975e-08 6.56330295e-08 -8.04822301e-08"/>
+      <geometry>
+        <sphere radius="0.0297"/>
+      </geometry>
+    </visual>
+    <collision name="moving_jaw_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/moving_jaw_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_5.obj"/>
+      </geometry>
+    </collision>
+    <collision name="wrist_roll_follower_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_follower_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_no_horn_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_no_horn_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="wrist_roll_pitch_so101_v2">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_pitch_so101_v2_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="under_arm_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/under_arm_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="motor_holder_so101_wrist_v1">
+      <geometry>
+        <mesh filename="./meshes/motor_holder_so101_wrist_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_6.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_7.obj"/>
+      </geometry>
+    </collision>
+    <collision name="upper_arm_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/upper_arm_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_8.obj"/>
+      </geometry>
+    </collision>
+    <collision name="motor_holder_so101_base_v1">
+      <geometry>
+        <mesh filename="./meshes/motor_holder_so101_base_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="rotation_pitch_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/rotation_pitch_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="upper_arm_link">
+    <inertial>
+      <origin xyz="-0.0898471028 -0.00838224031 0.0184089001" rpy="0 0 0"/>
+      <mass value="0.103"/>
+      <inertia ixx="4.08002e-05" ixy="-1.97819e-05" ixz="-4.03016e-08" iyy="0.000147318" iyz="8.97326e-09" izz="0.000142487"/>
+    </inertial>
+    <visual name="moving_jaw_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/moving_jaw_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="-0.135647301 -0.271399585 0.011021988" rpy="-3.14158562 0.0486795784 3.14158599"/>
+      <geometry>
+        <sphere radius="0.0161"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="-0.135427017 -0.266399473 0.0270516594" rpy="-3.14158562 0.0486795784 3.14158599"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="-0.135696025 -0.280399577 0.0120208667" rpy="-3.14158562 0.0486795784 3.14158599"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="-0.135232431 -0.274399503 0.0230564541" rpy="-3.14158562 0.0486795784 3.14158599"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="-0.133137424 -0.266399531 0.0211560878" rpy="-3.14158562 0.0486795784 3.14158599"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="-0.13450247 -0.266399613 0.00807416708" rpy="-3.14158562 0.0486795784 3.14158599"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="-0.141176705 -0.28039947 0.0217657187" rpy="-3.14158562 0.0486795784 3.14158599"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="-0.133747145 -0.293399583 0.0131170941" rpy="-3.14158562 0.0486795784 3.14158599"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="-0.135183883 -0.29039951 0.0220577511" rpy="-3.14158562 0.0486795784 3.14158599"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="-0.135086716 -0.312399525 0.020060275" rpy="-3.14158562 0.0486795784 3.14158599"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="-0.137742456 -0.300399557 0.0129225019" rpy="-3.14158562 0.0486795784 3.14158599"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="wrist_roll_follower_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_follower_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="-0.128660056 -0.247999538 0.0155672095" rpy="1.57079979 0.0486795924 3.14158591"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="-0.114579313 -0.24699964 0.0142508205" rpy="1.57079979 0.0486795924 3.14158591"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="-0.136942527 -0.245999461 0.021170812" rpy="1.57079979 0.0486795924 3.14158591"/>
+      <geometry>
+        <sphere radius="0.0249"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="-0.117965042 -0.246999589 0.0220953624" rpy="1.57079979 0.0486795924 3.14158591"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="-0.136601925 -0.248999488 0.0141791146" rpy="1.57079979 0.0486795924 3.14158591"/>
+      <geometry>
+        <sphere radius="0.0249"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="-0.112118124 -0.245999618 0.0253837673" rpy="1.57079979 0.0486795924 3.14158591"/>
+      <geometry>
+        <sphere radius="0.0229"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="-0.139037513 -0.25099944 0.0230711393" rpy="1.57079979 0.0486795924 3.14158591"/>
+      <geometry>
+        <sphere radius="0.0229"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="-0.140451157 -0.241999472 0.0109880028" rpy="1.57079979 0.0486795924 3.14158591"/>
+      <geometry>
+        <sphere radius="0.0209"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="-0.0951382001 -0.236999733 0.0262109625" rpy="1.57079979 0.0486795924 3.14158591"/>
+      <geometry>
+        <sphere radius="0.0217"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="-0.0924108158 -0.258999803 0.0113261285" rpy="1.57079979 0.0486795924 3.14158591"/>
+      <geometry>
+        <sphere radius="0.0217"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="-0.0904130399 -0.237999816 0.0114233767" rpy="1.57079979 0.0486795924 3.14158591"/>
+      <geometry>
+        <sphere radius="0.0212"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_12">
+      <origin xyz="-0.0931407559 -0.263999746 0.0263083765" rpy="1.57079979 0.0486795924 3.14158591"/>
+      <geometry>
+        <sphere radius="0.0202"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_13">
+      <origin xyz="-0.0963317537 -0.250999711 0.030157612" rpy="1.57079979 0.0486795924 3.14158591"/>
+      <geometry>
+        <sphere radius="0.0202"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_14">
+      <origin xyz="-0.0885129234 -0.265999822 0.0135184249" rpy="1.57079979 0.0486795924 3.14158591"/>
+      <geometry>
+        <sphere radius="0.0202"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_15">
+      <origin xyz="-0.0890481252 -0.256999781 0.024505363" rpy="1.57079979 0.0486795924 3.14158591"/>
+      <geometry>
+        <sphere radius="0.0197"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_16">
+      <origin xyz="-0.0960399711 -0.276999734 0.0241648095" rpy="1.57079979 0.0486795924 3.14158591"/>
+      <geometry>
+        <sphere radius="0.0186"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_no_horn_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_no_horn_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="wrist_roll_pitch_so101_v2">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_pitch_so101_v2.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="-0.117770181 -0.207899625 0.0270000221" rpy="9.7764297e-08 -5.49158896e-08 -3.89292297e-06"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="-0.117770189 -0.209899627 0.0410000219" rpy="9.7764297e-08 -5.49158896e-08 -3.89292297e-06"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="-0.117770165 -0.203899625 0.0200000225" rpy="9.7764297e-08 -5.49158896e-08 -3.89292297e-06"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="-0.117770162 -0.202899626 0.0400000226" rpy="9.7764297e-08 -5.49158896e-08 -3.89292297e-06"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="-0.121770196 -0.211899609 0.0170000215" rpy="9.7764297e-08 -5.49158896e-08 -3.89292297e-06"/>
+      <geometry>
+        <sphere radius="0.0249"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="-0.117770161 -0.202899626 0.0300000226" rpy="9.7764297e-08 -5.49158896e-08 -3.89292297e-06"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="-0.117770072 -0.179899627 0.0420000248" rpy="9.7764297e-08 -5.49158896e-08 -3.89292297e-06"/>
+      <geometry>
+        <sphere radius="0.0229"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="-0.11377007 -0.179899638 -0.00399997495" rpy="9.7764297e-08 -5.49158896e-08 -3.89292297e-06"/>
+      <geometry>
+        <sphere radius="0.0221"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="-0.124770078 -0.181899595 -0.00399997575" rpy="9.7764297e-08 -5.49158896e-08 -3.89292297e-06"/>
+      <geometry>
+        <sphere radius="0.0221"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="-0.124770057 -0.175899599 0.0420000248" rpy="9.7764297e-08 -5.49158896e-08 -3.89292297e-06"/>
+      <geometry>
+        <sphere radius="0.0221"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="-0.11077012 -0.192899649 -0.00499997606" rpy="9.7764297e-08 -5.49158896e-08 -3.89292297e-06"/>
+      <geometry>
+        <sphere radius="0.0212"/>
+      </geometry>
+    </visual>
+    <visual name="under_arm_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/under_arm_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="motor_holder_so101_wrist_v1">
+      <geometry>
+        <mesh filename="./meshes/motor_holder_so101_wrist_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="-0.112570043 -0.0869996307 0.00600001596" rpy="-7.4161971e-10 5.99317961e-08 1.57079685"/>
+      <geometry>
+        <sphere radius="0.0318"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="-0.112570043 -0.0869996292 0.031000016" rpy="-7.4161971e-10 5.99317961e-08 1.57079685"/>
+      <geometry>
+        <sphere radius="0.0318"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="-0.114570053 -0.0679996323 -0.00199998518" rpy="-7.4161971e-10 5.99317961e-08 1.57079685"/>
+      <geometry>
+        <sphere radius="0.0295"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="-0.114570053 -0.0689996299 0.0380000149" rpy="-7.4161971e-10 5.99317961e-08 1.57079685"/>
+      <geometry>
+        <sphere radius="0.0295"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="-0.11157003 -0.111999628 0.0350000175" rpy="-7.4161971e-10 5.99317961e-08 1.57079685"/>
+      <geometry>
+        <sphere radius="0.0284"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="-0.10857003 -0.111999629 0.00100001746" rpy="-7.4161971e-10 5.99317961e-08 1.57079685"/>
+      <geometry>
+        <sphere radius="0.0284"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="-0.129570015 -0.14099964 -0.000999980816" rpy="-7.4161971e-10 5.99317961e-08 1.57079685"/>
+      <geometry>
+        <sphere radius="0.0238"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="-0.128570025 -0.12199964 -0.00199998195" rpy="-7.4161971e-10 5.99317961e-08 1.57079685"/>
+      <geometry>
+        <sphere radius="0.0238"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="-0.128570022 -0.12799964 -0.00199998159" rpy="-7.4161971e-10 5.99317961e-08 1.57079685"/>
+      <geometry>
+        <sphere radius="0.0238"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="-0.128570017 -0.137999637 0.040000019" rpy="-7.4161971e-10 5.99317961e-08 1.57079685"/>
+      <geometry>
+        <sphere radius="0.0232"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="-0.131570019 -0.133999639 0.0370000188" rpy="-7.4161971e-10 5.99317961e-08 1.57079685"/>
+      <geometry>
+        <sphere radius="0.0227"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_12">
+      <origin xyz="-0.117570015 -0.139999632 0.0230000191" rpy="-7.4161971e-10 5.99317961e-08 1.57079685"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_13">
+      <origin xyz="-0.118570005 -0.158999633 0.0190000203" rpy="-7.4161971e-10 5.99317961e-08 1.57079685"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_14">
+      <origin xyz="-0.117570014 -0.142999633 0.0150000193" rpy="-7.4161971e-10 5.99317961e-08 1.57079685"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_15">
+      <origin xyz="-0.116570004 -0.160999632 0.0150000204" rpy="-7.4161971e-10 5.99317961e-08 1.57079685"/>
+      <geometry>
+        <sphere radius="0.0309"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_16">
+      <origin xyz="-0.117570008 -0.153999632 0.02100002" rpy="-7.4161971e-10 5.99317961e-08 1.57079685"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_2.obj"/>
+      </geometry>
+    </visual>
+    <visual name="upper_arm_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/upper_arm_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="-0.113000049 -0.018999635 0.0210000079" rpy="-5.95997878e-08 5.96156404e-08 -3.21865071e-06"/>
+      <geometry>
+        <sphere radius="0.0269"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="-0.113000004 -0.00499963492 0.023000007" rpy="-5.95997878e-08 5.96156404e-08 -3.21865071e-06"/>
+      <geometry>
+        <sphere radius="0.0269"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="-0.111000072 -0.0259996418 0.0150000082" rpy="-5.95997878e-08 5.96156404e-08 -3.21865071e-06"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="-0.112000014 -0.00799963862 0.0150000072" rpy="-5.95997878e-08 5.96156404e-08 -3.21865071e-06"/>
+      <geometry>
+        <sphere radius="0.0269"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="-0.114000074 -0.0269996318 0.0220000084" rpy="-5.95997878e-08 5.96156404e-08 -3.21865071e-06"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="-0.0489999866 1.59918855e-07 0.0370000029" rpy="-5.95997878e-08 5.96156404e-08 -3.21865071e-06"/>
+      <geometry>
+        <sphere radius="0.0264"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="-0.0669999886 2.15887691e-07 0.00400000399" rpy="-5.95997878e-08 5.96156404e-08 -3.21865071e-06"/>
+      <geometry>
+        <sphere radius="0.0264"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="-0.0459999889 1.47938538e-07 -0.00199999726" rpy="-5.95997878e-08 5.96156404e-08 -3.21865071e-06"/>
+      <geometry>
+        <sphere radius="0.0264"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="-0.0659999868 2.14457031e-07 0.0340000039" rpy="-5.95997878e-08 5.96156404e-08 -3.21865071e-06"/>
+      <geometry>
+        <sphere radius="0.0264"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="-0.0889999855 0.00100028658 0.00200000525" rpy="-5.95997878e-08 5.96156404e-08 -3.21865071e-06"/>
+      <geometry>
+        <sphere radius="0.0234"/>
+      </geometry>
+    </visual>
+    <collision name="moving_jaw_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/moving_jaw_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_5.obj"/>
+      </geometry>
+    </collision>
+    <collision name="wrist_roll_follower_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_follower_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_no_horn_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_no_horn_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="wrist_roll_pitch_so101_v2">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_pitch_so101_v2_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="under_arm_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/under_arm_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="motor_holder_so101_wrist_v1">
+      <geometry>
+        <mesh filename="./meshes/motor_holder_so101_wrist_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_6.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_7.obj"/>
+      </geometry>
+    </collision>
+    <collision name="upper_arm_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/upper_arm_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="lower_arm_link">
+    <inertial>
+      <origin xyz="-0.0980700999 0.00324375997 0.0182831008" rpy="0 0 0"/>
+      <mass value="0.104000002"/>
+      <inertia ixx="2.87438e-05" ixy="7.41152e-06" ixz="1.26409e-06" iyy="0.000159844" iyz="-4.90188e-08" izz="0.00014529"/>
+    </inertial>
+    <visual name="moving_jaw_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/moving_jaw_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="-0.243399936 0.0230773364 0.0110219638" rpy="-3.14158568 0.048679638 1.57078918"/>
+      <geometry>
+        <sphere radius="0.0161"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="-0.238399826 0.0228570502 0.0270516354" rpy="-3.14158568 0.048679638 1.57078918"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="-0.252399928 0.0231260641 0.0120208419" rpy="-3.14158568 0.048679638 1.57078918"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="-0.246399855 0.0226624684 0.0230564296" rpy="-3.14158568 0.048679638 1.57078918"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="-0.238399884 0.0205674569 0.021156064" rpy="-3.14158568 0.048679638 1.57078918"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="-0.238399965 0.0219325023 0.00807414318" rpy="-3.14158568 0.048679638 1.57078918"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="-0.252399819 0.0286067452 0.0217656936" rpy="-3.14158568 0.048679638 1.57078918"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="-0.265399935 0.0211771911 0.0131170687" rpy="-3.14158568 0.048679638 1.57078918"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="-0.262399862 0.0226139278 0.0220577258" rpy="-3.14158568 0.048679638 1.57078918"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="-0.284399877 0.0225167716 0.0200602483" rpy="-3.14158568 0.048679638 1.57078918"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="-0.272399907 0.025172505 0.0129224758" rpy="-3.14158568 0.048679638 1.57078918"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="wrist_roll_follower_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_follower_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="-0.219999893 0.01609008 0.0155671871" rpy="1.57079973 0.0486796521 1.57078911"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="-0.219000001 0.00200933641 0.0142507989" rpy="1.57079973 0.0486796521 1.57078911"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="-0.217999812 0.0243725508 0.0211707891" rpy="1.57079973 0.0486796521 1.57078911"/>
+      <geometry>
+        <sphere radius="0.0249"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="-0.218999949 0.00539506598 0.0220953407" rpy="1.57079973 0.0486796521 1.57078911"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="-0.220999839 0.02403195 0.0141790917" rpy="1.57079973 0.0486796521 1.57078911"/>
+      <geometry>
+        <sphere radius="0.0249"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="-0.217999981 -0.000451852402 0.025383746" rpy="1.57079973 0.0486796521 1.57078911"/>
+      <geometry>
+        <sphere radius="0.0229"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="-0.22299979 0.0264675394 0.023071116" rpy="1.57079973 0.0486796521 1.57078911"/>
+      <geometry>
+        <sphere radius="0.0229"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="-0.213999821 0.0278811785 0.01098798" rpy="1.57079973 0.0486796521 1.57078911"/>
+      <geometry>
+        <sphere radius="0.0209"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="-0.209000104 -0.0174317803 0.0262109427" rpy="1.57079973 0.0486796521 1.57078911"/>
+      <geometry>
+        <sphere radius="0.0217"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="-0.231000175 -0.020159155 0.0113261076" rpy="1.57079973 0.0486796521 1.57078911"/>
+      <geometry>
+        <sphere radius="0.0217"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="-0.210000189 -0.0221569409 0.0114233571" rpy="1.57079973 0.0486796521 1.57078911"/>
+      <geometry>
+        <sphere radius="0.0212"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_12">
+      <origin xyz="-0.236000119 -0.0194292117 0.0263083552" rpy="1.57079973 0.0486796521 1.57078911"/>
+      <geometry>
+        <sphere radius="0.0202"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_13">
+      <origin xyz="-0.223000082 -0.0162382198 0.0301575913" rpy="1.57079973 0.0486796521 1.57078911"/>
+      <geometry>
+        <sphere radius="0.0202"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_14">
+      <origin xyz="-0.238000196 -0.024057044 0.0135184038" rpy="1.57079973 0.0486796521 1.57078911"/>
+      <geometry>
+        <sphere radius="0.0202"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_15">
+      <origin xyz="-0.229000155 -0.0235218457 0.0245053424" rpy="1.57079973 0.0486796521 1.57078911"/>
+      <geometry>
+        <sphere radius="0.0197"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_16">
+      <origin xyz="-0.249000104 -0.0165299903 0.0241647873" rpy="1.57079973 0.0486796521 1.57078911"/>
+      <geometry>
+        <sphere radius="0.0186"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_no_horn_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_no_horn_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="wrist_roll_pitch_so101_v2">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_pitch_so101_v2.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="-0.179899986 0.00520018633 0.0270000027" rpy="1.57365807e-07 -1.14532392e-07 -1.5708007"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="-0.181899988 0.00520019668 0.0410000024" rpy="1.57365807e-07 -1.14532392e-07 -1.5708007"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="-0.175899985 0.00520016805 0.0200000033" rpy="1.57365807e-07 -1.14532392e-07 -1.5708007"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="-0.174899988 0.00520016597 0.0400000035" rpy="1.57365807e-07 -1.14532392e-07 -1.5708007"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="-0.183899967 0.00920020267 0.0170000016" rpy="1.57365807e-07 -1.14532392e-07 -1.5708007"/>
+      <geometry>
+        <sphere radius="0.0249"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="-0.174899986 0.00520016483 0.0300000035" rpy="1.57365807e-07 -1.14532392e-07 -1.5708007"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="-0.151899988 0.0052000657 0.0420000071" rpy="1.57365807e-07 -1.14532392e-07 -1.5708007"/>
+      <geometry>
+        <sphere radius="0.0229"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="-0.151899998 0.00120006043 -0.00399999246" rpy="1.57365807e-07 -1.14532392e-07 -1.5708007"/>
+      <geometry>
+        <sphere radius="0.0221"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="-0.15389995 0.0122000692 -0.00399999403" rpy="1.57365807e-07 -1.14532392e-07 -1.5708007"/>
+      <geometry>
+        <sphere radius="0.0221"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="-0.147899958 0.0122000482 0.0420000069" rpy="1.57365807e-07 -1.14532392e-07 -1.5708007"/>
+      <geometry>
+        <sphere radius="0.0221"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="-0.164900011 -0.00179988288 -0.00499999416" rpy="1.57365807e-07 -1.14532392e-07 -1.5708007"/>
+      <geometry>
+        <sphere radius="0.0212"/>
+      </geometry>
+    </visual>
+    <visual name="under_arm_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/under_arm_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="motor_holder_so101_wrist_v1">
+      <geometry>
+        <mesh filename="./meshes/motor_holder_so101_wrist_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="-0.0589999925 -9.90037494e-09 0.00600000406" rpy="-6.18826032e-08 3.40725007e-10 4.88638544e-08"/>
+      <geometry>
+        <sphere radius="0.0318"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="-0.0589999925 -8.39144024e-09 0.0310000041" rpy="-6.18826032e-08 3.40725007e-10 4.88638544e-08"/>
+      <geometry>
+        <sphere radius="0.0318"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="-0.0399999926 0.00199999052 -0.00199999606" rpy="-6.18826032e-08 3.40725007e-10 4.88638544e-08"/>
+      <geometry>
+        <sphere radius="0.0295"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="-0.0409999926 0.00199999289 0.0380000039" rpy="-6.18826032e-08 3.40725007e-10 4.88638544e-08"/>
+      <geometry>
+        <sphere radius="0.0295"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="-0.0839999925 -0.00100000934 0.0350000041" rpy="-6.18826032e-08 3.40725007e-10 4.88638544e-08"/>
+      <geometry>
+        <sphere radius="0.0284"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="-0.0839999924 -0.00400001139 0.00100000431" rpy="-6.18826032e-08 3.40725007e-10 4.88638544e-08"/>
+      <geometry>
+        <sphere radius="0.0284"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="-0.112999993 0.0169999871 -0.000999996944" rpy="-6.18826032e-08 3.40725007e-10 4.88638544e-08"/>
+      <geometry>
+        <sphere radius="0.0238"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="-0.0939999933 0.0159999879 -0.00199999689" rpy="-6.18826032e-08 3.40725007e-10 4.88638544e-08"/>
+      <geometry>
+        <sphere radius="0.0238"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="-0.0999999933 0.0159999877 -0.00199999689" rpy="-6.18826032e-08 3.40725007e-10 4.88638544e-08"/>
+      <geometry>
+        <sphere radius="0.0238"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="-0.109999993 0.0159999897 0.0400000031" rpy="-6.18826032e-08 3.40725007e-10 4.88638544e-08"/>
+      <geometry>
+        <sphere radius="0.0232"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="-0.105999993 0.0189999897 0.0370000029" rpy="-6.18826032e-08 3.40725007e-10 4.88638544e-08"/>
+      <geometry>
+        <sphere radius="0.0227"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_12">
+      <origin xyz="-0.111999993 0.0049999886 0.0230000038" rpy="-6.18826032e-08 3.40725007e-10 4.88638544e-08"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_13">
+      <origin xyz="-0.130999993 0.00599998745 0.0190000037" rpy="-6.18826032e-08 3.40725007e-10 4.88638544e-08"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_14">
+      <origin xyz="-0.114999993 0.00499998797 0.0150000038" rpy="-6.18826032e-08 3.40725007e-10 4.88638544e-08"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_15">
+      <origin xyz="-0.132999993 0.00399998712 0.0150000038" rpy="-6.18826032e-08 3.40725007e-10 4.88638544e-08"/>
+      <geometry>
+        <sphere radius="0.0309"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_16">
+      <origin xyz="-0.125999993 0.00499998781 0.0210000038" rpy="-6.18826032e-08 3.40725007e-10 4.88638544e-08"/>
+      <geometry>
+        <sphere radius="0.0319"/>
+      </geometry>
+    </visual>
+    <collision name="moving_jaw_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/moving_jaw_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_5.obj"/>
+      </geometry>
+    </collision>
+    <collision name="wrist_roll_follower_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_follower_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_no_horn_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_no_horn_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="wrist_roll_pitch_so101_v2">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_pitch_so101_v2_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="under_arm_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/under_arm_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="motor_holder_so101_wrist_v1">
+      <geometry>
+        <mesh filename="./meshes/motor_holder_so101_wrist_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_6.obj"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="wrist_link">
+    <inertial>
+      <origin xyz="-0.000103311999 -0.0386142991 0.0281156003" rpy="0 0 0"/>
+      <mass value="0.0790000036"/>
+      <inertia ixx="3.68263e-05" ixy="1.7893e-08" ixz="-5.28128e-08" iyy="2.5391e-05" iyz="3.6412e-06" izz="2.1e-05"/>
+    </inertial>
+    <visual name="moving_jaw_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/moving_jaw_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="-0.0178769538 -0.108500004 0.011021961" rpy="-3.14158568 0.0486795777 3.14158915"/>
+      <geometry>
+        <sphere radius="0.0161"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="-0.0176566849 -0.103499894 0.0270516327" rpy="-3.14158568 0.0486795777 3.14158915"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="-0.0179256487 -0.117499997 0.0120208391" rpy="-3.14158568 0.0486795777 3.14158915"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="-0.0174620741 -0.111499922 0.0230564269" rpy="-3.14158568 0.0486795777 3.14158915"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="-0.015367092 -0.103499943 0.0211560611" rpy="-3.14158568 0.0486795777 3.14158915"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="-0.0167321381 -0.103500029 0.00807414038" rpy="-3.14158568 0.0486795777 3.14158915"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="-0.0234063291 -0.117499908 0.0217656912" rpy="-3.14158568 0.0486795777 3.14158915"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="-0.0159767282 -0.130499997 0.0131170658" rpy="-3.14158568 0.0486795777 3.14158915"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="-0.0174134752 -0.127499929 0.022057723" rpy="-3.14158568 0.0486795777 3.14158915"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="-0.0173162389 -0.149499944 0.0200602455" rpy="-3.14158568 0.0486795777 3.14158915"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="-0.0199720166 -0.137499983 0.0129224732" rpy="-3.14158568 0.0486795777 3.14158915"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="wrist_roll_follower_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_follower_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="-0.0108897825 -0.0850999359 0.0155671839" rpy="1.57079973 0.0486795917 3.14158908"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="0.00319095736 -0.084099993 0.0142507949" rpy="1.57079973 0.0486795917 3.14158908"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="-0.0191722603 -0.0830998859 0.0211707865" rpy="1.57079973 0.0486795917 3.14158908"/>
+      <geometry>
+        <sphere radius="0.0249"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="-0.000194771728 -0.0840999537 0.0220953369" rpy="1.57079973 0.0486795917 3.14158908"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="-0.0188316489 -0.0860999109 0.014179089" rpy="1.57079973 0.0486795917 3.14158908"/>
+      <geometry>
+        <sphere radius="0.0249"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="0.0056521432 -0.0830999644 0.0253837418" rpy="1.57079973 0.0486795917 3.14158908"/>
+      <geometry>
+        <sphere radius="0.0229"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="-0.0212672305 -0.0880998716 0.0230711135" rpy="1.57079973 0.0486795917 3.14158908"/>
+      <geometry>
+        <sphere radius="0.0229"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="-0.0226809032 -0.0790999073 0.0109879776" rpy="1.57079973 0.0486795917 3.14158908"/>
+      <geometry>
+        <sphere radius="0.0209"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="0.0226320384 -0.0741000251 0.0262109375" rpy="1.57079973 0.0486795917 3.14158908"/>
+      <geometry>
+        <sphere radius="0.0217"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="0.0253594924 -0.0961000858 0.0113261022" rpy="1.57079973 0.0486795917 3.14158908"/>
+      <geometry>
+        <sphere radius="0.0217"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="0.0273572017 -0.0751000929 0.0114233517" rpy="1.57079973 0.0486795917 3.14158908"/>
+      <geometry>
+        <sphere radius="0.0212"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_12">
+      <origin xyz="0.0246295682 -0.101100032 0.0263083499" rpy="1.57079973 0.0486795917 3.14158908"/>
+      <geometry>
+        <sphere radius="0.0202"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_13">
+      <origin xyz="0.0214385292 -0.0881000072 0.0301575862" rpy="1.57079973 0.0486795917 3.14158908"/>
+      <geometry>
+        <sphere radius="0.0202"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_14">
+      <origin xyz="0.029257407 -0.103100093 0.0135183982" rpy="1.57079973 0.0486795917 3.14158908"/>
+      <geometry>
+        <sphere radius="0.0202"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_15">
+      <origin xyz="0.0287221766 -0.0941000536 0.0245053369" rpy="1.57079973 0.0486795917 3.14158908"/>
+      <geometry>
+        <sphere radius="0.0197"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_16">
+      <origin xyz="0.0217303942 -0.114100029 0.0241647822" rpy="1.57079973 0.0486795917 3.14158908"/>
+      <geometry>
+        <sphere radius="0.0186"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_no_horn_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_no_horn_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="wrist_roll_pitch_so101_v2">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_pitch_so101_v2.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="-3.44187911e-08 -0.0449999894 0.0269999989" rpy="1.57668512e-07 -5.41649192e-08 -7.21873307e-07"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="-3.66212581e-08 -0.0469999916 0.0409999986" rpy="1.57668512e-07 -5.41649192e-08 -7.21873307e-07"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="-3.11515344e-08 -0.0409999883 0.0199999995" rpy="1.57668512e-07 -5.41649192e-08 -7.21873307e-07"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="-3.15130291e-08 -0.0399999914 0.0399999997" rpy="1.57668512e-07 -5.41649192e-08 -7.21873307e-07"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="-0.00400003677 -0.0489999849 0.016999998" rpy="1.57668512e-07 -5.41649192e-08 -7.21873307e-07"/>
+      <geometry>
+        <sphere radius="0.0249"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="-3.09712779e-08 -0.0399999898 0.0299999997" rpy="1.57668512e-07 -5.41649192e-08 -7.21873307e-07"/>
+      <geometry>
+        <sphere radius="0.0289"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="-1.50152022e-08 -0.0169999917 0.0420000033" rpy="1.57668512e-07 -5.41649192e-08 -7.21873307e-07"/>
+      <geometry>
+        <sphere radius="0.0229"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="0.00399998748 -0.0169999874 -0.00399999648" rpy="1.57668512e-07 -5.41649192e-08 -7.21873307e-07"/>
+      <geometry>
+        <sphere radius="0.0221"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="-0.00700001397 -0.0189999794 -0.00399999739" rpy="1.57668512e-07 -5.41649192e-08 -7.21873307e-07"/>
+      <geometry>
+        <sphere radius="0.0221"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="-0.00700001213 -0.0129999867 0.0420000036" rpy="1.57668512e-07 -5.41649192e-08 -7.21873307e-07"/>
+      <geometry>
+        <sphere radius="0.0221"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="0.00699997814 -0.0299999894 -0.00499999837" rpy="1.57668512e-07 -5.41649192e-08 -7.21873307e-07"/>
+      <geometry>
+        <sphere radius="0.0212"/>
+      </geometry>
+    </visual>
+    <collision name="moving_jaw_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/moving_jaw_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_5.obj"/>
+      </geometry>
+    </collision>
+    <collision name="wrist_roll_follower_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_follower_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_no_horn_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_no_horn_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="wrist_roll_pitch_so101_v2">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_pitch_so101_v2_1.obj"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="gripper_link">
+    <inertial>
+      <origin xyz="0.000213627005 0.000245138013 -0.0251870006" rpy="0 0 0"/>
+      <mass value="0.0869999975"/>
+      <inertia ixx="2.75087e-05" ixy="-3.35241e-07" ixz="-5.7352e-06" iyy="4.33657e-05" iyz="-5.17847e-08" izz="3.45059e-05"/>
+    </inertial>
+    <visual name="moving_jaw_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/moving_jaw_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="0.0181999903 -0.00619992778 -0.0474000568" rpy="1.57079983 -1.13673581e-07 -2.42200694e-08"/>
+      <geometry>
+        <sphere radius="0.0161"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="0.0171999901 0.00980005471 -0.0424000008" rpy="1.57079983 -1.13673581e-07 -2.42200694e-08"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="0.0181999913 -0.00519989621 -0.0564000533" rpy="1.57079983 -1.13673581e-07 -2.42200694e-08"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="0.0171999909 0.00580008277 -0.0504000148" rpy="1.57079983 -1.13673581e-07 -2.42200694e-08"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="0.0151999899 0.00380005476 -0.0424000221" rpy="1.57079983 -1.13673581e-07 -2.42200694e-08"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="0.0171999896 -0.00919994529 -0.0424000674" rpy="1.57079983 -1.13673581e-07 -2.42200694e-08"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="0.0231999916 0.00480010367 -0.0564000176" rpy="1.57079983 -1.13673581e-07 -2.42200694e-08"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="0.0161999928 -0.00419985057 -0.06940005" rpy="1.57079983 -1.13673581e-07 -2.42200694e-08"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="0.0171999927 0.00480013888 -0.0664000183" rpy="1.57079983 -1.13673581e-07 -2.42200694e-08"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="0.0171999951 0.00280021604 -0.0884000253" rpy="1.57079983 -1.13673581e-07 -2.42200694e-08"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="0.0201999936 -0.00419982612 -0.0764000496" rpy="1.57079983 -1.13673581e-07 -2.42200694e-08"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="wrist_roll_follower_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_follower_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="0.0110000031 -0.0020000021 -0.0239999792" rpy="-6.76331205e-08 -1.88932686e-07 -3.84003457e-08"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="-0.00299999712 -0.0040000015 -0.0229999817" rpy="-6.76331205e-08 -1.88932686e-07 -3.84003457e-08"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="0.019000003 0.00399999773 -0.0219999781" rpy="-6.76331205e-08 -1.88932686e-07 -3.84003457e-08"/>
+      <geometry>
+        <sphere radius="0.0249"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="3.1852915e-09 0.00399999839 -0.0229999816" rpy="-6.76331205e-08 -1.88932686e-07 -3.84003457e-08"/>
+      <geometry>
+        <sphere radius="0.0259"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="0.0190000033 -0.00300000248 -0.0249999776" rpy="-6.76331205e-08 -1.88932686e-07 -3.84003457e-08"/>
+      <geometry>
+        <sphere radius="0.0249"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="-0.00599999689 0.00699999868 -0.021999983" rpy="-6.76331205e-08 -1.88932686e-07 -3.84003457e-08"/>
+      <geometry>
+        <sphere radius="0.0229"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="0.021000004 0.00599999731 -0.0269999778" rpy="-6.76331205e-08 -1.88932686e-07 -3.84003457e-08"/>
+      <geometry>
+        <sphere radius="0.0229"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="0.0230000019 -0.00600000216 -0.0179999766" rpy="-6.76331205e-08 -1.88932686e-07 -3.84003457e-08"/>
+      <geometry>
+        <sphere radius="0.0209"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="-0.0229999986 0.00699999994 -0.0129999862" rpy="-6.76331205e-08 -1.88932686e-07 -3.84003457e-08"/>
+      <geometry>
+        <sphere radius="0.0217"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="-0.024999995 -0.00800000147 -0.0349999855" rpy="-6.76331205e-08 -1.88932686e-07 -3.84003457e-08"/>
+      <geometry>
+        <sphere radius="0.0217"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="-0.026999999 -0.00799999997 -0.0139999859" rpy="-6.76331205e-08 -1.88932686e-07 -3.84003457e-08"/>
+      <geometry>
+        <sphere radius="0.0212"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_12">
+      <origin xyz="-0.0249999935 0.0069999982 -0.0399999866" rpy="-6.76331205e-08 -1.88932686e-07 -3.84003457e-08"/>
+      <geometry>
+        <sphere radius="0.0202"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_13">
+      <origin xyz="-0.0219999958 0.010999999 -0.0269999863" rpy="-6.76331205e-08 -1.88932686e-07 -3.84003457e-08"/>
+      <geometry>
+        <sphere radius="0.0202"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_14">
+      <origin xyz="-0.0289999936 -0.00600000178 -0.0419999864" rpy="-6.76331205e-08 -1.88932686e-07 -3.84003457e-08"/>
+      <geometry>
+        <sphere radius="0.0202"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_15">
+      <origin xyz="-0.0289999949 0.00499999882 -0.0329999872" rpy="-6.76331205e-08 -1.88932686e-07 -3.84003457e-08"/>
+      <geometry>
+        <sphere radius="0.0197"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_16">
+      <origin xyz="-0.0219999911 0.00499999721 -0.0529999859" rpy="-6.76331205e-08 -1.88932686e-07 -3.84003457e-08"/>
+      <geometry>
+        <sphere radius="0.0186"/>
+      </geometry>
+    </visual>
+    <collision name="moving_jaw_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/moving_jaw_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+    <collision name="sts3215_03a_v1">
+      <geometry>
+        <mesh filename="./meshes/sts3215_03a_v1_5.obj"/>
+      </geometry>
+    </collision>
+    <collision name="wrist_roll_follower_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/wrist_roll_follower_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="gripper_frame_link">
+    <inertial>
+      <mass value="9.99999972e-10"/>
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+    </inertial>
+  </link>
+  <link name="moving_jaw_so101_v1_link">
+    <inertial>
+      <origin xyz="-0.00157494994 -0.0300244 0.0192754995" rpy="0 0 0"/>
+      <mass value="0.0120000001"/>
+      <inertia ixx="6.61427e-06" ixy="-3.19807e-07" ixz="-5.90717e-09" iyy="1.89032e-06" iyz="-1.09945e-07" izz="5.28738e-06"/>
+    </inertial>
+    <visual name="moving_jaw_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/moving_jaw_so101_v1.obj"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_1">
+      <origin xyz="-0.0020000176 -0.0239999874 0.0250000122" rpy="-1.1943086e-07 1.38740973e-08 -1.25466511e-07"/>
+      <geometry>
+        <sphere radius="0.0161"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_2">
+      <origin xyz="-0.00300001719 -0.0189999892 0.00900001165" rpy="-1.1943086e-07 1.38740973e-08 -1.25466511e-07"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_3">
+      <origin xyz="-0.00200001876 -0.0329999875 0.0240000133" rpy="-1.1943086e-07 1.38740973e-08 -1.25466511e-07"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_4">
+      <origin xyz="-0.00300001815 -0.0269999887 0.0130000126" rpy="-1.1943086e-07 1.38740973e-08 -1.25466511e-07"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_5">
+      <origin xyz="-0.0050000171 -0.0189999882 0.0150000117" rpy="-1.1943086e-07 1.38740973e-08 -1.25466511e-07"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_6">
+      <origin xyz="-0.00300001692 -0.0189999869 0.0280000117" rpy="-1.1943086e-07 1.38740973e-08 -1.25466511e-07"/>
+      <geometry>
+        <sphere radius="0.0153"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_7">
+      <origin xyz="0.0029999811 -0.0329999894 0.0140000133" rpy="-1.1943086e-07 1.38740973e-08 -1.25466511e-07"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_8">
+      <origin xyz="-0.00400002042 -0.0459999874 0.0230000149" rpy="-1.1943086e-07 1.38740973e-08 -1.25466511e-07"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_9">
+      <origin xyz="-0.00300002017 -0.0429999886 0.0140000146" rpy="-1.1943086e-07 1.38740973e-08 -1.25466511e-07"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_10">
+      <origin xyz="-0.00300002293 -0.0649999884 0.0160000172" rpy="-1.1943086e-07 1.38740973e-08 -1.25466511e-07"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <visual name="collision_sphere_11">
+      <origin xyz="-2.1311117e-08 -0.0529999879 0.0230000157" rpy="-1.1943086e-07 1.38740973e-08 -1.25466511e-07"/>
+      <geometry>
+        <sphere radius="0.0144"/>
+      </geometry>
+    </visual>
+    <collision name="moving_jaw_so101_v1">
+      <geometry>
+        <mesh filename="./meshes/moving_jaw_so101_v1_1.obj"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="shoulder_pan" type="revolute">
+    <origin xyz="0.0388352983 -8.97656971e-09 0.0623999983" rpy="3.14159 0 -3.14159"/>
+    <parent link="base_link"/>
+    <child link="shoulder_link"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.91986005" upper="1.91986005" effort="10" velocity="10.0000005"/>
+    <dynamics friction="0"/>
+    <!-- isaac:source_drive {"armature": 0.0, "drive": {"damping": 3.0, "max_force": 10.0, "stiffness": 40.0, "target_position": 0.0}, "instance": "angular", "source": "physx"} -->
+  </joint>
+  <joint name="shoulder_lift" type="revolute">
+    <origin xyz="-0.0303992047 -0.0182778025 -0.0541999961" rpy="1.55943335 -1.5707927 -3.13023346"/>
+    <parent link="shoulder_link"/>
+    <child link="upper_arm_link"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.74532925" upper="1.74532925" effort="10" velocity="10.0000005"/>
+    <dynamics friction="0"/>
+    <!-- isaac:source_drive {"armature": 0.0, "drive": {"damping": 5.0, "max_force": 10.0, "stiffness": 60.0, "target_position": 0.0}, "instance": "angular", "source": "physx"} -->
+  </joint>
+  <joint name="elbow_flex" type="revolute">
+    <origin xyz="-0.112570082 -0.0279996385 8.37971366e-09" rpy="5.9615765e-08 5.95994718e-08 1.5707968"/>
+    <parent link="upper_arm_link"/>
+    <child link="lower_arm_link"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.68999995" upper="1.68999995" effort="10" velocity="10.0000005"/>
+    <dynamics friction="0"/>
+    <!-- isaac:source_drive {"armature": 0.0, "drive": {"damping": 4.0, "max_force": 10.0, "stiffness": 45.0, "target_position": 0.0}, "instance": "angular", "source": "physx"} -->
+  </joint>
+  <joint name="wrist_flex" type="revolute">
+    <origin xyz="-0.134899996 0.00519998613 3.7753994e-09" rpy="-3.32104733e-10 -6.03573882e-08 -1.57079997"/>
+    <parent link="lower_arm_link"/>
+    <child link="wrist_link"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.65805999" upper="1.65805999" effort="10" velocity="10.0000005"/>
+    <dynamics friction="0"/>
+    <!-- isaac:source_drive {"armature": 0.0, "drive": {"damping": 2.0, "max_force": 10.0, "stiffness": 25.0, "target_position": 0.0}, "instance": "angular", "source": "physx"} -->
+  </joint>
+  <joint name="wrist_roll" type="revolute">
+    <origin xyz="-4.55609555e-08 -0.0610999866 0.0180999973" rpy="1.5707998 0.0486795534 3.14158927"/>
+    <parent link="wrist_link"/>
+    <child link="gripper_link"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-2.74385008" upper="2.84120992" effort="10" velocity="10.0000005"/>
+    <dynamics friction="0"/>
+    <!-- isaac:source_drive {"armature": 0.0, "drive": {"damping": 1.5, "max_force": 10.0, "stiffness": 20.0, "target_position": 0.0}, "instance": "angular", "source": "physx"} -->
+  </joint>
+  <joint name="gripper_frame_joint" type="fixed">
+    <origin xyz="-0.00789998245 -0.000218127375 -0.0981273852" rpy="-3.14159259 2.84187371e-06 3.14159262"/>
+    <parent link="gripper_link"/>
+    <child link="gripper_frame_link"/>
+  </joint>
+  <joint name="gripper" type="revolute">
+    <origin xyz="0.020200003 0.0187999973 -0.0233999782" rpy="1.57079995 -2.40712397e-07 -3.82684987e-08"/>
+    <parent link="gripper_link"/>
+    <child link="moving_jaw_so101_v1_link"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-0.174532992" upper="1.74533005" effort="10" velocity="10.0000005"/>
+    <dynamics friction="0"/>
+    <!-- isaac:source_drive {"armature": 0.0, "drive": {"damping": 1.0, "max_force": 10.0, "stiffness": 15.0, "target_position": 0.0}, "instance": "angular", "source": "physx"} -->
+  </joint>
+</robot>
