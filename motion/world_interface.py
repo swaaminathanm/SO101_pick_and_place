@@ -76,7 +76,8 @@ class SO101WorldInterface:
             )
 
         # Instantiate CumotionWorldInterface and bind to tracked prims
-        self._world_interface = CumotionWorldInterface(debug_visualizer=KitCumotionDebugVisualizer())
+        # self._world_interface = CumotionWorldInterface(debug_visualizer=KitCumotionDebugVisualizer())
+        self._world_interface = CumotionWorldInterface()
         self._world_binding = mg.WorldBinding(
             world_interface=self._world_interface,
             obstacle_strategy=obstacle_strategy,

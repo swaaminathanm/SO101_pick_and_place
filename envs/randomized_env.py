@@ -10,19 +10,20 @@ from isaacsim.core.utils.viewports import set_camera_view
 from pxr import UsdPhysics, UsdGeom
 from isaacsim.sensors.experimental.physics import Contact, ContactSensor
 from envs.env_protocol import SO101EnvProtocol
-
-# ==================== PRIM PATH CONSTANTS ====================
-ROBOT_PRIM_PATH = "/World/so101"
-ROBOT_ARTICULATION_PATH = "/World/so101/Geometry/base_link"
-
-TABLE_PRIM_PATH = "/World/Table"
-BIN_PRIM_PATH = "/World/Bin"
-RED_BRICK_PRIM_PATH = "/World/Legos/LegoBrick_Red"
-BLUE_BRICK_PRIM_PATH = "/World/Legos/LegoBrick_Blue"
-
-GROUND_PLANE_PRIM_PATH = "/World/GroundPlane"
-DOME_LIGHT_PRIM_PATH = "/World/DomeLight"
-# ==============================================================
+from cameras import SO101CameraRig
+from envs.constants import (
+    ROBOT_PRIM_PATH,
+    ROBOT_ARTICULATION_PATH,
+    TABLE_PRIM_PATH,
+    BIN_PRIM_PATH,
+    RED_BRICK_PRIM_PATH,
+    BLUE_BRICK_PRIM_PATH,
+    GROUND_PLANE_PRIM_PATH,
+    DOME_LIGHT_PRIM_PATH,
+    TABLE_HEIGHT,
+    TABLE_LENGTH,
+    TABLE_WIDTH,
+)
 
 # ==================== ASSET & WORKSPACE CONFIGURATION ====================
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -31,10 +32,6 @@ PROJECT_ROOT = os.path.dirname(CURRENT_DIR)
 # Path to assembled SO-101 USD
 ROBOT_USD_PATH = os.path.join(PROJECT_ROOT, "assets", "so101_new_calib", "so101_new_calib.usda")
 ROBOT_BASE_OFFSET_Z = 0.016
-
-TABLE_HEIGHT = 0.08
-TABLE_LENGTH = 0.40 
-TABLE_WIDTH = 0.30 
 
 # Lego brick assets
 LEGO_RED_USD_PATH = os.path.join(PROJECT_ROOT, "assets", "lego_brick_red.usd")
@@ -62,9 +59,25 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
     Randomized pick-and-place environment for the SO-101 manipulator
     and a single red Lego brick with domain randomization (brick pose, bin pose, lighting).
     """
-    def __init__(self, simulation_app=None, world_interface=None):
+    TABLE_HEIGHT: float = TABLE_HEIGHT
+    TABLE_LENGTH: float = TABLE_LENGTH
+    TABLE_WIDTH: float = TABLE_WIDTH
+
+    def __init__(
+        self,
+        simulation_app=None,
+        world_interface=None,
+        enable_cameras: bool = True,
+        camera_resolution: tuple[int, int] = (1280, 720),
+    ):
         self.simulation_app = simulation_app
         self.world_interface = world_interface
+        self.enable_cameras = enable_cameras
+        self.camera_resolution = camera_resolution
+
+        self._camera_rig: SO101CameraRig | None = None
+        if self.enable_cameras:
+            self._camera_rig = SO101CameraRig(resolution=self.camera_resolution)
 
         # Prim paths bound from constants
         self._ROBOT_PRIM_PATH = ROBOT_PRIM_PATH
@@ -82,6 +95,11 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
         self.bin_xform: XformPrim | None = None
         self.red_contact = None
         self._episode_id: int = 0
+
+    @property
+    def camera_rig(self) -> SO101CameraRig | None:
+        """Handle to the camera rig."""
+        return self._camera_rig
 
     @property
     def lego_prims(self) -> list[RigidPrim]:
@@ -103,6 +121,15 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
         return self._articulation
 
     @property
+    def bin_prim(self) -> RigidPrim | None:
+        """Handle to the bin RigidPrim to query world poses."""
+        return self.bin_obj
+
+    @bin_prim.setter
+    def bin_prim(self, value: RigidPrim | None) -> None:
+        self.bin_obj = value
+
+    @property
     def brick_center_offset(self) -> np.ndarray:
         """Scaled Lego brick centroid offset from top-left origin (scale 0.25)."""
         return np.array([0.0197, 0.0397, 0.0145], dtype=np.float32)
@@ -119,10 +146,7 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
 
     def update(self):
         """Helper to step Isaac Sim application updates."""
-        if self.simulation_app is not None:
-            self.simulation_app.update()
-        else:
-            app_utils.update()
+        self.simulation_app.update()
 
     def spawn_lego_brick(self, prim_path: str, usd_path: str, initial_pos: list[float]):
         """Spawns and registers a physics-enabled Lego brick directly at prim_path."""
@@ -303,7 +327,14 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
         )
         self.red_contact = ContactSensor(self.red_contact_authoring)
         
-        # Position camera view
+        # Setup Camera Rig if enabled
+        if self._camera_rig is not None:
+            self._camera_rig.setup_cameras(
+                robot_prim_path=self._ROBOT_PRIM_PATH,
+                robot_articulation_path=self._ARTICULATION_PATH,
+            )
+
+        # Position viewport camera view
         set_camera_view(
             eye=[0.8, 0.8, 0.6], 
             target=[0.20, 0.0, 0.0], 
@@ -311,7 +342,7 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
         )
     
     def initialize_after_play(self):
-        """Initializes joint positions and contact sensors after simulation play."""
+        """Initializes joint positions, contact sensors, and cameras after simulation play."""
         dof_count = self._articulation.num_dofs
         init_pos = [0.0] * dof_count
         self._articulation.set_dof_positions(init_pos)
@@ -324,6 +355,28 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
         if self.world_interface is not None:
             robot_pos, robot_ori = self._articulation.get_world_poses()
             self.world_interface.initialize(robot_pos, robot_ori)
+
+        # Initialize Camera Rig annotators
+        if self._camera_rig is not None:
+            self._camera_rig.initialize()
+
+    def get_observations(self) -> dict:
+        """
+        Retrieves synchronized multimodal observations:
+          - 'joint_positions': np.ndarray of current robot joint angles
+          - 'joint_velocities': np.ndarray of current robot joint velocities
+          - 'overhead_rgb', 'overhead_depth'
+          - 'wrist_rgb', 'wrist_depth'
+        """
+        obs = {}
+        if self._articulation is not None:
+            d_pos = self._articulation.get_dof_positions()
+            d_vel = self._articulation.get_dof_velocities()
+            obs["joint_positions"] = d_pos.numpy() if hasattr(d_pos, "numpy") else np.asarray(d_pos)
+            obs["joint_velocities"] = d_vel.numpy() if hasattr(d_vel, "numpy") else np.asarray(d_vel)
+        if self._camera_rig is not None:
+            obs.update(self._camera_rig.get_observations())
+        return obs
         
     def _check_collision(self, sensor, target_keywords):
         data = sensor.get_data()
@@ -392,12 +445,9 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
             angular_velocities=[[0.0, 0.0, 0.0]],
         )
 
-        self.update()
-        
-        red_hit = self._check_collision(self.red_contact, ["Bin"])
-
-        if red_hit:
-            print(f"  [Episode {self._episode_id}] [CONTACT SENSOR ALERT] Red brick collision with Bin detected! Defaulting to safe position...")
+        dist_to_bin = float(np.linalg.norm(brick_pos[:2] - bin_pos[:2]))
+        if dist_to_bin < 0.10:
+            print(f"  [Episode {self._episode_id}] [COLLISION WARNING] Red brick too close to Bin ({dist_to_bin:.3f}m)! Defaulting to safe position...")
             self.lego_prims[0].set_world_poses(
                 positions=[default_pos],
                 orientations=[[1.0, 0.0, 0.0, 0.0]]
@@ -406,11 +456,13 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
                 linear_velocities=[[0.0, 0.0, 0.0]],
                 angular_velocities=[[0.0, 0.0, 0.0]],
             )
-            self.update()
         
         # Reset Robot Arm joints to home with slight noise (+- 2 degrees)
         dof_count = self._articulation.num_dofs
         noisy_pose = [random.uniform(-0.035, 0.035) for _ in range(dof_count)]
+        if dof_count > 5:
+            # Keep gripper fully open on reset (+100 deg = 1.7453 rad)
+            noisy_pose[5] = 1.7453
         self._articulation.set_dof_positions(noisy_pose)
         self._articulation.set_dof_position_targets(noisy_pose)
         self._articulation.set_dof_velocities([0.0] * dof_count)

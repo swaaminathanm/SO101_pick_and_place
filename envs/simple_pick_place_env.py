@@ -100,6 +100,13 @@ class SimpleSO101Env(RandomizedSO101Env):
             color="#CC2222",
         )
 
+        # Setup Camera Rig if enabled
+        if self._camera_rig is not None:
+            self._camera_rig.setup_cameras(
+                robot_prim_path=self._ROBOT_PRIM_PATH,
+                robot_articulation_path=self._ARTICULATION_PATH,
+            )
+
         # Position camera view
         set_camera_view(
             eye=[0.8, 0.8, 0.6],
@@ -118,6 +125,10 @@ class SimpleSO101Env(RandomizedSO101Env):
         if self.world_interface is not None:
             robot_pos, robot_ori = self._articulation.get_world_poses()
             self.world_interface.initialize(robot_pos, robot_ori)
+
+        # Initialize Camera Rig annotators
+        if self._camera_rig is not None:
+            self._camera_rig.initialize()
 
     def reset_domain(self, episode_id: int | None = None):
         """Deterministic reset for 1 cube and bin (fixed poses, no randomizations)."""

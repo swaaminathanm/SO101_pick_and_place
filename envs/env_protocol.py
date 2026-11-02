@@ -29,6 +29,11 @@ class SO101EnvProtocol(Protocol):
         ...
 
     @property
+    def bin_prim(self) -> RigidPrim | None:
+        """Handle to the bin RigidPrim to query world poses."""
+        ...
+
+    @property
     def lego_prims(self) -> list[RigidPrim]:
         """List of target objects (e.g. Lego bricks or cubes) in the environment."""
         ...
@@ -46,6 +51,15 @@ class SO101EnvProtocol(Protocol):
     @property
     def closed_pos(self) -> float:
         """Target gripper joint angle for grasping the object."""
+        ...
+
+    @property
+    def camera_rig(self) -> Any | None:
+        """Handle to the camera rig if enabled."""
+        ...
+
+    def get_observations(self) -> dict[str, Any]:
+        """Returns multimodal observations (proprioception + camera frames)."""
         ...
 
     def setup_scene(self) -> None:

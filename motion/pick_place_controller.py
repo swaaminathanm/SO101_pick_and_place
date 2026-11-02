@@ -28,6 +28,9 @@ class PickPlacePhase(IntEnum):
       - GRASP (4): Closes the gripper jaw firmly onto the brick.
       - MOVE_UP (5): Lifts the grasped object vertically above the table.
       - HOLD (6): Holds the grasped object steady in the air (dummy step).
+      - MOVE_TO_BIN (7): Navigates smoothly to hover above the bin center.
+      - DROP (8): Opens the gripper jaw to release the brick into the bin.
+      - RETRACT_HOME (9): Returns the robot arm to its default home posture [0, 0, 0, 0, 0].
     """
     ORIENT_DOWNWARD = 1
     PRE_GRASP_HOVER = 2
@@ -35,6 +38,9 @@ class PickPlacePhase(IntEnum):
     GRASP = 4
     MOVE_UP = 5
     HOLD = 6
+    MOVE_TO_BIN = 7
+    DROP = 8
+    RETRACT_HOME = 9
 
 
 # Scaled Lego brick centroid offset from top-left origin (at scale 0.25)
@@ -108,6 +114,9 @@ class SO101PickPlaceController:
             PickPlacePhase.GRASP: False,
             PickPlacePhase.MOVE_UP: False,
             PickPlacePhase.HOLD: False,
+            PickPlacePhase.MOVE_TO_BIN: False,
+            PickPlacePhase.DROP: False,
+            PickPlacePhase.RETRACT_HOME: False,
         }
         self._episode_id: int = 0
         self._initial_brick_z: float | None = None
@@ -126,8 +135,8 @@ class SO101PickPlaceController:
 
     @property
     def is_converged(self) -> bool:
-        """Returns True if the move up phase has reached convergence."""
-        return self.is_phase_converged(PickPlacePhase.MOVE_UP)
+        """Returns True if the final phase (PickPlacePhase.RETRACT_HOME) has converged, indicating the pick-and-place task is complete."""
+        return self.is_phase_converged(PickPlacePhase.RETRACT_HOME)
 
     def is_phase_converged(self, phase: PickPlacePhase) -> bool:
         """Returns True if the specified phase has converged."""
@@ -206,10 +215,14 @@ class SO101PickPlaceController:
             PickPlacePhase.GRASP: False,
             PickPlacePhase.MOVE_UP: False,
             PickPlacePhase.HOLD: False,
+            PickPlacePhase.MOVE_TO_BIN: False,
+            PickPlacePhase.DROP: False,
+            PickPlacePhase.RETRACT_HOME: False,
         }
         self._initial_brick_z = None
         self._grasp_lift_target = None
         self._grasp_q_target = None
+        self._set_gripper(self._OPEN_POS)
 
     def compute_brick_yaw(self, brick_ori: np.ndarray) -> float:
         """
@@ -575,7 +588,7 @@ class SO101PickPlaceController:
                 print(f"    Joint positions: {np.round(curr_arm, 3)} (joint error: {joint_err:.4f} rad)")
                 print(f"    Brick Delta Z:   +{delta_brick_z * 100.0:.2f} cm (from {self._initial_brick_z:.4f} to {float(brick_pos[2]):.4f})")
                 print(f"    >>> Transitioning to Phase: {PickPlacePhase.HOLD.name} (Holding object in air)...\n")
-                self._phase = PickPlacePhase.HOLD
+                self._phase = PickPlacePhase.MOVE_TO_BIN
                 self._step = 0
                 self._t = 0.0
             elif self._step % 20 == 0 and not self.is_phase_converged(PickPlacePhase.MOVE_UP):
@@ -589,7 +602,120 @@ class SO101PickPlaceController:
         self._set_gripper(self._closed_pos)
         self._step += 1
 
-    def step(self, brick_pos: np.ndarray, brick_ori: np.ndarray) -> None:
+    def _step_move_to_bin(self, bin_pos):
+        """
+        Phase MOVE_TO_BIN (7):
+        Moves the grasped object to the bin position using cuMotion RMPflow.
+        """
+
+        if self._grasp_q_target is None:
+            raise RuntimeError("[SO101PickPlaceController] Cannot move to bin: grasp orientation target is None.")
+
+        target_pos = np.copy(bin_pos).flatten()[:3]
+        target_pos[2] += 0.20
+        setpoint = self._make_setpoint(target_pos, self._grasp_q_target)
+
+        if self._step == 0:
+            print(f"==================== [Episode {self._episode_id} | Phase: {self._phase.name}] ====================")
+            print(f"  Target:            Red Object")
+            print(f"  Bin Position:      [{bin_pos[0]:.4f}, {bin_pos[1]:.4f}, {bin_pos[2]:.4f}]")
+            print(f"  Gripper Jaw State: CLOSED ({np.degrees(self._closed_pos):.1f} deg)")
+            print(f"========================================================================================\n")
+            if not self._controller.reset(self._estimated_state(), setpoint, t=0.0):
+                raise RuntimeError("[SO101PickPlaceController] RmpFlowController reset failed.")
+            self._t = 0.0
+
+        # Keep gripper firmly closed around the object
+        self._set_gripper(self._closed_pos)
+
+        desired = self._controller.forward(self._estimated_state(), setpoint, self._t)
+        des_pos = None
+        if desired is not None and desired.joints.positions is not None:
+            des_pos = np.asarray(desired.joints.positions)
+            self._articulation.set_dof_position_targets(
+                positions=desired.joints.positions,
+                dof_indices=desired.joints.position_indices,
+            )
+
+        self._t += self._PHYSICS_DT
+        self._step += 1
+
+        if des_pos is not None:
+            joint_err = self.get_joint_error(des_pos)
+            curr_arm = self.get_arm_positions()
+
+            if self._step >= 30 and joint_err < self._JOINT_CONVERGE_THRESH and not self.is_phase_converged(PickPlacePhase.MOVE_TO_BIN):
+                self._phase_converged[PickPlacePhase.MOVE_TO_BIN] = True
+                print(f">>> [Episode {self._episode_id} | {self._phase.name} CONVERGED at Step {self._step}!] Object moved to bin successfully!")
+                print(f"    Joint positions: {np.round(curr_arm, 3)} (joint error: {joint_err:.4f} rad)")
+                print(f"    >>> Task complete!\n")
+                self._phase = PickPlacePhase.DROP  # Optionally transition to HOLD or another phase
+                self._step = 0
+                self._t = 0.0
+            elif self._step % 20 == 0 and not self.is_phase_converged(PickPlacePhase.MOVE_TO_BIN):
+                print(f"  [Episode {self._episode_id} | {self._phase.name} Step {self._step:2d}] Moving to bin... Joint error: {joint_err:.3f} rad | Arm: {np.round(curr_arm, 2)}")
+
+    def _step_drop(self) -> None:
+        """
+        Phase DROP (8):
+        Opens the gripper to release the object into the bin.
+        """
+        if self._step == 0:
+            print(f"==================== [Episode {self._episode_id} | Phase: {self._phase.name}] ====================")
+            print(f"  Target:            Red Object")
+            print(f"  Gripper Jaw State: OPEN (+100.0 deg)")
+            print(f"========================================================================================\n")
+
+        # Open gripper to release object
+        self._set_gripper(self._OPEN_POS)
+
+        self._step += 1
+
+        if self._step >= 25 and not self.is_phase_converged(PickPlacePhase.DROP):
+            self._phase_converged[PickPlacePhase.DROP] = True
+            print(f">>> [Episode {self._episode_id} | {self._phase.name} CONVERGED at Step {self._step}!] Object released successfully!")
+            print(f"    >>> Transitioning to Phase: {PickPlacePhase.RETRACT_HOME.name} (Retracting to default home posture)...\n")
+            self._phase = PickPlacePhase.RETRACT_HOME
+            self._step = 0
+            self._t = 0.0
+        elif self._step % 10 == 0 and not self.is_phase_converged(PickPlacePhase.DROP):
+            print(f"  [Episode {self._episode_id} | {self._phase.name} Step {self._step:2d}] Releasing object... Arm: {np.round(self.get_arm_positions(), 2)}")
+
+    def _step_retract_home(self) -> None:
+        """
+        Phase RETRACT_HOME (9):
+        Retracts the robot arm back to its default home posture [0, 0, 0, 0, 0] in joint space.
+        """
+        home_joints = np.array([0.0, 0.0, 0.0, 0.0, 0.0], dtype=np.float32)
+
+        if self._step == 0:
+            print(f"==================== [Episode {self._episode_id} | Phase: {self._phase.name}] ====================")
+            print(f"  Target Posture:    {home_joints.tolist()} (Home Posture)")
+            print(f"  Gripper State:     OPEN (+100.0 deg)")
+            print(f"========================================================================================\n")
+
+        self._articulation.set_dof_position_targets(
+            wp.array(home_joints, dtype=wp.float32),
+            dof_indices=[0, 1, 2, 3, 4],
+        )
+
+        self._t += self._PHYSICS_DT
+        self._step += 1
+
+        joint_err = self.get_joint_error(home_joints)
+        curr_arm = self.get_arm_positions()
+
+        if self._step >= 30 and joint_err < self._JOINT_CONVERGE_THRESH and not self.is_phase_converged(PickPlacePhase.RETRACT_HOME):
+            self._phase_converged[PickPlacePhase.RETRACT_HOME] = True
+            print(f">>> [Episode {self._episode_id} | {self._phase.name} CONVERGED at Step {self._step}!] Arm returned to default home posture!")
+            print(f"    Joint positions: {np.round(curr_arm, 3)} (joint error: {joint_err:.4f} rad)")
+            print(f"    >>> Pick-and-place cycle complete!\n")
+            self._step = 0
+            self._t = 0.0
+        elif self._step % 10 == 0 and not self.is_phase_converged(PickPlacePhase.RETRACT_HOME):
+            print(f"  [Episode {self._episode_id} | {self._phase.name} Step {self._step:2d}] Retracting home... Joint error: {joint_err:.3f} rad | Arm: {np.round(curr_arm, 2)}")
+
+    def step(self, brick_pos: np.ndarray, brick_ori: np.ndarray, bin_pos: np.ndarray | None = None) -> None:
         """
         Executes the current pick-and-place phase:
           PickPlacePhase.ORIENT_DOWNWARD: Orients gripper downward from default posture [0, 0, 0, 1.5708, folded_yaw].
@@ -598,15 +724,20 @@ class SO101PickPlaceController:
           PickPlacePhase.GRASP: Closes the gripper jaw firmly onto the brick.
           PickPlacePhase.MOVE_UP: Lifts the grasped object vertically into the air.
           PickPlacePhase.HOLD: Dummy step holding the object steady.
+          PickPlacePhase.MOVE_TO_BIN: Navigates smoothly to hover above the bin center.
+          PickPlacePhase.DROP: Opens gripper jaw to release the brick.
+          PickPlacePhase.RETRACT_HOME: Retracts arm back to default home posture.
         """
         if not self._is_initialized:
             return
 
-        # Keep gripper fully open during Approach, Hover, and Descent phases
+        # Keep gripper fully open during Approach, Hover, Descent, Drop, and Retract phases
         if self._phase in (
             PickPlacePhase.ORIENT_DOWNWARD,
             PickPlacePhase.PRE_GRASP_HOVER,
             PickPlacePhase.DESCEND_TO_GRASP,
+            PickPlacePhase.DROP,
+            PickPlacePhase.RETRACT_HOME,
         ):
             self._set_gripper(self._OPEN_POS)
 
@@ -622,4 +753,10 @@ class SO101PickPlaceController:
             self._step_move_up(brick_pos, brick_ori)
         elif self._phase == PickPlacePhase.HOLD:
             self._step_hold()
+        elif self._phase == PickPlacePhase.MOVE_TO_BIN:
+            self._step_move_to_bin(bin_pos)
+        elif self._phase == PickPlacePhase.DROP:
+            self._step_drop()
+        elif self._phase == PickPlacePhase.RETRACT_HOME:
+            self._step_retract_home()
 
