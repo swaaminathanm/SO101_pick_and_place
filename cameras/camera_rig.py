@@ -53,13 +53,27 @@ def compute_overhead_camera_pose(
 
     return pos, quat, euler_deg
 
+def compute_wrist_camera_pose() -> Tuple[np.ndarray, np.ndarray]:
+    """     
+Computes the local pose of the wrist camera relative to the gripper link.
+
+    Args:
+        translation: np.ndarray shape (3,) -> [x, y, z] in meters
+        rotation: np.ndarray shape (4,) -> quaternion [w, x, y, z]
+
+    Returns:
+        translation: np.ndarray shape (3,)
+        rotation: np.ndarray shape (4,)
+    """
+    translation = np.array([0.0, -0.05, 0.03], dtype=np.float32)  # Applied on wrist_roll_follower_so101_v1
+    rot = Rotation.from_euler("xyz", [150.0, 0.0, 0.0], degrees=True)
+    rotation = rot.as_quat(scalar_first=True).astype(np.float32)
+    return translation, rotation
+
 
 # ==================== FIXED CAMERA POSES ====================
 OVERHEAD_CAM_POS, OVERHEAD_CAM_QUAT, OVERHEAD_CAM_EULER = compute_overhead_camera_pose()
-
-# Wrist Camera (Eye-in-Hand): Mounted on gripper_link looking at jaw tips
-WRIST_CAM_TRANS = np.array([-0.01, 0.0, -0.015], dtype=np.float32)
-WRIST_CAM_QUAT = np.array([1.0, 0.0, 0.0, 0.0], dtype=np.float32)  # [w, x, y, z] (aligned with tool frame)
+WRIST_CAM_POS, WRIST_CAM_QUAT = compute_wrist_camera_pose()
 # ============================================================
 
 
@@ -133,8 +147,7 @@ class SO101CameraRig:
         # Moving Wrist Camera (child of gripper_link)
         if self.enable_wrist:
             wrist_prim_path = (
-                f"{robot_articulation_path}/shoulder_link/upper_arm_link/"
-                f"lower_arm_link/wrist_link/gripper_link/wrist_cam"
+                f"{robot_articulation_path}/shoulder_link/upper_arm_link/lower_arm_link/wrist_link/gripper_link/wrist_roll_follower_so101_v1/wrist_roll_follower_so101_v1/wrist_camera"
             )
             self.wrist_cam = Camera(
                 prim_path=wrist_prim_path,
@@ -143,16 +156,17 @@ class SO101CameraRig:
                 frequency=self.frequency,
             )
             self.wrist_cam.set_local_pose(
-                translation=WRIST_CAM_TRANS,
+                translation=WRIST_CAM_POS,
                 orientation=WRIST_CAM_QUAT,
                 camera_axes="usd",
             )
             wrist_prim = self.wrist_cam.prim
-            # Prevent near-distance clipping when grasping objects
-            if wrist_prim.HasAttribute("clippingRange"):
-                wrist_prim.GetAttribute("clippingRange").Set(
-                    Gf.Vec2f(self.near_clipping_plane, self.far_clipping_plane)
-                )
+            wrist_prim.GetAttribute("horizontalAperture").Set(self.overhead_horizontal_aperture)
+            wrist_prim.GetAttribute("verticalAperture").Set(self.overhead_vertical_aperture)
+            wrist_prim.GetAttribute("focalLength").Set(self.overhead_focal_length)
+            wrist_prim.GetAttribute("clippingRange").Set(
+                Gf.Vec2f(self.near_clipping_plane, self.far_clipping_plane)
+            )
 
     def initialize(self) -> None:
         """Initializes sensors and attaches RGB & Depth annotators."""

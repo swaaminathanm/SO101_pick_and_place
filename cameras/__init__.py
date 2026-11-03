@@ -6,7 +6,6 @@ from cameras.camera_rig import (
     OVERHEAD_CAM_POS,
     OVERHEAD_CAM_QUAT,
     OVERHEAD_CAM_EULER,
-    WRIST_CAM_TRANS,
     WRIST_CAM_QUAT,
 )
 
@@ -16,6 +15,5 @@ __all__ = [
     "OVERHEAD_CAM_POS",
     "OVERHEAD_CAM_QUAT",
     "OVERHEAD_CAM_EULER",
-    "WRIST_CAM_TRANS",
     "WRIST_CAM_QUAT",
 ]

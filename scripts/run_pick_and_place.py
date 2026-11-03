@@ -106,7 +106,8 @@ def main():
         f"({PickPlacePhase.ORIENT_DOWNWARD.name} -> {PickPlacePhase.PRE_GRASP_HOVER.name} -> "
         f"{PickPlacePhase.DESCEND_TO_GRASP.name} -> {PickPlacePhase.GRASP.name} -> "
         f"{PickPlacePhase.MOVE_UP.name} -> {PickPlacePhase.MOVE_TO_BIN.name} -> "
-        f"{PickPlacePhase.DROP.name} -> {PickPlacePhase.RETRACT_HOME.name}). Close window to exit.\n"
+        f"{PickPlacePhase.DROP.name} -> {PickPlacePhase.POST_DROP_LIFT.name} -> "
+        f"{PickPlacePhase.RETRACT_HOME.name}). Close window to exit.\n"
     )
 
     while simulation_app.is_running():
