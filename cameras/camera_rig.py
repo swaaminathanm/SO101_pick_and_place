@@ -6,50 +6,18 @@ Uses clean, fixed poses for both Overhead and Wrist cameras.
 from typing import Any, Dict, Optional, Tuple
 import numpy as np
 from scipy.spatial.transform import Rotation
-from envs.constants import TABLE_WIDTH, TABLE_LENGTH, TABLE_HEIGHT
 
-def compute_overhead_camera_pose(
-    cam_x: float = TABLE_LENGTH / 2.0,
-    cam_y: float = -TABLE_WIDTH / 2.0,
-    cam_z: float = 0.55,
-    target_y: float = 0.00,
-    target_z: float = TABLE_HEIGHT,
-) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+
+def compute_overhead_camera_pose() -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     """
-    Computes position, quaternion [w, x, y, z], and Euler angles (XYZ degrees)
-    for the overhead camera using the Part 1 simplified formula.
-
-    Assumptions:
-      - Camera is aligned with target along X (cam_x == target_x, so yaw = 0, roll = 0).
-      - Camera is on the -Y side, looking across the table in +Y and tilted down.
-      - Default USD camera at (0, 0, 0) points straight down (-Z).
-
-    Formulae:
-      delta_y = target_y - cam_y  (forward distance)
-      delta_z = target_z - cam_z  (vertical drop)
-      theta_tilt = arctan(|delta_z| / delta_y)  (angle below horizontal)
-      alpha_x = 90 deg - theta_tilt = arctan(delta_y / |delta_z|)  (tilt up from -Z)
-      quat = [cos(alpha_x / 2), sin(alpha_x / 2), 0.0, 0.0]
-
-    Returns:
-      pos: np.ndarray shape (3,) -> [x, y, z]
-      quat: np.ndarray shape (4,) -> [w, x, y, z] for Isaac Sim Camera
-      euler_deg: np.ndarray shape (3,) -> [x, y, z] in degrees for Isaac Sim GUI
+    Returns position, quaternion [w, x, y, z], and Euler angles (XYZ degrees)
+    for the overhead camera.
     """
-    delta_y = float(target_y - cam_y)
-    delta_z = float(target_z - cam_z)
+    pos = np.array([-0.01, 0.24125, 0.35], dtype=np.float32)
+    euler_deg = np.array([-40, -55, -133], dtype=np.float32)
 
-    # alpha_x: rotation angle around X-axis (tilts camera up from -Z towards +Y)
-    alpha_x_rad = np.arctan2(delta_y, abs(delta_z))
-    alpha_x_deg = float(np.degrees(alpha_x_rad))
-
-    euler_deg = np.array([alpha_x_deg, 0.0, 0.0], dtype=np.float32)
-
-    # Convert Euler angles to quaternion [w, x, y, z] using SciPy
-    rot = Rotation.from_euler("xyz", euler_deg, degrees=True)
+    rot = Rotation.from_euler("XYZ", euler_deg, degrees=True)
     quat = rot.as_quat(scalar_first=True).astype(np.float32)
-
-    pos = np.array([cam_x, cam_y, cam_z], dtype=np.float32)
 
     return pos, quat, euler_deg
 
@@ -80,7 +48,7 @@ WRIST_CAM_POS, WRIST_CAM_QUAT = compute_wrist_camera_pose()
 class SO101CameraRig:
     """
     Manages camera sensors for the SO-101 workspace:
-      1. Overhead Camera: Fixed overview of the table and bin.
+      1. Overhead Camera: Fixed overview of the workspace and bin.
       2. Wrist Camera: Mounted on gripper link, moves with the hand.
     """
 

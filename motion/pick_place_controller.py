@@ -26,7 +26,7 @@ class PickPlacePhase(IntEnum):
       - PRE_GRASP_HOVER (2): Smoothly navigates to pre-grasp hover altitude above the brick.
       - DESCEND_TO_GRASP (3): Descends vertically to grasp contact target beside the brick.
       - GRASP (4): Closes the gripper jaw firmly onto the brick.
-      - MOVE_UP (5): Lifts the grasped object vertically above the table.
+      - MOVE_UP (5): Lifts the grasped object vertically above the workspace.
       - HOLD (6): Holds the grasped object steady in the air (dummy step).
       - MOVE_TO_BIN (7): Navigates smoothly to hover above the bin center.
       - DROP (8): Opens the gripper jaw to release the brick into the bin.
@@ -541,7 +541,7 @@ class SO101PickPlaceController:
     def _step_move_up(self, brick_pos: np.ndarray, brick_ori: np.ndarray) -> None:
         """
         Phase MOVE_UP (5):
-        Lifts the grasped object vertically above the table using cuMotion RMPflow.
+        Lifts the grasped object vertically above the workspace using cuMotion RMPflow.
         Maintains the gripper closed at self._closed_pos.
         Converged when the arm reaches the lift setpoint AND the brick has moved up in Z (+z).
         """
@@ -589,7 +589,7 @@ class SO101PickPlaceController:
 
             # Converged if arm reached setpoint AND brick has moved up in Z (+z)
             arm_converged = (self._step >= 30 and joint_err < self._JOINT_CONVERGE_THRESH)
-            brick_lifted = delta_brick_z > 0.005  # Any positive +z (>= 5mm lift above table)
+            brick_lifted = delta_brick_z > 0.005  # Any positive +z (>= 5mm lift above workspace)
 
             if arm_converged and brick_lifted and not self.is_phase_converged(PickPlacePhase.MOVE_UP):
                 self._phase_converged[PickPlacePhase.MOVE_UP] = True

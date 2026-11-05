@@ -1,6 +1,6 @@
 """
 Main execution script for SO-101 Pick and Place environment.
-Integrates SO101WorldInterface, RandomizedSO101Env (with Camera Rig),
+Integrates SO101WorldInterface, LegoBrickPickPlaceEnv (with Camera Rig),
 and SO101PickPlaceController for cuMotion RMPflow pick-and-place execution.
 """
 
@@ -26,16 +26,17 @@ if PROJECT_ROOT not in sys.path:
 from PIL import Image
 import isaacsim.core.experimental.utils.app as app_utils
 from isaacsim.core.simulation_manager import SimulationManager
-from envs import LegoBrickPickPlaceEnv, SimpleSO101Env
-from envs.simple_pick_place_env import (
+from envs import LegoBrickPickPlaceEnv
+from envs.constants import (
     ROBOT_PRIM_PATH,
     RED_BRICK_PRIM_PATH,
     BLUE_BRICK_PRIM_PATH,
+    WALLS_PRIM_PATH,
+    WALL_BACK_PRIM_PATH,
+    WALL_RIGHT_PRIM_PATH,
 )
 from motion import SO101WorldInterface, SO101PickPlaceController, PickPlacePhase
 
-# Environment selection: True for deterministic simple cube environment, False for randomized Lego brick
-USE_SIMPLE_ENV: bool = False
 SAVE_LIVE_PREVIEW: bool = True
 
 
@@ -62,15 +63,17 @@ def main():
             ROBOT_PRIM_PATH,
             RED_BRICK_PRIM_PATH,
             BLUE_BRICK_PRIM_PATH,
+            WALLS_PRIM_PATH,
+            WALL_BACK_PRIM_PATH,
+            WALL_RIGHT_PRIM_PATH,
         ],
         search_box_min=[-10.0, -10.0, -10.0],
         search_box_max=[10.0, 10.0, 10.0],
         safety_margin=0.01,
     )
 
-    # Inject world_interface and simulation_app into chosen Environment
-    EnvClass = SimpleSO101Env if USE_SIMPLE_ENV else LegoBrickPickPlaceEnv
-    env = EnvClass(
+    # Inject world_interface and simulation_app into LegoBrickPickPlaceEnv
+    env = LegoBrickPickPlaceEnv(
         simulation_app=simulation_app,
         world_interface=world_interface,
         enable_cameras=ENABLE_CAMERAS,

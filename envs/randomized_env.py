@@ -2,27 +2,31 @@ import os
 import random
 import numpy as np
 
-import isaacsim.core.experimental.utils.app as app_utils
 import isaacsim.core.experimental.utils.stage as stage_utils
 from isaacsim.core.experimental.objects import GroundPlane, DomeLight, Cube
 from isaacsim.core.experimental.prims import Articulation, RigidPrim, XformPrim, GeomPrim
 from isaacsim.core.utils.viewports import set_camera_view
-from pxr import UsdPhysics, UsdGeom
-from isaacsim.sensors.experimental.physics import Contact, ContactSensor
-from envs.env_protocol import SO101EnvProtocol
+from isaacsim.storage.native import get_assets_root_path
+import omni.replicator.core as rep
+from pxr import UsdPhysics, UsdGeom, UsdShade, Sdf, Gf
 from cameras import SO101CameraRig
 from envs.constants import (
     ROBOT_PRIM_PATH,
     ROBOT_ARTICULATION_PATH,
-    TABLE_PRIM_PATH,
+    WORKSPACE_BASE_PRIM_PATH,
+    WORKSPACE_MAT_PRIM_PATH,
+    WALL_BACK_PRIM_PATH,
+    WALL_RIGHT_PRIM_PATH,
     BIN_PRIM_PATH,
     RED_BRICK_PRIM_PATH,
-    BLUE_BRICK_PRIM_PATH,
     GROUND_PLANE_PRIM_PATH,
     DOME_LIGHT_PRIM_PATH,
-    TABLE_HEIGHT,
-    TABLE_LENGTH,
-    TABLE_WIDTH,
+    WORKSPACE_HEIGHT,
+    WORKSPACE_LENGTH,
+    WORKSPACE_WIDTH,
+    MAT_HEIGHT,
+    WORKSPACE_BASE_HEIGHT,
+    WALL_FRONT_PRIM_PATH
 )
 
 # ==================== ASSET & WORKSPACE CONFIGURATION ====================
@@ -31,16 +35,13 @@ PROJECT_ROOT = os.path.dirname(CURRENT_DIR)
 
 # Path to assembled SO-101 USD
 ROBOT_USD_PATH = os.path.join(PROJECT_ROOT, "assets", "so101_new_calib", "so101_new_calib.usda")
-ROBOT_BASE_OFFSET_Z = 0.016
+
+# SimReady D00620 black silicone work mat asset
+WORKSPACE_MAT_USD_PATH = os.path.join(PROJECT_ROOT, "assets", "D00620", "simready_usd", "D00620.usd")
 
 # Lego brick assets
 LEGO_RED_USD_PATH = os.path.join(PROJECT_ROOT, "assets", "lego_brick_red.usd")
-LEGO_BLUE_USD_PATH = os.path.join(PROJECT_ROOT, "assets", "lego_brick_blue.usd")
-if not os.path.exists(LEGO_BLUE_USD_PATH):
-    LEGO_BLUE_USD_PATH = LEGO_RED_USD_PATH
-
-LEGO_RED_INIT_POS = [0.18, -0.10, TABLE_HEIGHT + 0.001]
-LEGO_BLUE_INIT_POS = [0.24, -0.18, TABLE_HEIGHT + 0.001]
+LEGO_RED_INIT_POS = [0.18, -0.10, WORKSPACE_HEIGHT + 0.001]
 
 BIN_USD_PATH = os.path.join(PROJECT_ROOT, "assets", "D00935", "simready_usd", "D00935.usd")
 BIN_SCALE = 0.4
@@ -54,14 +55,14 @@ BIN_ANGLE_RANGE = (0.30, 0.50)
 # =========================================================================
 
 
-class LegoBrickPickPlaceEnv(SO101EnvProtocol):
+class LegoBrickPickPlaceEnv:
     """
     Randomized pick-and-place environment for the SO-101 manipulator
     and a single red Lego brick with domain randomization (brick pose, bin pose, lighting).
     """
-    TABLE_HEIGHT: float = TABLE_HEIGHT
-    TABLE_LENGTH: float = TABLE_LENGTH
-    TABLE_WIDTH: float = TABLE_WIDTH
+    WORKSPACE_HEIGHT: float = WORKSPACE_HEIGHT
+    WORKSPACE_LENGTH: float = WORKSPACE_LENGTH
+    WORKSPACE_WIDTH: float = WORKSPACE_WIDTH
 
     def __init__(
         self,
@@ -82,7 +83,10 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
         # Prim paths bound from constants
         self._ROBOT_PRIM_PATH = ROBOT_PRIM_PATH
         self._ARTICULATION_PATH = ROBOT_ARTICULATION_PATH
-        self._TABLE_PRIM_PATH = TABLE_PRIM_PATH
+        self._WORKSPACE_BASE_PRIM_PATH = WORKSPACE_BASE_PRIM_PATH
+        self._WORKSPACE_MAT_PRIM_PATH = WORKSPACE_MAT_PRIM_PATH
+        self._WALL_BACK_PRIM_PATH = WALL_BACK_PRIM_PATH
+        self._WALL_RIGHT_PRIM_PATH = WALL_RIGHT_PRIM_PATH
         self._BIN_PRIM_PATH = BIN_PRIM_PATH
         self._RED_BRICK_PATH = RED_BRICK_PRIM_PATH
 
@@ -90,10 +94,13 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
         self.robot_xform: XformPrim | None = None
         
         self._lego_prims: list[RigidPrim] = []
-        self.table_obj = None
+        self.workspace_base_obj: Cube | None = None
+        self.workspace_mat_obj: XformPrim | None = None
+        self.wall_back_obj: Cube | None = None
+        self.wall_right_obj: Cube | None = None
+        self.wall_front_obj: Cube | None = None
         self.bin_obj = None
         self.bin_xform: XformPrim | None = None
-        self.red_contact = None
         self._episode_id: int = 0
 
     @property
@@ -138,11 +145,6 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
     def half_width(self) -> float:
         """Half-width of the Lego brick along grasp axis."""
         return 0.0197
-
-    @property
-    def closed_pos(self) -> float:
-        """Grasp target angle for Lego brick."""
-        return 0.45
 
     def update(self):
         """Helper to step Isaac Sim application updates."""
@@ -207,27 +209,93 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
         
         return articulation, robot_xform
 
-    def spawn_table(
+    def spawn_workspace(
         self,
-        prim_path: str = TABLE_PRIM_PATH,
-        position: list[float] | None = None,
-        scale: list[float] | None = None,
-        color: str = "#A77B51",
-    ) -> Cube:
-        """Spawns and configures a collision-enabled tabletop."""
-        if position is None:
-            position = [TABLE_LENGTH / 2, 0.0, TABLE_HEIGHT / 2]
-        if scale is None:
-            scale = [TABLE_LENGTH / 2, TABLE_WIDTH, TABLE_HEIGHT / 2]
+        base_prim_path: str = WORKSPACE_BASE_PRIM_PATH,
+        mat_prim_path: str = WORKSPACE_MAT_PRIM_PATH,
+        mat_usd_path: str = WORKSPACE_MAT_USD_PATH,
+        base_color: str = "#F0F0F0",
+    ) -> tuple[Cube, XformPrim]:
+        """
+        Spawns the composite workspace:
+          1. Floor white base cube: Sits directly on the floor from Z=0 to Z=WORKSPACE_BASE_HEIGHT.
+          2. Black silicone work mat (D00620.usd): Sits on top of the base cube from
+             Z=WORKSPACE_BASE_HEIGHT to Z=WORKSPACE_HEIGHT.
+        
+        Ensures: MAT_HEIGHT + WORKSPACE_BASE_HEIGHT == WORKSPACE_HEIGHT
+        """
+        # Floor White Base Cube
+        base_pos = [WORKSPACE_LENGTH / 2.0, 0.0, WORKSPACE_BASE_HEIGHT / 2.0]
+        base_scale = [
+            0.3,
+            0.3,
+            0.02,
+        ]
 
-        table = Cube(
-            paths=prim_path,
-            positions=[position],
-            scales=[scale],
-            colors=color
+        workspace_base = Cube(
+            paths=base_prim_path,
+            positions=[base_pos],
+            scales=[base_scale],
+            colors=base_color,
         )
-        GeomPrim(paths=table.paths, apply_collision_apis=True)
-        return table
+        GeomPrim(paths=workspace_base.paths, apply_collision_apis=True)
+
+        # Black Silicone Work Mat (D00620.usd)
+        mat_offset_x = 0.05
+        mat_pos = [WORKSPACE_LENGTH / 2.0 + mat_offset_x, 0.0, WORKSPACE_BASE_HEIGHT]
+        mat_ori = [0.7071068, 0.0, 0.0, 0.7071068]
+
+        mat_scale = [1.2, 0.8, 1.2]
+
+        stage_utils.add_reference_to_stage(
+            usd_path=mat_usd_path,
+            path=mat_prim_path,
+        )
+        self.update()
+
+        # Remove dynamic RigidBodyAPI from child prims so the mat remains static
+        stage = stage_utils.get_current_stage()
+        mat_prim = stage.GetPrimAtPath(mat_prim_path)
+        for child in mat_prim.GetChildren():
+            if child.HasAPI(UsdPhysics.RigidBodyAPI):
+                child.RemoveAPI(UsdPhysics.RigidBodyAPI)
+
+        workspace_mat = XformPrim(mat_prim_path, reset_xform_op_properties=True)
+        workspace_mat.set_world_poses(positions=[mat_pos], orientations=[mat_ori])
+        workspace_mat.set_local_scales(scales=[mat_scale])
+        self.update()
+
+        # Wall back and right
+        back_pos = [WORKSPACE_LENGTH / 2.0, 0.3, 0.75]
+        back_scale = [0.5, 0.02, 0.75]
+        wall_back = Cube(
+            paths=WALL_BACK_PRIM_PATH,
+            positions=[back_pos],
+            scales=[back_scale],
+            colors=base_color,
+        )
+
+        right_pos = [0.5, 0.0, 0.75]
+        right_scale = [0.02, 0.5, 0.75]
+        wall_right = Cube(
+            paths=WALL_RIGHT_PRIM_PATH,
+            positions=[right_pos],
+            scales=[right_scale],
+            colors=base_color,
+        )
+
+        front_pos = [WORKSPACE_LENGTH / 2.0, -0.3, 0.75]
+        front_scale = [0.5, 0.02, 0.75]
+        wall_front = Cube(
+            paths=WALL_FRONT_PRIM_PATH,
+            positions=[front_pos],
+            scales=[front_scale],
+            colors=base_color,
+        )
+
+        self.update()
+
+        return workspace_base, workspace_mat, wall_back, wall_right, wall_front
 
     def spawn_bin(
         self,
@@ -239,7 +307,7 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
     ) -> RigidPrim:
         """Spawns the bin asset onto the stage as a collision-aware kinematic rigid body."""
         if position is None:
-            position = [0.25, 0.12, TABLE_HEIGHT]
+            position = [0.25, 0.12, WORKSPACE_HEIGHT]
         if orientation is None:
             orientation = [1.0, 0.0, 0.0, 0.0]
         if scale is None:
@@ -275,6 +343,20 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
                 mesh_api = UsdPhysics.MeshCollisionAPI.Apply(p)
                 mesh_api.CreateApproximationAttr().Set("convexDecomposition")
 
+        # Create and bind yellow material to bin mesh
+        mat_path = Sdf.Path(f"{prim_path}/Looks/YellowBinMaterial")
+        mat = UsdShade.Material.Define(stage, mat_path)
+        shader = UsdShade.Shader.Define(stage, mat_path.AppendChild("Shader"))
+        shader.CreateIdAttr("UsdPreviewSurface")
+        shader.CreateInput("diffuseColor", Sdf.ValueTypeNames.Color3f).Set(Gf.Vec3f(0.95, 0.75, 0.05))
+        shader.CreateInput("roughness", Sdf.ValueTypeNames.Float).Set(0.4)
+        shader.CreateInput("metallic", Sdf.ValueTypeNames.Float).Set(0.0)
+        mat.CreateSurfaceOutput().ConnectToSource(shader.ConnectableAPI(), "surface")
+
+        mesh_prim = stage.GetPrimAtPath(f"{prim_path}/part_00/mesh_node")
+        if mesh_prim.IsValid():
+            UsdShade.MaterialBindingAPI(mesh_prim).Bind(mat, UsdShade.Tokens.strongerThanDescendants)
+
         # Save an XformPrim handle to directly update the USD stage transforms when the bin moves
         self.bin_xform = XformPrim(prim_path, reset_xform_op_properties=True)
         self.bin_xform.set_world_poses(positions=[position], orientations=[orientation])
@@ -291,7 +373,7 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
         return bin_rigid
 
     def setup_scene(self):
-        """Creates the stage, lights, table, bin, robot, and Lego bricks."""
+        """Creates the stage, lights, workspace, walls, bin, robot, and Lego bricks."""
         stage_utils.create_new_stage()
         
         GroundPlane(GROUND_PLANE_PRIM_PATH)   
@@ -299,15 +381,15 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
         self.light = DomeLight(DOME_LIGHT_PRIM_PATH)
         self.light.set_intensities(1000)
 
-        # Spawn Table and Bin using constants
-        self.table_obj = self.spawn_table(prim_path=self._TABLE_PRIM_PATH)
+        # Spawn Workspace (Base + Mat), Walls, and Bin using constants
+        self.workspace_base_obj, self.workspace_mat_obj, self.wall_back_obj, self.wall_right_obj, self.wall_front_obj = self.spawn_workspace()
         self.bin_obj = self.spawn_bin(prim_path=self._BIN_PRIM_PATH)
         
         # Spawn SO-101 Robot Articulation
         self._articulation, self.robot_xform = self.spawn_robot(
             prim_path=self._ROBOT_PRIM_PATH,
             usd_path=ROBOT_USD_PATH,
-            position=[0.0, 0.0, TABLE_HEIGHT],
+            position=[0.05, 0.0, WORKSPACE_BASE_HEIGHT],
             orientation=[1.0, 0.0, 0.0, 0.0]
         )
         
@@ -317,15 +399,20 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
             usd_path=LEGO_RED_USD_PATH,
             initial_pos=LEGO_RED_INIT_POS
         )
-        
-        # Setup Contact sensor to monitor red brick-to-bin collisions
-        self.red_contact_authoring = Contact.create(
-            path=f"{self._RED_BRICK_PATH}/ContactSensor",
-            min_threshold=0.0,
-            max_threshold=1e5,
-            radius=-1.0,
-        )
-        self.red_contact = ContactSensor(self.red_contact_authoring)
+
+        # Setup Replicator Domain Randomization for Floor and Walls
+        assets_root = get_assets_root_path()
+        if assets_root:
+            wall_textures = [
+                assets_root + "/Isaac/Materials/Textures/Patterns/nv_wooden_wall.jpg",
+                assets_root + "/Isaac/Materials/Textures/Patterns/nv_concrete_aged_with_lines.jpg",
+                assets_root + "/Isaac/Materials/Textures/Patterns/nv_brick_reclaimed.jpg",
+                assets_root + "/Isaac/Materials/Textures/Patterns/nv_stone_painted_grey.jpg",
+                assets_root + "/Isaac/Materials/Textures/Patterns/nv_stucco_smooth_blue.jpg",
+            ]
+            floor_textures = [
+                assets_root + "/Isaac/Materials/Textures/Patterns/nv_tile_square_green.jpg",
+            ]
         
         # Setup Camera Rig if enabled
         if self._camera_rig is not None:
@@ -336,20 +423,18 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
 
         # Position viewport camera view
         set_camera_view(
-            eye=[0.8, 0.8, 0.6], 
-            target=[0.20, 0.0, 0.0], 
+            eye=[0.85, 0.70, 0.55], 
+            target=[0.20, 0.0, WORKSPACE_BASE_HEIGHT], 
             camera_prim_path="/OmniverseKit_Persp"
         )
     
     def initialize_after_play(self):
-        """Initializes joint positions, contact sensors, and cameras after simulation play."""
+        """Initializes joint positions, world interface, and cameras after simulation play."""
         dof_count = self._articulation.num_dofs
         init_pos = [0.0] * dof_count
         self._articulation.set_dof_positions(init_pos)
         self._articulation.set_dof_position_targets(init_pos)
         self._articulation.set_dof_velocities([0.0] * dof_count)
-        
-        self.red_contact.add_raw_contact_data_to_frame()
 
         # Initialize injected WorldInterface with robot base pose
         if self.world_interface is not None:
@@ -377,19 +462,6 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
         if self._camera_rig is not None:
             obs.update(self._camera_rig.get_observations())
         return obs
-        
-    def _check_collision(self, sensor, target_keywords):
-        data = sensor.get_data()
-        in_contact = data.get("in_contact", False)
-        contacts = data.get("contacts", [])
-        if in_contact and contacts:
-            for c in contacts:
-                b0 = str(c.get("body0", ""))
-                b1 = str(c.get("body1", ""))
-                for kw in target_keywords:
-                    if kw.lower() in b0.lower() or kw.lower() in b1.lower():
-                        return True
-        return False
 
     def reset_domain(self, episode_id: int | None = None):
         """Domain randomization applied at each episode reset for single red brick."""
@@ -400,7 +472,13 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
 
         print(f"\n>>> [Episode {self._episode_id}] [RESET] Randomizing Workspace & Domain (Single Red Lego Brick)...")
         
-        cz = TABLE_HEIGHT + 0.001
+        # Step Replicator once to randomize Wall and Floor textures
+        try:
+            rep.orchestrator.step(pause_timeline=False)
+        except Exception as e:
+            print(f"  [Warning] Replicator step encountered: {e}")
+
+        cz = WORKSPACE_HEIGHT + 0.001
         
         # Randomize Bin position within workspace
         bin_dist = random.uniform(*BIN_RADIUS_RANGE)
@@ -408,7 +486,7 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
         bin_pos = np.array([
             bin_dist * np.cos(bin_angle),
             bin_dist * np.sin(bin_angle),
-            TABLE_HEIGHT
+            WORKSPACE_HEIGHT
         ])
         # Update USD Stage transform so cuMotion's SceneQuery / WorldBinding reads the new position
         if self.bin_xform is not None:
@@ -480,6 +558,3 @@ class LegoBrickPickPlaceEnv(SO101EnvProtocol):
         p = pos.numpy()[0] if hasattr(pos, "numpy") else np.asarray(pos)[0]
         print(f"  [Episode {self._episode_id}] [Reset] Lego Brick Red Pos: [{p[0]:.4f}, {p[1]:.4f}, {p[2]:.4f}]")
 
-
-# Backward compatibility alias
-RandomizedSO101Env = LegoBrickPickPlaceEnv
