@@ -28,7 +28,11 @@ from envs.constants import (
     WORKSPACE_WIDTH,
     MAT_HEIGHT,
     WORKSPACE_BASE_HEIGHT,
-    WALL_FRONT_PRIM_PATH
+    WALL_FRONT_PRIM_PATH,
+    WALL_CEILING_PRIM_PATH,
+    WALL_HEIGHT,
+    WALL_THICKNESS,
+    WALL_COLOR,
 )
 
 # ==================== ASSET & WORKSPACE CONFIGURATION ====================
@@ -87,6 +91,8 @@ class LegoBrickPickPlaceEnv:
         self._WORKSPACE_MAT_PRIM_PATH = WORKSPACE_MAT_PRIM_PATH
         self._WALL_BACK_PRIM_PATH = WALL_BACK_PRIM_PATH
         self._WALL_RIGHT_PRIM_PATH = WALL_RIGHT_PRIM_PATH
+        self._WALL_FRONT_PRIM_PATH = WALL_FRONT_PRIM_PATH
+        self._WALL_CEILING_PRIM_PATH = WALL_CEILING_PRIM_PATH
         self._BIN_PRIM_PATH = BIN_PRIM_PATH
         self._RED_BRICK_PATH = RED_BRICK_PRIM_PATH
 
@@ -99,6 +105,7 @@ class LegoBrickPickPlaceEnv:
         self.wall_back_obj: Cube | None = None
         self.wall_right_obj: Cube | None = None
         self.wall_front_obj: Cube | None = None
+        self.wall_ceiling_obj: Cube | None = None
         self.bin_obj = None
         self.bin_xform: XformPrim | None = None
         self._episode_id: int = 0
@@ -227,17 +234,24 @@ class LegoBrickPickPlaceEnv:
         base_prim_path: str = WORKSPACE_BASE_PRIM_PATH,
         mat_prim_path: str = WORKSPACE_MAT_PRIM_PATH,
         mat_usd_path: str = WORKSPACE_MAT_USD_PATH,
-        base_color: str = "#F0F0F0",
-    ) -> tuple[Cube, XformPrim]:
+        base_color: str = WALL_COLOR,
+        wall_color: str = WALL_COLOR,
+        wall_height: float = WALL_HEIGHT,
+        wall_thickness: float = WALL_THICKNESS,
+    ) -> tuple[Cube, XformPrim, Cube, Cube, Cube, Cube]:
         """
         Spawns the composite workspace:
-          1. Floor white base cube: Sits directly on the floor from Z=0 to Z=WORKSPACE_BASE_HEIGHT.
+          1. Floor cardboard base cube: Sits directly on the floor from Z=0 to Z=WORKSPACE_BASE_HEIGHT,
+             colored to match the cardboard box walls.
           2. Black silicone work mat (D00620.usd): Sits on top of the base cube from
              Z=WORKSPACE_BASE_HEIGHT to Z=WORKSPACE_HEIGHT.
+          3. Cardboard box walls: Enclosing 3 sides (left, right, and back) at a realistic
+             cardboard box depth (~30 cm total, ~25 cm above mat) plus ceiling wall (top cover)
+             with the front side open for the robot arm to reach in.
         
         Ensures: MAT_HEIGHT + WORKSPACE_BASE_HEIGHT == WORKSPACE_HEIGHT
         """
-        # Floor White Base Cube
+        # Floor Cardboard Base Cube
         base_pos = [WORKSPACE_LENGTH / 2.0, 0.0, WORKSPACE_BASE_HEIGHT / 2.0]
         base_scale = [
             0.3,
@@ -278,37 +292,55 @@ class LegoBrickPickPlaceEnv:
         workspace_mat.set_local_scales(scales=[mat_scale])
         self.update()
 
-        # Wall back and right
-        back_pos = [WORKSPACE_LENGTH / 2.0, 0.3, 0.75]
-        back_scale = [0.5, 0.02, 0.75]
+        # Cardboard box walls enclosing 3 sides (left, right, back) with open front
+        wall_half_h = wall_height / 2.0
+        wall_half_thick = wall_thickness / 2.0
+        wall_base_half_len = 0.30
+        wall_base_half_wid = 0.30
+
+        # Back Wall (+Y side)
+        back_pos = [WORKSPACE_LENGTH / 2.0, wall_base_half_wid + wall_half_thick, wall_half_h]
+        back_scale = [wall_base_half_len + wall_thickness, wall_half_thick, wall_half_h]
         wall_back = Cube(
             paths=WALL_BACK_PRIM_PATH,
             positions=[back_pos],
             scales=[back_scale],
-            colors=base_color,
+            colors=wall_color,
         )
 
-        right_pos = [0.5, 0.0, 0.75]
-        right_scale = [0.02, 0.5, 0.75]
+        # Right Wall (+X far side)
+        right_pos = [WORKSPACE_LENGTH / 2.0 + wall_base_half_len + wall_half_thick, 0.0, wall_half_h]
+        right_scale = [wall_half_thick, wall_base_half_wid + wall_thickness, wall_half_h]
         wall_right = Cube(
             paths=WALL_RIGHT_PRIM_PATH,
             positions=[right_pos],
             scales=[right_scale],
-            colors=base_color,
+            colors=wall_color,
         )
 
-        front_pos = [WORKSPACE_LENGTH / 2.0, -0.3, 0.75]
-        front_scale = [0.5, 0.02, 0.75]
+        # Front Wall (-Y side)
+        front_pos = [WORKSPACE_LENGTH / 2.0, -(wall_base_half_wid + wall_half_thick), wall_half_h]
+        front_scale = [wall_base_half_len + wall_thickness, wall_half_thick, wall_half_h]
         wall_front = Cube(
             paths=WALL_FRONT_PRIM_PATH,
             positions=[front_pos],
             scales=[front_scale],
-            colors=base_color,
+            colors=wall_color,
+        )
+
+        # Ceiling Wall (Top Cover)
+        ceiling_pos = [WORKSPACE_LENGTH / 2.0 + wall_half_thick, 0.0, wall_height + wall_half_thick]
+        ceiling_scale = [wall_base_half_len + wall_thickness, wall_base_half_wid + wall_thickness, wall_half_thick]
+        wall_ceiling = Cube(
+            paths=WALL_CEILING_PRIM_PATH,
+            positions=[ceiling_pos],
+            scales=[ceiling_scale],
+            colors=wall_color,
         )
 
         self.update()
 
-        return workspace_base, workspace_mat, wall_back, wall_right, wall_front
+        return workspace_base, workspace_mat, wall_back, wall_right, wall_front, wall_ceiling
 
     def spawn_bin(
         self,
@@ -395,7 +427,7 @@ class LegoBrickPickPlaceEnv:
         self.light.set_intensities(1000)
 
         # Spawn Workspace (Base + Mat), Walls, and Bin using constants
-        self.workspace_base_obj, self.workspace_mat_obj, self.wall_back_obj, self.wall_right_obj, self.wall_front_obj = self.spawn_workspace()
+        self.workspace_base_obj, self.workspace_mat_obj, self.wall_back_obj, self.wall_right_obj, self.wall_front_obj, self.wall_ceiling_obj = self.spawn_workspace()
         self.bin_obj = self.spawn_bin(prim_path=self._BIN_PRIM_PATH)
         
         # Spawn SO-101 Robot Articulation

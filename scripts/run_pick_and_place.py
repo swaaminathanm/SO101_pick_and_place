@@ -35,9 +35,15 @@ from envs.constants import (
     WALLS_PRIM_PATH,
     WALL_BACK_PRIM_PATH,
     WALL_RIGHT_PRIM_PATH,
+    WALL_FRONT_PRIM_PATH,
+    WALL_CEILING_PRIM_PATH,
 )
 from motion import SO101WorldInterface, SO101PickPlaceController, PickPlacePhase
-from randomisation import LegoBrickRandomisation, BinRandomisation
+from randomisation import (
+    LegoBrickRandomisation,
+    BinRandomisation,
+    TabletopLightingRandomisation,
+)
 
 SAVE_LIVE_PREVIEW: bool = True
 
@@ -68,6 +74,8 @@ def main():
             WALLS_PRIM_PATH,
             WALL_BACK_PRIM_PATH,
             WALL_RIGHT_PRIM_PATH,
+            WALL_FRONT_PRIM_PATH,
+            WALL_CEILING_PRIM_PATH,
         ],
         search_box_min=[-10.0, -10.0, -10.0],
         search_box_max=[10.0, 10.0, 10.0],
@@ -81,8 +89,9 @@ def main():
     bin_randomizer = BinRandomisation(
         bin_prim_path=BIN_PRIM_PATH,
     )
+    lighting_randomizer = TabletopLightingRandomisation()
 
-    randomizers = [brick_randomizer, bin_randomizer]
+    randomizers = [brick_randomizer, bin_randomizer, lighting_randomizer]
 
     # Inject world_interface, simulation_app, and randomizers list into LegoBrickPickPlaceEnv
     env = LegoBrickPickPlaceEnv(

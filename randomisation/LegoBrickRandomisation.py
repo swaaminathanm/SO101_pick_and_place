@@ -304,6 +304,3 @@ class LegoBrickRandomisation:
         except Exception as e:
             print(f"[LegoBrickRandomisation] Could not clear debug draw lines: {e}")
 
-
-# Backwards compatibility alias
-LegoBrickRandomizer = LegoBrickRandomisation
