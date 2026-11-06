@@ -3,6 +3,8 @@ Environments package for SO-101 pick-and-place tasks.
 Uses lazy imports for environments to allow importing constants before SimulationApp initialization.
 """
 
+import sys
+from types import ModuleType
 from envs.constants import (
     WORKSPACE_HEIGHT,
     WORKSPACE_LENGTH,
@@ -21,8 +23,11 @@ __all__ = [
 ]
 
 
-def __getattr__(name: str):
-    if name == "LegoBrickPickPlaceEnv":
-        from envs.randomized_env import LegoBrickPickPlaceEnv
-        return LegoBrickPickPlaceEnv
-    raise AttributeError(f"module 'envs' has no attribute '{name}'")
+class _EnvsModule(ModuleType):
+    @property
+    def LegoBrickPickPlaceEnv(self):
+        from .LegoBrickPickPlaceEnv import LegoBrickPickPlaceEnv as _cls
+        return _cls
+
+
+sys.modules[__name__].__class__ = _EnvsModule

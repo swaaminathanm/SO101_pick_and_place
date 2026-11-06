@@ -31,11 +31,13 @@ from envs.constants import (
     ROBOT_PRIM_PATH,
     RED_BRICK_PRIM_PATH,
     BLUE_BRICK_PRIM_PATH,
+    BIN_PRIM_PATH,
     WALLS_PRIM_PATH,
     WALL_BACK_PRIM_PATH,
     WALL_RIGHT_PRIM_PATH,
 )
 from motion import SO101WorldInterface, SO101PickPlaceController, PickPlacePhase
+from randomisation import LegoBrickRandomisation, BinRandomisation
 
 SAVE_LIVE_PREVIEW: bool = True
 
@@ -72,11 +74,22 @@ def main():
         safety_margin=0.01,
     )
 
-    # Inject world_interface and simulation_app into LegoBrickPickPlaceEnv
+    # Domain Randomizers created from outside (pure math + direct prim updates)
+    brick_randomizer = LegoBrickRandomisation(
+        brick_prim_path=RED_BRICK_PRIM_PATH,
+    )
+    bin_randomizer = BinRandomisation(
+        bin_prim_path=BIN_PRIM_PATH,
+    )
+
+    randomizers = [brick_randomizer, bin_randomizer]
+
+    # Inject world_interface, simulation_app, and randomizers list into LegoBrickPickPlaceEnv
     env = LegoBrickPickPlaceEnv(
         simulation_app=simulation_app,
         world_interface=world_interface,
         enable_cameras=ENABLE_CAMERAS,
+        randomizers=randomizers,
     )
     env.setup_scene()
 
@@ -87,12 +100,14 @@ def main():
     # Initializes joint handles, contact sensors, world interface, and cameras
     env.initialize_after_play()
 
+    for r in randomizers:
+        r.draw_bounding_box()  # Draw debug visualization for each randomizer
+
     # Create and initialize the Pick and Place Controller
     controller = SO101PickPlaceController(
         articulation=env._articulation,
         world_interface=world_interface,
         robot_prim_path=ROBOT_PRIM_PATH,
-        brick_center_offset=getattr(env, "brick_center_offset", None),
         half_width=getattr(env, "half_width", None),
         gripper_max_effort=0.5,
     )

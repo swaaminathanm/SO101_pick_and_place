@@ -27,3 +27,7 @@ WORKSPACE_WIDTH: float = 0.56        # Work mat width along Y axis
 
 MAT_HEIGHT: float = 0.0092           # Thickness of D00620 silicone work mat
 WORKSPACE_BASE_HEIGHT: float = WORKSPACE_HEIGHT - MAT_HEIGHT
+
+# Debug Visualization Flags
+DEBUG_DRAW_BOUNDING_BOX: bool = True
+

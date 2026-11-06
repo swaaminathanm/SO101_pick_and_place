@@ -45,8 +45,8 @@ class PickPlacePhase(IntEnum):
     RETRACT_HOME = 10
 
 
-# Scaled Lego brick centroid offset from top-left origin (at scale 0.25)
-BRICK_CENTER_OFFSET_LOCAL = np.array([0.0197, 0.0397, 0.0145], dtype=np.float32)
+# Default half-width of the Lego brick along grasp axis (at scale 0.25: 0.155m / 2 * 0.25 = 0.0194m)
+DEFAULT_HALF_WIDTH: float = 0.0194
 
 # Default clearance offset (in meters) outside the brick's -X face for the stationary jaw
 DEFAULT_CLEARANCE_DELTA_X: float = 0.005  # 5 mm clearance
@@ -77,7 +77,6 @@ class SO101PickPlaceController:
         world_interface: SO101WorldInterface,
         config_dir: str | None = None,
         robot_prim_path: str = "/World/so101",
-        brick_center_offset: np.ndarray | None = None,
         half_width: float | None = None,
         closed_pos: float = _CLOSED_POS,
         gripper_max_effort: float = 0.5,
@@ -91,14 +90,7 @@ class SO101PickPlaceController:
         self._post_drop_lift_offset_z = (
             float(post_drop_lift_offset_z) if post_drop_lift_offset_z is not None else self._POST_DROP_LIFT_OFFSET_Z
         )
-
-        if brick_center_offset is None:
-            brick_center_offset = BRICK_CENTER_OFFSET_LOCAL
-        self._brick_center_offset = np.asarray(brick_center_offset, dtype=np.float32)
-
-        if half_width is None:
-            half_width = float(self._brick_center_offset[0]) if np.any(self._brick_center_offset) else 0.02
-        self._half_width = float(half_width)
+        self._half_width = float(half_width) if half_width is not None else DEFAULT_HALF_WIDTH
 
         if config_dir is None:
             project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -270,10 +262,8 @@ class SO101PickPlaceController:
         """
         w, x, y, z = brick_ori
         
-        # Extract the brick's true yaw and compute the world position of its volumetric centroid
-        rot = R.from_quat([x, y, z, w])
-        matrix = rot.as_matrix()
-        brick_center = brick_pos + (matrix @ self._brick_center_offset)
+        # The brick's USD prim origin is now at its volumetric centroid
+        brick_center = np.asarray(brick_pos, dtype=np.float32)
 
         # Extract the brick's yaw and fold it into [-pi/2, pi/2] for 180-degree symmetry
         folded_yaw = self.compute_brick_yaw(brick_ori)

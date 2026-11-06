@@ -1,5 +1,6 @@
 import os
 import random
+from typing import Any, List, Optional
 import numpy as np
 
 import isaacsim.core.experimental.utils.stage as stage_utils
@@ -8,8 +9,9 @@ from isaacsim.core.experimental.prims import Articulation, RigidPrim, XformPrim,
 from isaacsim.core.utils.viewports import set_camera_view
 from isaacsim.storage.native import get_assets_root_path
 import omni.replicator.core as rep
-from pxr import UsdPhysics, UsdGeom, UsdShade, Sdf, Gf
+from pxr import Usd, UsdPhysics, UsdGeom, UsdShade, Sdf, Gf
 from cameras import SO101CameraRig
+from randomisation import LegoBrickRandomisation, BinRandomisation
 from envs.constants import (
     ROBOT_PRIM_PATH,
     ROBOT_ARTICULATION_PATH,
@@ -41,17 +43,13 @@ WORKSPACE_MAT_USD_PATH = os.path.join(PROJECT_ROOT, "assets", "D00620", "simread
 
 # Lego brick assets
 LEGO_RED_USD_PATH = os.path.join(PROJECT_ROOT, "assets", "lego_brick_red.usd")
-LEGO_RED_INIT_POS = [0.18, -0.10, WORKSPACE_HEIGHT + 0.001]
+LEGO_HALF_HEIGHT: float = 0.0142      # Half-height at scale 0.25 (keeps bottom resting on mat)
+LEGO_RED_INIT_POS = [0.18, -0.10, WORKSPACE_HEIGHT + LEGO_HALF_HEIGHT]
 
 BIN_USD_PATH = os.path.join(PROJECT_ROOT, "assets", "D00935", "simready_usd", "D00935.usd")
 BIN_SCALE = 0.4
 
 LEGO_SCALE = [0.25, 0.25, 0.25]
-LEGO_BRICK_RADIUS_RANGE = (0.19, 0.27)
-LEGO_BRICK_ANGLE_RANGE = (-0.48, -0.10)
-
-BIN_RADIUS_RANGE = (0.24, 0.30)
-BIN_ANGLE_RANGE = (0.30, 0.50)
 # =========================================================================
 
 
@@ -70,11 +68,13 @@ class LegoBrickPickPlaceEnv:
         world_interface=None,
         enable_cameras: bool = True,
         camera_resolution: tuple[int, int] = (1280, 720),
+        randomizers: list[Any] | None = None,
     ):
         self.simulation_app = simulation_app
         self.world_interface = world_interface
         self.enable_cameras = enable_cameras
         self.camera_resolution = camera_resolution
+        self.randomizers: list[Any] = list(randomizers) if randomizers is not None else []
 
         self._camera_rig: SO101CameraRig | None = None
         if self.enable_cameras:
@@ -102,6 +102,24 @@ class LegoBrickPickPlaceEnv:
         self.bin_obj = None
         self.bin_xform: XformPrim | None = None
         self._episode_id: int = 0
+
+    def add_randomizer(self, randomizer: Any) -> None:
+        """Appends a replicator domain randomizer to the environment's randomizer list."""
+        self.randomizers.append(randomizer)
+
+    @property
+    def randomizer(self) -> Any | None:
+        """Returns the first randomizer if present for backwards compatibility."""
+        return self.randomizers[0] if self.randomizers else None
+
+    @randomizer.setter
+    def randomizer(self, value: Any) -> None:
+        if value is None:
+            self.randomizers = []
+        elif isinstance(value, list):
+            self.randomizers = value
+        else:
+            self.randomizers = [value]
 
     @property
     def camera_rig(self) -> SO101CameraRig | None:
@@ -137,14 +155,9 @@ class LegoBrickPickPlaceEnv:
         self.bin_obj = value
 
     @property
-    def brick_center_offset(self) -> np.ndarray:
-        """Scaled Lego brick centroid offset from top-left origin (scale 0.25)."""
-        return np.array([0.0197, 0.0397, 0.0145], dtype=np.float32)
-
-    @property
     def half_width(self) -> float:
         """Half-width of the Lego brick along grasp axis."""
-        return 0.0197
+        return 0.0194
 
     def update(self):
         """Helper to step Isaac Sim application updates."""
@@ -343,13 +356,13 @@ class LegoBrickPickPlaceEnv:
                 mesh_api = UsdPhysics.MeshCollisionAPI.Apply(p)
                 mesh_api.CreateApproximationAttr().Set("convexDecomposition")
 
-        # Create and bind yellow material to bin mesh
-        mat_path = Sdf.Path(f"{prim_path}/Looks/YellowBinMaterial")
+        # Create and bind yellow plastic material to bin mesh
+        mat_path = Sdf.Path(f"{prim_path}/Looks/BinMaterial")
         mat = UsdShade.Material.Define(stage, mat_path)
         shader = UsdShade.Shader.Define(stage, mat_path.AppendChild("Shader"))
         shader.CreateIdAttr("UsdPreviewSurface")
-        shader.CreateInput("diffuseColor", Sdf.ValueTypeNames.Color3f).Set(Gf.Vec3f(0.95, 0.75, 0.05))
-        shader.CreateInput("roughness", Sdf.ValueTypeNames.Float).Set(0.4)
+        shader.CreateInput("diffuseColor", Sdf.ValueTypeNames.Color3f).Set(Gf.Vec3f(0.965, 0.706, 0.180))
+        shader.CreateInput("roughness", Sdf.ValueTypeNames.Float).Set(0.35)
         shader.CreateInput("metallic", Sdf.ValueTypeNames.Float).Set(0.0)
         mat.CreateSurfaceOutput().ConnectToSource(shader.ConnectableAPI(), "surface")
 
@@ -399,20 +412,6 @@ class LegoBrickPickPlaceEnv:
             usd_path=LEGO_RED_USD_PATH,
             initial_pos=LEGO_RED_INIT_POS
         )
-
-        # Setup Replicator Domain Randomization for Floor and Walls
-        assets_root = get_assets_root_path()
-        if assets_root:
-            wall_textures = [
-                assets_root + "/Isaac/Materials/Textures/Patterns/nv_wooden_wall.jpg",
-                assets_root + "/Isaac/Materials/Textures/Patterns/nv_concrete_aged_with_lines.jpg",
-                assets_root + "/Isaac/Materials/Textures/Patterns/nv_brick_reclaimed.jpg",
-                assets_root + "/Isaac/Materials/Textures/Patterns/nv_stone_painted_grey.jpg",
-                assets_root + "/Isaac/Materials/Textures/Patterns/nv_stucco_smooth_blue.jpg",
-            ]
-            floor_textures = [
-                assets_root + "/Isaac/Materials/Textures/Patterns/nv_tile_square_green.jpg",
-            ]
         
         # Setup Camera Rig if enabled
         if self._camera_rig is not None:
@@ -423,8 +422,8 @@ class LegoBrickPickPlaceEnv:
 
         # Position viewport camera view
         set_camera_view(
-            eye=[0.85, 0.70, 0.55], 
-            target=[0.20, 0.0, WORKSPACE_BASE_HEIGHT], 
+            eye=[-0.35, 0.0, 0.40], 
+            target=[0.22, 0.0, 0.08], 
             camera_prim_path="/OmniverseKit_Persp"
         )
     
@@ -472,69 +471,17 @@ class LegoBrickPickPlaceEnv:
 
         print(f"\n>>> [Episode {self._episode_id}] [RESET] Randomizing Workspace & Domain (Single Red Lego Brick)...")
         
-        # Step Replicator once to randomize Wall and Floor textures
-        try:
-            rep.orchestrator.step(pause_timeline=False)
-        except Exception as e:
-            print(f"  [Warning] Replicator step encountered: {e}")
+        # Step each replicator domain randomizer in the injected list (brick, bin, etc.)
+        for r in self.randomizers:
+            r.step()
 
-        cz = WORKSPACE_HEIGHT + 0.001
-        
-        # Randomize Bin position within workspace
-        bin_dist = random.uniform(*BIN_RADIUS_RANGE)
-        bin_angle = random.uniform(*BIN_ANGLE_RANGE)
-        bin_pos = np.array([
-            bin_dist * np.cos(bin_angle),
-            bin_dist * np.sin(bin_angle),
-            WORKSPACE_HEIGHT
-        ])
-        # Update USD Stage transform so cuMotion's SceneQuery / WorldBinding reads the new position
-        if self.bin_xform is not None:
-            self.bin_xform.set_world_poses(
-                positions=[bin_pos],
-                orientations=[[1.0, 0.0, 0.0, 0.0]]
-            )
-
-        # Update PhysX simulation tensor buffer
+        # Log final Bin position
         if self.bin_obj is not None:
-            self.bin_obj.set_world_poses(
-                positions=[bin_pos],
-                orientations=[[1.0, 0.0, 0.0, 0.0]]
-            )
-            self.bin_obj.set_velocities(
-                linear_velocities=[[0.0, 0.0, 0.0]],
-                angular_velocities=[[0.0, 0.0, 0.0]],
-            )
-            print(f"  [Episode {self._episode_id}] [Reset] Bin Pos: [{bin_pos[0]:.4f}, {bin_pos[1]:.4f}, {bin_pos[2]:.4f}]")
-        
-        default_pos = np.array(LEGO_RED_INIT_POS)
-        
-        # Sample randomized position for the single red brick
-        d0 = random.uniform(*LEGO_BRICK_RADIUS_RANGE)
-        a0 = random.uniform(*LEGO_BRICK_ANGLE_RANGE)
-        brick_pos = np.array([d0 * np.cos(a0), d0 * np.sin(a0), cz])
-        
-        yaw = random.uniform(0, 2 * np.pi)
-        q = [np.cos(yaw / 2), 0, 0, np.sin(yaw / 2)]
-        
-        self.lego_prims[0].set_world_poses(positions=[brick_pos], orientations=[q])
-        self.lego_prims[0].set_velocities(
-            linear_velocities=[[0.0, 0.0, 0.0]],
-            angular_velocities=[[0.0, 0.0, 0.0]],
-        )
+            b_pos, b_ori = self.bin_obj.get_world_poses()
+            bp = b_pos.numpy()[0] if hasattr(b_pos, "numpy") else np.asarray(b_pos)[0]
+            bo = b_ori.numpy()[0] if hasattr(b_ori, "numpy") else np.asarray(b_ori)[0]
+            print(f"  [Episode {self._episode_id}] [Reset] Bin Pos: [{bp[0]:.4f}, {bp[1]:.4f}, {bp[2]:.4f}], Ori: [{bo[0]:.4f}, {bo[1]:.4f}, {bo[2]:.4f}, {bo[3]:.4f}]")
 
-        dist_to_bin = float(np.linalg.norm(brick_pos[:2] - bin_pos[:2]))
-        if dist_to_bin < 0.10:
-            print(f"  [Episode {self._episode_id}] [COLLISION WARNING] Red brick too close to Bin ({dist_to_bin:.3f}m)! Defaulting to safe position...")
-            self.lego_prims[0].set_world_poses(
-                positions=[default_pos],
-                orientations=[[1.0, 0.0, 0.0, 0.0]]
-            )
-            self.lego_prims[0].set_velocities(
-                linear_velocities=[[0.0, 0.0, 0.0]],
-                angular_velocities=[[0.0, 0.0, 0.0]],
-            )
-        
         # Reset Robot Arm joints to home with slight noise (+- 2 degrees)
         dof_count = self._articulation.num_dofs
         noisy_pose = [random.uniform(-0.035, 0.035) for _ in range(dof_count)]
