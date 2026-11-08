@@ -5,3 +5,4 @@ __pycache__/
 .vscode/
 camera_previews/
 *.bak
+*.mp4

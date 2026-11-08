@@ -10,14 +10,15 @@ import numpy as np
 from scipy.spatial.transform import Rotation as R
 from pxr import Usd, UsdGeom, Gf
 import isaacsim.core.experimental.utils.stage as stage_utils
-from envs.constants import BIN_PRIM_PATH, WORKSPACE_HEIGHT, DEBUG_DRAW_BOUNDING_BOX
-
-# Bin half-dimensions at scale 0.4: [half_length (X), half_width (Y), half_height (Z)] (meters)
-# Mesh base size: [0.4281, 0.2905, 0.0936] -> scaled at 0.4: [0.1712, 0.1162, 0.0375]
-BIN_HALF_EXTENTS: np.ndarray = np.array([0.0856, 0.0581, 0.0187], dtype=np.float32)
-BIN_HALF_LENGTH: float = 0.0856
-BIN_HALF_WIDTH: float = 0.0581
-BIN_HALF_HEIGHT: float = 0.0187
+from envs.constants import (
+    BIN_PRIM_PATH,
+    WORKSPACE_HEIGHT,
+    DEBUG_DRAW_BOUNDING_BOX,
+    BIN_HALF_EXTENTS,
+    BIN_HALF_LENGTH,
+    BIN_HALF_WIDTH,
+    BIN_HALF_HEIGHT,
+)
 
 # Continuous tabletop yaw rotation range around Z-axis (degrees)
 DEFAULT_BIN_Z_ROT_RANGE: Tuple[float, float] = (0.0, 360.0)

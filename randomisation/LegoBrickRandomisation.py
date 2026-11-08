@@ -10,15 +10,18 @@ import numpy as np
 from scipy.spatial.transform import Rotation as R
 from pxr import Usd, UsdGeom, Gf
 import isaacsim.core.experimental.utils.stage as stage_utils
-from envs.constants import RED_BRICK_PRIM_PATH, WORKSPACE_HEIGHT, DEBUG_DRAW_BOUNDING_BOX
-
-# Lego brick half-dimensions at scale 0.25: [half_width, half_length, half_height] (meters)
-LEGO_BRICK_HALF_EXTENTS: np.ndarray = np.array([0.019375, 0.039375, 0.0141875], dtype=np.float32)
-LEGO_BRICK_HALF_HEIGHT: float = 0.0142
+from envs.constants import (
+    RED_BRICK_PRIM_PATH,
+    WORKSPACE_HEIGHT,
+    DEBUG_DRAW_BOUNDING_BOX,
+    LEGO_BRICK_HALF_EXTENTS,
+    LEGO_BRICK_HALF_HEIGHT,
+)
 
 # Discrete pitch (Y) rotation choices corresponding to stable resting faces (degrees):
 # 0° (flat up, studs +Z), 90° (right side, studs +X), 180° (flat upside down, studs -Z), 270° (left side, studs -X)
 DEFAULT_Y_ROT_CHOICES: List[float] = [0.0, 90.0, 180.0, 270.0]
+DEFAULT_X_ROT_CHOICES: List[float] = [0.0, 90.0, 180.0, 270.0]
 DEFAULT_Z_ROT_RANGE: Tuple[float, float] = (0.0, 360.0)
 
 # Standard Lego brick RGB colors for discrete albedo sampling
@@ -45,9 +48,10 @@ class LegoBrickRandomisation:
         self,
         brick_prim_path: str = RED_BRICK_PRIM_PATH,
         rigid_prim: Any = None,
-        pos_min: Tuple[float, float, float] = (0.17, -0.20, WORKSPACE_HEIGHT),
-        pos_max: Tuple[float, float, float] = (0.35, -0.01, WORKSPACE_HEIGHT),
+        pos_min: Tuple[float, float, float] = (0.22, -0.20, WORKSPACE_HEIGHT),
+        pos_max: Tuple[float, float, float] = (0.30, -0.01, WORKSPACE_HEIGHT),
         y_rot_choices: Optional[List[float]] = None,
+        x_rot_choices: Optional[List[float]] = None,
         z_rot_range: Tuple[float, float] = DEFAULT_Z_ROT_RANGE,
         table_z: float = WORKSPACE_HEIGHT + 0.003,
         half_extents: Optional[np.ndarray] = None,
@@ -72,6 +76,7 @@ class LegoBrickRandomisation:
 
         # Discrete pitch Y choices [0, 90, 180, 270 deg] and continuous yaw Z range [0-360 deg]
         self.y_rot_choices = list(y_rot_choices) if y_rot_choices is not None else list(DEFAULT_Y_ROT_CHOICES)
+        self.x_rot_choices = list(x_rot_choices) if x_rot_choices is not None else list(DEFAULT_X_ROT_CHOICES)
         self.z_rot_range = z_rot_range
         self.rot_min = rot_min
         self.rot_max = rot_max
@@ -181,7 +186,7 @@ class LegoBrickRandomisation:
         y = float(np.random.uniform(self.pos_min[1], self.pos_max[1]))
 
         # 2. Sample orientation using pitch Y resting faces and tabletop yaw Z
-        roll_x = 0.0
+        roll_x = float(np.random.choice(self.x_rot_choices))
         pitch_y = float(np.random.choice(self.y_rot_choices))
         yaw_z = float(np.random.uniform(self.z_rot_range[0], self.z_rot_range[1]))
 

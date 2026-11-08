@@ -128,15 +128,6 @@ def main():
     step = 0
     preview_dir = os.path.join(PROJECT_ROOT, "camera_previews")
 
-    print(
-        f"\n>>> [SO-101] Running Pick & Place State Machine "
-        f"({PickPlacePhase.ORIENT_DOWNWARD.name} -> {PickPlacePhase.PRE_GRASP_HOVER.name} -> "
-        f"{PickPlacePhase.DESCEND_TO_GRASP.name} -> {PickPlacePhase.GRASP.name} -> "
-        f"{PickPlacePhase.MOVE_UP.name} -> {PickPlacePhase.MOVE_TO_BIN.name} -> "
-        f"{PickPlacePhase.DROP.name} -> {PickPlacePhase.POST_DROP_LIFT.name} -> "
-        f"{PickPlacePhase.RETRACT_HOME.name}). Close window to exit.\n"
-    )
-
     while simulation_app.is_running():
         simulation_app.update()
 
@@ -153,8 +144,9 @@ def main():
             b_ori = brick_ori.numpy()[0] if hasattr(brick_ori, "numpy") else np.asarray(brick_ori)[0]
 
             # Read live pose of the bin
-            bin_pos, _ = env.bin_prim.get_world_poses()
+            bin_pos, bin_ori = env.bin_prim.get_world_poses()
             b_bin = bin_pos.numpy()[0] if hasattr(bin_pos, "numpy") else np.asarray(bin_pos)[0]
+            b_bin_ori = bin_ori.numpy()[0] if hasattr(bin_ori, "numpy") else np.asarray(bin_ori)[0]
 
             # Step the controller (executing state machine phases)
             controller.step(b_pos, b_ori, b_bin)
@@ -166,12 +158,16 @@ def main():
                     save_preview(obs.get("overhead_rgb"), os.path.join(preview_dir, "live_overhead.png"))
                     save_preview(obs.get("wrist_rgb"), os.path.join(preview_dir, "live_wrist.png"))
 
+            # Check if task succeeded (brick physically inside bin) and if arm finished cycle
+            is_success = env.is_brick_in_bin(brick_pos=b_pos, bin_pos=b_bin, bin_ori=b_bin_ori)
+            arm_cycle_complete = controller.is_phase_converged(controller.phase.RETRACT_HOME)
+
             # Periodically reset domain to verify adaptation across randomized brick poses
-            if step % 300 == 0 or controller.is_converged:
-                if controller.is_converged:
-                    print(f"\n>>> [SO-101] Pick & Place task completed successfully! Resetting domain for next episode...\n")
+            if (arm_cycle_complete and is_success) or step % 300 == 0:
+                if is_success:
+                    print(f"\n>>> [SO-101] Pick & Place task completed successfully (brick inside bin)! Resetting domain for next episode...\n")
                 else:
-                    print(f"\n>>> [SO-101] Resetting domain for next episode...\n")
+                    print(f"\n>>> [SO-101] Episode finished without successful placement. Resetting domain for next episode...\n")
 
                 env.reset_domain()
                 controller.reset(episode_id=env.episode_id)

@@ -2,6 +2,7 @@ import os
 import random
 from typing import Any, List, Optional
 import numpy as np
+from scipy.spatial.transform import Rotation as R
 
 import isaacsim.core.experimental.utils.stage as stage_utils
 from isaacsim.core.experimental.objects import GroundPlane, DomeLight, Cube
@@ -17,6 +18,7 @@ from envs.constants import (
     ROBOT_ARTICULATION_PATH,
     WORKSPACE_BASE_PRIM_PATH,
     WORKSPACE_MAT_PRIM_PATH,
+    WALLS_PRIM_PATH,
     WALL_BACK_PRIM_PATH,
     WALL_RIGHT_PRIM_PATH,
     BIN_PRIM_PATH,
@@ -32,7 +34,12 @@ from envs.constants import (
     WALL_CEILING_PRIM_PATH,
     WALL_HEIGHT,
     WALL_THICKNESS,
+    LEGO_BRICK_HALF_HEIGHT,
     WALL_COLOR,
+    BIN_HALF_LENGTH,
+    BIN_HALF_WIDTH,
+    BIN_HALF_HEIGHT,
+    BIN_HALF_EXTENTS,
 )
 
 # ==================== ASSET & WORKSPACE CONFIGURATION ====================
@@ -47,13 +54,13 @@ WORKSPACE_MAT_USD_PATH = os.path.join(PROJECT_ROOT, "assets", "D00620", "simread
 
 # Lego brick assets
 LEGO_RED_USD_PATH = os.path.join(PROJECT_ROOT, "assets", "lego_brick_red.usd")
-LEGO_HALF_HEIGHT: float = 0.0142      # Half-height at scale 0.25 (keeps bottom resting on mat)
+LEGO_HALF_HEIGHT: float = LEGO_BRICK_HALF_HEIGHT      # Half-height at scale 0.10 (keeps bottom resting on mat)
 LEGO_RED_INIT_POS = [0.18, -0.10, WORKSPACE_HEIGHT + LEGO_HALF_HEIGHT]
 
 BIN_USD_PATH = os.path.join(PROJECT_ROOT, "assets", "D00935", "simready_usd", "D00935.usd")
 BIN_SCALE = 0.4
 
-LEGO_SCALE = [0.25, 0.25, 0.25]
+LEGO_SCALE = [0.10, 0.10, 0.10]
 # =========================================================================
 
 
@@ -73,12 +80,14 @@ class LegoBrickPickPlaceEnv:
         enable_cameras: bool = True,
         camera_resolution: tuple[int, int] = (1280, 720),
         randomizers: list[Any] | None = None,
+        show_walls: bool = True,
     ):
         self.simulation_app = simulation_app
         self.world_interface = world_interface
         self.enable_cameras = enable_cameras
         self.camera_resolution = camera_resolution
         self.randomizers: list[Any] = list(randomizers) if randomizers is not None else []
+        self.show_walls: bool = show_walls
 
         self._camera_rig: SO101CameraRig | None = None
         if self.enable_cameras:
@@ -89,6 +98,7 @@ class LegoBrickPickPlaceEnv:
         self._ARTICULATION_PATH = ROBOT_ARTICULATION_PATH
         self._WORKSPACE_BASE_PRIM_PATH = WORKSPACE_BASE_PRIM_PATH
         self._WORKSPACE_MAT_PRIM_PATH = WORKSPACE_MAT_PRIM_PATH
+        self._WALLS_PRIM_PATH = WALLS_PRIM_PATH
         self._WALL_BACK_PRIM_PATH = WALL_BACK_PRIM_PATH
         self._WALL_RIGHT_PRIM_PATH = WALL_RIGHT_PRIM_PATH
         self._WALL_FRONT_PRIM_PATH = WALL_FRONT_PRIM_PATH
@@ -147,6 +157,27 @@ class LegoBrickPickPlaceEnv:
         """Returns current episode ID."""
         return self._episode_id
 
+    def set_walls_visibility(self, visible: bool) -> None:
+        """Sets the rendering visibility of the workspace cardboard box walls."""
+        self.show_walls = visible
+        walls = [self.wall_back_obj, self.wall_right_obj, self.wall_front_obj, self.wall_ceiling_obj]
+        for wall in walls:
+            if wall is not None:
+                wall.set_visibilities([visible])
+
+        # Also update visibility on the parent /World/Walls USD prim if present
+        try:
+            stage = stage_utils.get_current_stage()
+            walls_prim = stage.GetPrimAtPath(self._WALLS_PRIM_PATH)
+            if walls_prim.IsValid():
+                imageable = UsdGeom.Imageable(walls_prim)
+                if visible:
+                    imageable.MakeVisible()
+                else:
+                    imageable.MakeInvisible()
+        except Exception:
+            pass
+
     @property
     def articulation(self) -> Articulation | None:
         """Handle to the robot Articulation."""
@@ -183,7 +214,7 @@ class LegoBrickPickPlaceEnv:
             scales=[scale],
             positions=[initial_pos],
             reset_xform_op_properties=True,
-            masses=0.02
+            masses=0.0023
         )
         self.lego_prims.append(rigid)
         return rigid
@@ -428,6 +459,8 @@ class LegoBrickPickPlaceEnv:
 
         # Spawn Workspace (Base + Mat), Walls, and Bin using constants
         self.workspace_base_obj, self.workspace_mat_obj, self.wall_back_obj, self.wall_right_obj, self.wall_front_obj, self.wall_ceiling_obj = self.spawn_workspace()
+        if not self.show_walls:
+            self.set_walls_visibility(False)
         self.bin_obj = self.spawn_bin(prim_path=self._BIN_PRIM_PATH)
         
         # Spawn SO-101 Robot Articulation
@@ -493,6 +526,76 @@ class LegoBrickPickPlaceEnv:
         if self._camera_rig is not None:
             obs.update(self._camera_rig.get_observations())
         return obs
+
+    def is_brick_in_bin(
+        self,
+        brick_idx: int = 0,
+        margin: float = 0.005,
+        brick_pos: np.ndarray | None = None,
+        bin_pos: np.ndarray | None = None,
+        bin_ori: np.ndarray | None = None,
+    ) -> bool:
+        """
+        Determines whether the specified Lego brick is physically located inside the bin.
+        
+        Evaluates the brick centroid against the 3D oriented bounding box (OBB) of the bin,
+        accounting for arbitrary tabletop yaw rotations.
+
+        Args:
+            brick_idx: Index of target Lego brick in self.lego_prims (default: 0).
+            margin: Inward boundary margin (meters) inside the bin rim.
+            brick_pos: Optional pre-fetched [x, y, z] world coordinates of the brick.
+            bin_pos: Optional pre-fetched [x, y, z] world coordinates of the bin.
+            bin_ori: Optional pre-fetched [w, x, y, z] world quaternion of the bin.
+
+        Returns:
+            bool: True if the brick is within the interior bounds of the bin, False otherwise.
+        """
+        # Fetch bin world pose if not provided
+        if bin_pos is None or bin_ori is None:
+            if self.bin_prim is None:
+                return False
+            raw_b_pos, raw_b_ori = self.bin_prim.get_world_poses()
+            if bin_pos is None:
+                bin_pos = raw_b_pos.numpy()[0] if hasattr(raw_b_pos, "numpy") else np.asarray(raw_b_pos)[0]
+            if bin_ori is None:
+                bin_ori = raw_b_ori.numpy()[0] if hasattr(raw_b_ori, "numpy") else np.asarray(raw_b_ori)[0]
+
+        # Fetch brick world pose if not provided
+        if brick_pos is None:
+            if not self.lego_prims or brick_idx >= len(self.lego_prims):
+                return False
+            raw_br_pos, _ = self.lego_prims[brick_idx].get_world_poses()
+            brick_pos = raw_br_pos.numpy()[0] if hasattr(raw_br_pos, "numpy") else np.asarray(raw_br_pos)[0]
+
+        b_pos = np.asarray(bin_pos, dtype=np.float32).flatten()[:3]
+        br_pos = np.asarray(brick_pos, dtype=np.float32).flatten()[:3]
+        b_ori = np.asarray(bin_ori, dtype=np.float32).flatten()[:4]
+
+        # Delta vector in world frame
+        delta_world = br_pos - b_pos
+
+        # Rotate delta into bin local coordinate frame
+        # Isaac Sim quaternion is [w, x, y, z], Scipy Rotation expects [x, y, z, w]
+        w, x, y, z = b_ori
+        rot_mat = R.from_quat([x, y, z, w]).as_matrix()
+        local_pos = rot_mat.T @ delta_world
+
+        # Check planar extents (X and Y) within bin interior
+        in_x = abs(local_pos[0]) <= (BIN_HALF_LENGTH - margin)
+        in_y = abs(local_pos[1]) <= (BIN_HALF_WIDTH - margin)
+
+        # Check vertical bounds (Z): brick must be resting inside the bin, not hovering in gripper
+        # Bin base sits on table at b_pos[2], rim height is ~2 * BIN_HALF_HEIGHT (0.0375m)
+        z_min = b_pos[2] - 0.01
+        z_max = b_pos[2] + 2.0 * BIN_HALF_HEIGHT + 0.02
+        in_z = (z_min <= br_pos[2] <= z_max)
+
+        return bool(in_x and in_y and in_z)
+
+    def is_success(self, brick_idx: int = 0) -> bool:
+        """Alias for is_brick_in_bin() to evaluate pick-and-place task success."""
+        return self.is_brick_in_bin(brick_idx=brick_idx)
 
     def reset_domain(self, episode_id: int | None = None):
         """Domain randomization applied at each episode reset for single red brick."""
