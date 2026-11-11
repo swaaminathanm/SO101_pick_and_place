@@ -13,7 +13,7 @@ import isaacsim.core.experimental.utils.stage as stage_utils
 from envs.constants import (
     RED_BRICK_PRIM_PATH,
     WORKSPACE_HEIGHT,
-    DEBUG_DRAW_BOUNDING_BOX,
+    DEBUG_DRAW,
     LEGO_BRICK_HALF_EXTENTS,
     LEGO_BRICK_HALF_HEIGHT,
 )
@@ -62,7 +62,7 @@ class LegoBrickRandomisation:
         color_min: Tuple[float, float, float] = (0.0, 0.0, 0.0),
         color_max: Tuple[float, float, float] = (1.0, 1.0, 1.0),
         shader_prim_path: Optional[str] = None,
-        debug_draw: bool = DEBUG_DRAW_BOUNDING_BOX
+        debug_draw: bool = DEBUG_DRAW
     ):
         self.brick_prim_path = brick_prim_path
         self.rigid_prim = rigid_prim
@@ -267,6 +267,9 @@ class LegoBrickRandomisation:
         using the debug draw line interface. Draws the outer bounding box
         expanded by the half-distance extents when draw_half_distance_extents is True.
         """
+        if not self.debug_draw:
+            return
+
         try:
             from isaacsim.util.debug_draw import _debug_draw
             draw = _debug_draw.acquire_debug_draw_interface()

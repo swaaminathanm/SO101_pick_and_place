@@ -50,5 +50,5 @@ BIN_HALF_WIDTH: float = 0.0581
 BIN_HALF_HEIGHT: float = 0.0187
 
 # Debug Visualization Flags
-DEBUG_DRAW_BOUNDING_BOX: bool = True
+DEBUG_DRAW: bool = False
 

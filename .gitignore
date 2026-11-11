@@ -6,3 +6,6 @@ __pycache__/
 camera_previews/
 *.bak
 *.mp4
+dataset/
+lerobot_dataset/
+

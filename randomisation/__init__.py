@@ -6,18 +6,11 @@ Provides pure math and direct prim-based randomizers without Omniverse Replicato
 """
 
 from .LegoBrickRandomisation import LegoBrickRandomisation
-from .BinRandomisation import BinRandomisation, BinRandomizer
+from .BinRandomisation import BinRandomisation
 from .TabletopLightingRandomisation import TabletopLightingRandomisation
-
-# Backwards compatibility aliases
-LegoReplicatorRandomizer = LegoBrickRandomisation
-BinReplicatorRandomizer = BinRandomisation
 
 __all__ = [
     "LegoBrickRandomisation",
     "BinRandomisation",
-    "BinRandomizer",
     "TabletopLightingRandomisation",
-    "LegoReplicatorRandomizer",
-    "BinReplicatorRandomizer",
 ]

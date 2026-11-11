@@ -13,7 +13,7 @@ import isaacsim.core.experimental.utils.stage as stage_utils
 from envs.constants import (
     BIN_PRIM_PATH,
     WORKSPACE_HEIGHT,
-    DEBUG_DRAW_BOUNDING_BOX,
+    DEBUG_DRAW,
     BIN_HALF_EXTENTS,
     BIN_HALF_LENGTH,
     BIN_HALF_WIDTH,
@@ -45,7 +45,7 @@ class BinRandomisation:
         z_rot_range: Tuple[float, float] = DEFAULT_BIN_Z_ROT_RANGE,
         table_z: float = WORKSPACE_HEIGHT + 0.001,
         half_extents: Optional[np.ndarray] = None,
-        debug_draw: bool = DEBUG_DRAW_BOUNDING_BOX,
+        debug_draw: bool = DEBUG_DRAW,
     ):
         self.bin_prim_path = bin_prim_path
         self.rigid_prim = rigid_prim
@@ -165,6 +165,9 @@ class BinRandomisation:
         using the debug draw line interface. Draws the green outer bounding box
         expanded by the half distance from center [pos_min - half_extents, pos_max + half_extents].
         """
+        if not self.debug_draw:
+            return
+
         try:
             from isaacsim.util.debug_draw import _debug_draw
             draw = _debug_draw.acquire_debug_draw_interface()
@@ -209,6 +212,3 @@ class BinRandomisation:
             print(f"[BinRandomisation] Could not clear debug draw lines: {e}")
 
 
-# Backwards compatibility aliases
-BinRandomizer = BinRandomisation
-BinReplicatorRandomizer = BinRandomisation

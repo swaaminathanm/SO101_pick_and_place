@@ -37,6 +37,7 @@ from envs.constants import (
     WALL_RIGHT_PRIM_PATH,
     WALL_FRONT_PRIM_PATH,
     WALL_CEILING_PRIM_PATH,
+    DEBUG_DRAW,
 )
 from motion import SO101WorldInterface, SO101PickPlaceController, PickPlacePhase
 from randomisation import (
@@ -109,8 +110,16 @@ def main():
     # Initializes joint handles, contact sensors, world interface, and cameras
     env.initialize_after_play()
 
-    for r in randomizers:
-        r.draw_bounding_box()  # Draw debug visualization for each randomizer
+    if any(getattr(r, "debug_draw", False) for r in randomizers):
+        for r in randomizers:
+            if getattr(r, "debug_draw", False):
+                r.draw_bounding_box()
+    else:
+        try:
+            from isaacsim.util.debug_draw import _debug_draw
+            _debug_draw.acquire_debug_draw_interface().clear_lines()
+        except Exception:
+            pass
 
     # Create and initialize the Pick and Place Controller
     controller = SO101PickPlaceController(
@@ -163,7 +172,7 @@ def main():
             arm_cycle_complete = controller.is_phase_converged(controller.phase.RETRACT_HOME)
 
             # Periodically reset domain to verify adaptation across randomized brick poses
-            if (arm_cycle_complete and is_success) or step % 300 == 0:
+            if (arm_cycle_complete and is_success) or step % 400 == 0:
                 if is_success:
                     print(f"\n>>> [SO-101] Pick & Place task completed successfully (brick inside bin)! Resetting domain for next episode...\n")
                 else:

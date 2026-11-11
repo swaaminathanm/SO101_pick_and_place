@@ -37,6 +37,7 @@ from envs.constants import (
     WALL_RIGHT_PRIM_PATH,
     WALL_FRONT_PRIM_PATH,
     WALL_CEILING_PRIM_PATH,
+    DEBUG_DRAW,
 )
 from motion import SO101WorldInterface, SO101PickPlaceController
 from randomisation import LegoBrickRandomisation
@@ -100,7 +101,10 @@ def main():
     # Initialize joint handles and world interface
     env.initialize_after_play()
 
-    brick_randomizer.draw_bounding_box()
+    if getattr(brick_randomizer, "debug_draw", False):
+        brick_randomizer.draw_bounding_box()
+    else:
+        brick_randomizer.clear_bounding_box()
 
     # Create and initialize the controller
     controller = SO101PickPlaceController(
